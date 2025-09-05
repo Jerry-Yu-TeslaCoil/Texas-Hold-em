@@ -1,26 +1,34 @@
 package table.card;
 
+
+/**
+ * Enum for the poker ranks.
+ *
+ * @author jerry
+ *
+ * @version 1.0
+ */
 public enum Rank {
-    ACE(1, 'A'),
-    TWO(2, '2'),
-    THREE(3, '3'),
-    FOUR(4, '4'),
-    FIVE(5, '5'),
-    SIX(6, '6'),
-    SEVEN(7, '7'),
-    EIGHT(8, '8'),
-    NINE(9, '9'),
-    TEN(10, 'T'),
-    JACK(11, 'J'),
-    QUEEN(12, 'Q'),
-    KING(13, 'K'),
-    BLACK_JOKER(14, 'B'),
-    RED_JOKER(15, 'R');
+    ACE(13, "A"),
+    TWO(1, "2"),
+    THREE(2, "3"),
+    FOUR(3, "4"),
+    FIVE(4, "5"),
+    SIX(5, "6"),
+    SEVEN(6, "7"),
+    EIGHT(7, "8"),
+    NINE(8, "9"),
+    TEN(9, "10"),
+    JACK(10, "J"),
+    QUEEN(11, "Q"),
+    KING(12, "K"),
+    BLACK_JOKER(14, "B"),
+    RED_JOKER(15, "R");
 
     private final int value;
-    private final char symbol;
+    private final String symbol;
 
-    Rank(int value, char symbol) {
+    Rank(int value, String symbol) {
         this.value = value;
         this.symbol = symbol;
     }
@@ -29,7 +37,7 @@ public enum Rank {
         return value;
     }
 
-    public char getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 
@@ -39,6 +47,12 @@ public enum Rank {
     }
 
     // 可选：提供从值到枚举的查找方法
+
+    /**
+     * Retrieve rank by value.
+     * @param value The appointed value.
+     * @return Corresponding rank.
+     */
     public static Rank fromValue(int value) {
         for (Rank rank : values()) {
             if (rank.value == value) {
@@ -48,10 +62,14 @@ public enum Rank {
         throw new IllegalArgumentException("Invalid rank value: " + value);
     }
 
-    // 可选：提供从符号到枚举的查找方法
-    public static Rank fromSymbol(char symbol) {
+    /**
+     * Retrieve rank by symbol.
+     * @param symbol The appointed symbol.
+     * @return Corresponding rank.
+     */
+    public static Rank fromSymbol(String symbol) {
         for (Rank rank : values()) {
-            if (rank.symbol == symbol) {
+            if (rank.symbol.equals(symbol)) {
                 return rank;
             }
         }
