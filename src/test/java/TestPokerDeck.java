@@ -1,6 +1,6 @@
 import org.junit.Test;
-import pojo.CardDeck;
-import pojo.impl.NoJokerDeckFactory;
+import table.card.CardDeck;
+import table.card.impl.NoJokerDeckFactory;
 
 public class TestPokerDeck {
 

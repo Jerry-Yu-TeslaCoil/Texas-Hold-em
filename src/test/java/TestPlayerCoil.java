@@ -1,8 +1,9 @@
 import org.junit.Test;
-import pojo.CardPlayer;
-import pojo.PlayerCoil;
-import pojo.impl.CardPlayerImpl;
-import pojo.impl.PCPlayerControl;
+import table.control.impl.PCPlayerControl;
+import table.player.CardPlayer;
+import table.player.PlayerIterator;
+import table.player.impl.CardPlayerImpl;
+import table.player.impl.PlayerCoil;
 
 import java.math.BigDecimal;
 import java.util.ConcurrentModificationException;
@@ -37,16 +38,16 @@ public class TestPlayerCoil {
             playerCoil.addPlayer(new CardPlayerImpl(new PCPlayerControl(), BigDecimal.ONE));
         }
         System.out.println(playerCoil);
-        PlayerCoil.CoilIterator playerCoilIterator = playerCoil.getIterator();
-        while (playerCoilIterator.hasNext()) {
+        PlayerIterator playerIterator = playerCoil.getIterator();
+        while (playerIterator.hasNext()) {
             CardPlayer cardPlayer = null;
             try {
-                cardPlayer = playerCoilIterator.next();
+                cardPlayer = playerIterator.next();
             } catch (ConcurrentModificationException e) {
-                int curr = playerCoilIterator.getCurrentPosition();
-                int modified = playerCoilIterator.getModifiedPlayerNum();
-                playerCoilIterator = playerCoil.getIterator();
-                playerCoilIterator.jumpTo(curr + modified);
+                int curr = playerIterator.getCurrentPosition();
+                int modified = playerIterator.getModifiedPlayerNum();
+                playerIterator = playerCoil.getIterator();
+                playerIterator.jumpTo(curr + modified);
             }
             System.out.println(cardPlayer);
             playerCoil.removePlayer(cardPlayer);
