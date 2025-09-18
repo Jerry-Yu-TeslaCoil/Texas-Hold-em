@@ -44,8 +44,9 @@ public class TestPlayerCoil {
             try {
                 cardPlayer = playerIterator.next();
             } catch (ConcurrentModificationException e) {
+                System.out.println(e.getMessage());
                 int curr = playerIterator.getCurrentPosition();
-                int modified = playerIterator.getModifiedPlayerNum();
+                int modified = 2;
                 playerIterator = playerCoil.getIterator();
                 playerIterator.jumpTo(curr + modified);
             }

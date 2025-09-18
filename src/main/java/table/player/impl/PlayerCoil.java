@@ -15,15 +15,20 @@ public class PlayerCoil implements PlayerList {
     private final List<CardPlayer> players;
     private int buttonPosition;
     private int maxPlayers;
+    private long editionIndex;
 
     public PlayerCoil() {
         players = new ArrayList<>();
         buttonPosition = 0;
+        this.maxPlayers = 22;
+        this.editionIndex = 0;
     }
 
     public PlayerCoil(List<CardPlayer> players) {
         this.players = new ArrayList<>(players);
         this.buttonPosition = 0;
+        this.maxPlayers = 22;
+        this.editionIndex = 0;
     }
 
     @Override
@@ -62,6 +67,7 @@ public class PlayerCoil implements PlayerList {
     public ApplicationResult addPlayer(CardPlayer player) {
         if (players.size() < maxPlayers) {
             players.add(player);
+            this.editionIndex++;
             return ApplicationResult.success();
         }
         return ApplicationResult.error("The table cannot join any more players.");
@@ -73,6 +79,7 @@ public class PlayerCoil implements PlayerList {
         if (index != -1) {
             players.remove(index);
             adjustPositionsAfterRemoval(index);
+            this.editionIndex++;
             return ApplicationResult.success();
         }
         return ApplicationResult.error("Player not found.");
@@ -89,8 +96,8 @@ public class PlayerCoil implements PlayerList {
     }
 
     @Override
-    public PlayerIterator getIteratorFromButton() {
-        return new PlayerCoilIterator(buttonPosition, false);
+    public PlayerIterator getIteratorFromAfterButton() {
+        return new PlayerCoilIterator(buttonPosition + 1, false);
     }
 
     @Override
@@ -127,9 +134,9 @@ public class PlayerCoil implements PlayerList {
     public class PlayerCoilIterator extends PlayerIterator {
         private final int startIndex;
         private final boolean loop;
-        private final int expectedPlayerNum;
         private int currentIndex;
         private boolean returnedFirst;
+        private final long recordEditionIndex;
 
         private PlayerCoilIterator(int startPosition, boolean loop) {
             if (players.isEmpty()) {
@@ -141,7 +148,7 @@ public class PlayerCoil implements PlayerList {
             }
             this.returnedFirst = false;
             this.loop = false;
-            this.expectedPlayerNum = players.size();
+            this.recordEditionIndex = PlayerCoil.this.editionIndex;
         }
 
         @Override
@@ -155,7 +162,7 @@ public class PlayerCoil implements PlayerList {
 
         @Override
         public CardPlayer next() {
-            if (expectedPlayerNum != players.size()) {
+            if (this.recordEditionIndex != PlayerCoil.this.editionIndex) {
                 throw new ConcurrentModificationException("Modification of player list during iteration is not allowed.");
             }
             if (!hasNext()) {
@@ -186,11 +193,6 @@ public class PlayerCoil implements PlayerList {
         @Override
         public int getStartPosition() {
             return startIndex;
-        }
-
-        @Override
-        public int getModifiedPlayerNum() {
-            return PlayerCoil.this.players.size() - expectedPlayerNum;
         }
     }
 
