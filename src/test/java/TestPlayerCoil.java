@@ -2,7 +2,7 @@ import org.junit.Test;
 import table.control.impl.PCPlayerControl;
 import table.player.CardPlayer;
 import table.player.PlayerIterator;
-import table.player.impl.CardPlayerImpl;
+import table.player.impl.SimpleCardPlayer;
 import table.player.impl.PlayerCoil;
 
 import java.math.BigDecimal;
@@ -21,7 +21,7 @@ public class TestPlayerCoil {
     public void testPlayerCoilIterator() {
         PlayerCoil playerCoil = new PlayerCoil();
         for (int i = 0; i < 20; i++) {
-            playerCoil.addPlayer(new CardPlayerImpl(new PCPlayerControl(), BigDecimal.ONE));
+            playerCoil.addPlayer(new SimpleCardPlayer(new PCPlayerControl(), BigDecimal.ONE));
         }
         System.out.println(playerCoil);
         Iterator<CardPlayer> playerCoilIterator = playerCoil.getIterator();
@@ -35,7 +35,7 @@ public class TestPlayerCoil {
     public void testPlayerCoilIteratorWithListOperation() {
         PlayerCoil playerCoil = new PlayerCoil();
         for (int i = 0; i < 20; i++) {
-            playerCoil.addPlayer(new CardPlayerImpl(new PCPlayerControl(), BigDecimal.ONE));
+            playerCoil.addPlayer(new SimpleCardPlayer(new PCPlayerControl(), BigDecimal.ONE));
         }
         System.out.println(playerCoil);
         PlayerIterator playerIterator = playerCoil.getIterator();

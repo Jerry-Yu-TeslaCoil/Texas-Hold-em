@@ -11,16 +11,39 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardPlayerImpl implements CardPlayer {
+/**
+ * Simple CardPlayer Implementation.
+ *
+ * <p>
+ *     This is used for the first impl version, and no other possible needed version yet.
+ *     SimpleCardPlayer accepts a controller for player action control,
+ *     and a BigDecimal for storing stack.
+ *     Call getPlayerDecision() will only pass request directly to player.
+ * </p>
+ *
+ * <p>
+ *     This is not thread-safe.
+ * </p>
+ *
+ * @author jerry
+ *
+ * @version 1.0
+ */
+public class SimpleCardPlayer implements CardPlayer {
 
     private PlayerController controller;
 
     private BigDecimal stack;
-    private final ArrayList<PokerCard> pokerCards;
+    private final List<PokerCard> pokerCards;
 
     private boolean isContinuingGame;
 
-    public CardPlayerImpl(PlayerController controller, BigDecimal stack) {
+    /**
+     * Construct a simple card player with appointed controlling player and BigDecimal of stack.
+     * @param controller Controlling player could be a real player terminal or a robot.
+     * @param stack The stack the player currently have.
+     */
+    public SimpleCardPlayer(PlayerController controller, BigDecimal stack) {
         this.controller = controller;
         this.pokerCards = new ArrayList<>();
         this.stack = stack;

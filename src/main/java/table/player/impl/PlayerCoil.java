@@ -11,12 +11,30 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * PlayerCoil represents a coil of players, like a round table. Pointer goes round and round.
+ *
+ * <p>
+ *     This is used for normal round, where players are seated on a round table, make decisions by turn.
+ * </p>
+ *
+ * <p>
+ *     This is not thread-safe.
+ * </p>
+ *
+ * @author jerry
+ *
+ * @version 1.0
+ */
 public class PlayerCoil implements PlayerList {
     private final List<CardPlayer> players;
     private int buttonPosition;
     private int maxPlayers;
     private long editionIndex;
 
+    /**
+     * Construct a PlayerCoil with default max player 22 and button position 0.
+     */
     public PlayerCoil() {
         players = new ArrayList<>();
         buttonPosition = 0;
@@ -24,6 +42,10 @@ public class PlayerCoil implements PlayerList {
         this.editionIndex = 0;
     }
 
+    /**
+     * Construct a PlayerCoil with appointed players, default max player 22 and button position 0.
+     * @param players Players who join the game.
+     */
     public PlayerCoil(List<CardPlayer> players) {
         this.players = new ArrayList<>(players);
         this.buttonPosition = 0;

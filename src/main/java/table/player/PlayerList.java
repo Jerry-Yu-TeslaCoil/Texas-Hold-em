@@ -87,6 +87,10 @@ public interface PlayerList {
      */
     CardPlayer getBigBlindPlayer();
 
+    /**
+     * Get the player who is on the small blind position.
+     * @return The CardPlayer on the small blind position.
+     */
     CardPlayer getSmallBlindPlayer();
 
     /**
