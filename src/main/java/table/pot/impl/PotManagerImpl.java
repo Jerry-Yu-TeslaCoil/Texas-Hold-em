@@ -1,5 +1,7 @@
 package table.pot.impl;
 
+import lombok.Getter;
+import lombok.Setter;
 import table.mechanism.ResolvedAction;
 import table.mechanism.DecisionType;
 import table.player.CardPlayer;
@@ -8,9 +10,7 @@ import table.pot.PlayerRanking;
 import table.pot.PotManager;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * The normal pot manager.
@@ -28,19 +28,14 @@ import java.util.PriorityQueue;
  * @version 1.0
  */
 public class PotManagerImpl implements PotManager {
-    private final ArrayList<PotStack> stacks;
-    private final PlayerList players;
-    private final HashMap<CardPlayer, BigDecimal> tempStack;
+    private final HashMap<CardPlayer, BigDecimal> playerStack;
 
     /**
      * Construct a pot manager with the players in the game.
      * @param players The players of the round.
      */
     public PotManagerImpl(PlayerList players) {
-        this.stacks = new ArrayList<>();
-        this.stacks.add(new PotStack());
-        this.tempStack = new HashMap<>();
-        this.players = players;
+        this.playerStack = new HashMap<>();
     }
 
     /**
@@ -66,9 +61,9 @@ public class PotManagerImpl implements PotManager {
         DecisionType decisionType = playerDecision.decisionType();
         switch (decisionType) {
             case CALL, RAISE -> {
-                BigDecimal currentBet = tempStack.getOrDefault(cardPlayer, BigDecimal.ZERO);
+                BigDecimal currentBet = playerStack.getOrDefault(cardPlayer, BigDecimal.ZERO);
                 BigDecimal newBet = verifyAndResolveBet(cardPlayer, playerDecision, currentBet);
-                tempStack.put(cardPlayer, newBet);
+                playerStack.put(cardPlayer, newBet);
             }
             case FOLD -> {
                 //DO NOTHING
@@ -122,7 +117,9 @@ public class PotManagerImpl implements PotManager {
      */
     @Override
     public void judge(PriorityQueue<PlayerRanking> playerRankings) {
-
+        LinkedList<PotStack> pots = new LinkedList<>();
+        List<Map.Entry<CardPlayer, BigDecimal>> entries = new ArrayList<>(playerStack.entrySet());
+        entries.sort(Map.Entry.comparingByValue());
     }
 
     /**
@@ -140,21 +137,13 @@ public class PotManagerImpl implements PotManager {
      */
     @Override
     public void clearStack() {
-        this.stacks.clear();
-        this.stacks.add(new PotStack());
-        this.tempStack.clear();
+        this.playerStack.clear();
     }
 
+    @Setter
+    @Getter
     private static class PotStack {
         private BigDecimal amount;
-
-        public BigDecimal getAmount() {
-            return amount;
-        }
-
-        public void setAmount(BigDecimal amount) {
-            this.amount = amount;
-        }
 
         public void addAmount(BigDecimal amount) {
             this.amount = this.amount.add(amount);

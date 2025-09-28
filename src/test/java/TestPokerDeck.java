@@ -1,14 +1,16 @@
+import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.card.CardDeck;
 import table.card.impl.NoJokerDeckFactory;
 
+@Log4j2
 public class TestPokerDeck {
 
     @Test
     public void testGenerateDeck() {
         NoJokerDeckFactory factory = new NoJokerDeckFactory();
         CardDeck cardDeck = factory.getCardDeck();
-        System.out.println(cardDeck);
+        log.info(cardDeck);
     }
 
     @Test
@@ -16,7 +18,7 @@ public class TestPokerDeck {
         NoJokerDeckFactory factory = new NoJokerDeckFactory();
         CardDeck cardDeck = factory.getCardDeck();
         cardDeck.shuffle();
-        System.out.println(cardDeck);
+        log.info(cardDeck);
     }
 
     @Test
@@ -24,6 +26,6 @@ public class TestPokerDeck {
         NoJokerDeckFactory factory = new NoJokerDeckFactory();
         CardDeck cardDeck = factory.getCardDeck();
         cardDeck.shuffle();
-        System.out.println(cardDeck.takePeekCard());
+        log.info(cardDeck.takePeekCard());
     }
 }

@@ -1,3 +1,4 @@
+import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.control.impl.PCPlayerControl;
 import table.player.CardPlayer;
@@ -9,12 +10,14 @@ import java.math.BigDecimal;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
+@Log4j2
 public class TestPlayerCoil {
+
     @Test
     public void testIndexRound() {
         int index = -7;
         int round = 5;
-        System.out.println(index % round + round);
+        log.info(index % round + round);
     }
 
     @Test
@@ -23,11 +26,11 @@ public class TestPlayerCoil {
         for (int i = 0; i < 20; i++) {
             playerCoil.addPlayer(new SimpleCardPlayer(new PCPlayerControl(), BigDecimal.ONE));
         }
-        System.out.println(playerCoil);
+        log.info(playerCoil);
         Iterator<CardPlayer> playerCoilIterator = playerCoil.getIterator();
         while (playerCoilIterator.hasNext()) {
             CardPlayer cardPlayer = playerCoilIterator.next();
-            System.out.println(cardPlayer);
+            log.info(cardPlayer);
         }
     }
 
@@ -37,22 +40,22 @@ public class TestPlayerCoil {
         for (int i = 0; i < 20; i++) {
             playerCoil.addPlayer(new SimpleCardPlayer(new PCPlayerControl(), BigDecimal.ONE));
         }
-        System.out.println(playerCoil);
+        log.info(playerCoil);
         PlayerIterator playerIterator = playerCoil.getIterator();
         while (playerIterator.hasNext()) {
             CardPlayer cardPlayer = null;
             try {
                 cardPlayer = playerIterator.next();
             } catch (ConcurrentModificationException e) {
-                System.out.println(e.getMessage());
+                log.info(e.getMessage());
                 int curr = playerIterator.getCurrentPosition();
                 int modified = 2;
                 playerIterator = playerCoil.getIterator();
                 playerIterator.jumpTo(curr + modified);
             }
-            System.out.println(cardPlayer);
+            log.info(cardPlayer);
             playerCoil.removePlayer(cardPlayer);
         }
-        System.out.println(playerCoil);
+        log.info(playerCoil);
     }
 }
