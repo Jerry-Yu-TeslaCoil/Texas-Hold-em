@@ -1,6 +1,7 @@
 package table.player.impl;
 
 import exception.IllegalOperationException;
+import lombok.ToString;
 import table.card.PokerCard;
 import table.control.PlayerController;
 import table.mechanism.DecisionRequest;
@@ -18,7 +19,7 @@ import java.util.List;
  *     This is used for the first impl version, and no other possible needed version yet.
  *     SimpleCardPlayer accepts a controller for player action control,
  *     and a BigDecimal for storing stack.
- *     Call getPlayerDecision() will only pass request directly to player.
+ *     Call getPlayerDecision() will only pass request directly to the player.
  * </p>
  *
  * <p>
@@ -31,6 +32,7 @@ import java.util.List;
  */
 public class SimpleCardPlayer implements CardPlayer {
 
+    private int id;
     private PlayerController controller;
 
     private BigDecimal stack;
@@ -43,11 +45,17 @@ public class SimpleCardPlayer implements CardPlayer {
      * @param controller Controlling player could be a real player terminal or a robot.
      * @param stack The stack the player currently have.
      */
-    public SimpleCardPlayer(PlayerController controller, BigDecimal stack) {
+    public SimpleCardPlayer(PlayerController controller, BigDecimal stack, int id) {
         this.controller = controller;
         this.pokerCards = new ArrayList<>();
         this.stack = stack;
         this.isContinuingGame = true;
+        this.id = id;
+    }
+
+    @Override
+    public int getID() {
+        return this.id;
     }
 
     @Override
@@ -100,8 +108,23 @@ public class SimpleCardPlayer implements CardPlayer {
     }
 
     @Override
+    public boolean getIsAllIn() {
+        return this.stack.compareTo(BigDecimal.ZERO) == 0;
+    }
+
+    @Override
     public PlayerDecision getPlayerDecision(DecisionRequest decisionRequest) {
         System.out.println("Requires " + decisionRequest.leastStackRequest());
         return controller.getPlayerDecision(decisionRequest);
+    }
+
+    @Override
+    public String toString() {
+        return "{Player" + id +
+                //", controller=" + controller +
+                //", stack=" + stack +
+                //", pokerCards=" + pokerCards +
+                //", isContinuingGame=" + isContinuingGame +
+                '}';
     }
 }

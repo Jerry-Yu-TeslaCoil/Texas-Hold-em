@@ -3,13 +3,24 @@
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout
-                    pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}"
-                    disableAnsi="false"/>
+                pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}"
+                disableAnsi="false"/>
         </Console>
+        <Routing name="DailyFile">
+            <Routes pattern="${date:yyyy-MM-dd}">
+                <Route>
+                    <File name="DailyFile-Route" fileName="logs/poker-${date:yyyy-MM-dd}.log"
+                          append="true">
+                        <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+                    </File>
+                </Route>
+            </Routes>
+        </Routing>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <Root level="trace">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="DailyFile"/>
         </Root>
     </Loggers>
 </Configuration>

@@ -24,7 +24,7 @@ public class TestPlayerCoil {
     public void testPlayerCoilIterator() {
         PlayerCoil playerCoil = new PlayerCoil();
         for (int i = 0; i < 20; i++) {
-            playerCoil.addPlayer(new SimpleCardPlayer(new PCPlayerControl(), BigDecimal.ONE));
+            playerCoil.addPlayer(new SimpleCardPlayer(new PCPlayerControl(), BigDecimal.ONE, 1));
         }
         log.info(playerCoil);
         Iterator<CardPlayer> playerCoilIterator = playerCoil.getIterator();
@@ -38,7 +38,7 @@ public class TestPlayerCoil {
     public void testPlayerCoilIteratorWithListOperation() {
         PlayerCoil playerCoil = new PlayerCoil();
         for (int i = 0; i < 20; i++) {
-            playerCoil.addPlayer(new SimpleCardPlayer(new PCPlayerControl(), BigDecimal.ONE));
+            playerCoil.addPlayer(new SimpleCardPlayer(new PCPlayerControl(), BigDecimal.ONE, 1));
         }
         log.info(playerCoil);
         PlayerIterator playerIterator = playerCoil.getIterator();

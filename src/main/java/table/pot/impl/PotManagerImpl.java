@@ -2,14 +2,16 @@ package table.pot.impl;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import table.mechanism.ResolvedAction;
 import table.mechanism.DecisionType;
 import table.player.CardPlayer;
-import table.player.PlayerList;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -27,14 +29,14 @@ import java.util.*;
  *
  * @version 1.0
  */
+@Log4j2
 public class PotManagerImpl implements PotManager {
     private final HashMap<CardPlayer, BigDecimal> playerStack;
 
     /**
      * Construct a pot manager with the players in the game.
-     * @param players The players of the round.
      */
-    public PotManagerImpl(PlayerList players) {
+    public PotManagerImpl() {
         this.playerStack = new HashMap<>();
     }
 
@@ -118,8 +120,58 @@ public class PotManagerImpl implements PotManager {
     @Override
     public void judge(PriorityQueue<PlayerRanking> playerRankings) {
         LinkedList<PotStack> pots = new LinkedList<>();
+        LinkedList<ArrayList<CardPlayer>> joinedPlayers = new LinkedList<>();
+        processPots(pots, joinedPlayers);
+        log.info(pots);
+        log.info(joinedPlayers);
+        int potsCount = pots.size();
+        HashMap<CardPlayer, Integer> playerScore = new HashMap<>();
+        while (!playerRankings.isEmpty()) {
+            playerScore.put(playerRankings.peek().getPlayer(), playerRankings.peek().getScore());
+            playerRankings.remove();
+        }
+        //Judge the winners of every pot
+        for (int i = 0; i < potsCount; i++) {
+            PotStack pot = pots.get(i);
+            ArrayList<CardPlayer> players = joinedPlayers.get(i);
+            for (int j = 0, playersSize = players.size(); j < playersSize; j++) {
+                CardPlayer player = players.get(j);
+                //int rank = rankedPlayers.indexOf(player);
+                //TODO: Finish the judging part
+            }
+        }
+    }
+
+    private void processPots(LinkedList<PotStack> pots, LinkedList<ArrayList<CardPlayer>> joinedPlayers) {
         List<Map.Entry<CardPlayer, BigDecimal>> entries = new ArrayList<>(playerStack.entrySet());
         entries.sort(Map.Entry.comparingByValue());
+        //For every joining player, ranking from low to high
+        log.info(this.getPlayerStack());
+        //For every player in the game, allocate side pots their stacks
+        entries.forEach(entry -> {
+            log.info("judging player {} with stack {}", entry.getKey(), entry.getValue());
+            if (entry.getKey().getIsContinuingGame()) {
+                log.info("player {} is continuing game", entry.getKey());
+                BigDecimal potBet = entry.getValue();
+                if (potBet.compareTo(BigDecimal.ZERO) > 0) {
+                    PotStack pot = new PotStack();
+                    ArrayList<CardPlayer> currentJoinedPlayers = new ArrayList<>();
+                    //Every player put stacks in the pot
+                    entries.forEach(betEntry -> {
+                        if (betEntry.getValue().compareTo(potBet) >= 0) {
+                            betEntry.setValue(betEntry.getValue().subtract(potBet));
+                            pot.addAmount(potBet);
+                            currentJoinedPlayers.add(betEntry.getKey());
+                        } else {
+                            pot.addAmount(betEntry.getValue());
+                            betEntry.setValue(BigDecimal.ZERO);
+                        }
+                    });
+                    pots.add(pot);
+                    joinedPlayers.add(currentJoinedPlayers);
+                }
+            }
+        });
     }
 
     /**
@@ -129,7 +181,7 @@ public class PotManagerImpl implements PotManager {
      */
     @Override
     public HashMap<CardPlayer, BigDecimal> getPlayerStack() {
-        return null;
+        return this.playerStack;
     }
 
     /**
@@ -142,8 +194,9 @@ public class PotManagerImpl implements PotManager {
 
     @Setter
     @Getter
+    @ToString
     private static class PotStack {
-        private BigDecimal amount;
+        private BigDecimal amount = BigDecimal.ZERO;
 
         public void addAmount(BigDecimal amount) {
             this.amount = this.amount.add(amount);

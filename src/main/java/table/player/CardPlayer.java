@@ -29,6 +29,12 @@ import java.util.List;
 public interface CardPlayer {
 
     /**
+     * Get the identification of the player.
+     * @return The ID.
+     */
+    int getID();
+
+    /**
      * Set the controller of this CardPlayer. It may be a client side terminal, an AI robot, or a test mirror.
      * @param playerController The controller of this CardPlayer.
      */
@@ -82,6 +88,13 @@ public interface CardPlayer {
      * @param continuingGame Whether the player is still in the game.
      */
     void setIsContinuingGame(boolean continuingGame);
+
+    /**
+     * Get if the player is already all-in.
+     * The player is considered all-in when his stack comes to 0 and is still continuing the game.
+     * @return Whether the player is still in the game.
+     */
+    boolean getIsAllIn();
 
     /**
      * Require CardPlayer to make a decision.
