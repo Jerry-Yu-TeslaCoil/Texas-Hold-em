@@ -8,5 +8,5 @@ package table.mechanism;
  * @version 1.0
  */
 public enum DecisionType {
-    SMALL_BLIND, BIG_BLIND, FOLD, CALL, RAISE, ALL_IN, CHECK, LEAVE
+    FOLD, CALL, RAISE
 }

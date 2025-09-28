@@ -81,7 +81,7 @@ public interface CardPlayer {
      * The player is considered not continuing the game when he FOLDs, disconnects, or escapes from the table.
      * @param continuingGame Whether the player is still in the game.
      */
-    void setContinuingGame(boolean continuingGame);
+    void setIsContinuingGame(boolean continuingGame);
 
     /**
      * Require CardPlayer to make a decision.

@@ -95,7 +95,7 @@ public class SimpleCardPlayer implements CardPlayer {
     }
 
     @Override
-    public void setContinuingGame(boolean isContinuingGame) {
+    public void setIsContinuingGame(boolean isContinuingGame) {
         this.isContinuingGame = isContinuingGame;
     }
 
