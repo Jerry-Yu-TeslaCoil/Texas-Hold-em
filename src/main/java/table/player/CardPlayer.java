@@ -102,4 +102,11 @@ public interface CardPlayer {
      * @return The decision of the CardPlayer.
      */
     PlayerDecision getPlayerDecision(DecisionRequest decisionRequest);
+
+
+    /**
+     * Get the simple string of the CardPlayer including only id.
+     * @return "Player" + id
+     */
+    String toSimpleLogString();
 }
