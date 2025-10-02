@@ -1,7 +1,6 @@
 package table.player.impl;
 
 import exception.IllegalOperationException;
-import lombok.ToString;
 import table.card.PokerCard;
 import table.control.PlayerController;
 import table.mechanism.DecisionRequest;
@@ -32,7 +31,7 @@ import java.util.List;
  */
 public class SimpleCardPlayer implements CardPlayer {
 
-    private int id;
+    private final int id;
     private PlayerController controller;
 
     private BigDecimal stack;
@@ -121,10 +120,15 @@ public class SimpleCardPlayer implements CardPlayer {
     @Override
     public String toString() {
         return "{Player" + id +
-                //", controller=" + controller +
-                //", stack=" + stack +
-                //", pokerCards=" + pokerCards +
-                //", isContinuingGame=" + isContinuingGame +
+                ", controller=" + controller +
+                ", stack=" + stack +
+                ", pokerCards=" + pokerCards +
+                ", isContinuingGame=" + isContinuingGame +
                 '}';
+    }
+
+    @Override
+    public String toSimpleLogString() {
+        return "Player" + id;
     }
 }

@@ -1,5 +1,6 @@
 package table.pot;
 
+import lombok.Getter;
 import table.card.PokerCard;
 import table.player.CardPlayer;
 import util.MechanismUtil;
@@ -20,8 +21,19 @@ import java.util.Objects;
  *
  * @version 1.0
  */
+@Getter
 public final class PlayerRanking implements Comparable<PlayerRanking> {
+    /**
+     * -- GETTER --
+     *  Get the ranking player.
+     *
+     */
     private final CardPlayer player;
+    /**
+     * -- GETTER --
+     *  Get the score of the player's hole cards.
+     *
+     */
     private final int score;
 
     /**
@@ -45,22 +57,6 @@ public final class PlayerRanking implements Comparable<PlayerRanking> {
         List<PokerCard> cards = new ArrayList<>(publicCards);
         cards.addAll(cardPlayer.getHoleCards());
         this.score = MechanismUtil.getScore(cards);
-    }
-
-    /**
-     * Get the ranking player.
-     * @return The player.
-     */
-    public CardPlayer getPlayer() {
-        return player;
-    }
-
-    /**
-     * Get the score of the player's hole cards.
-     * @return The hole cards' score.
-     */
-    public int getScore() {
-        return score;
     }
 
     @Override

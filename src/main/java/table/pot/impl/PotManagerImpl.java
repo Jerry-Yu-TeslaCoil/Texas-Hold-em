@@ -32,12 +32,17 @@ import java.util.*;
 @Log4j2
 public class PotManagerImpl implements PotManager {
     private final HashMap<CardPlayer, BigDecimal> playerStack;
+    private final HashMap<CardPlayer, BigDecimal> playerPrizeStack;
+
+    private boolean isJudged;
 
     /**
      * Construct a pot manager with the players in the game.
      */
     public PotManagerImpl() {
         this.playerStack = new HashMap<>();
+        playerPrizeStack = new HashMap<>();
+        isJudged = false;
     }
 
     /**
@@ -115,63 +120,131 @@ public class PotManagerImpl implements PotManager {
      *     Player1 will win the first pot and the second pot, Player2 will win the third pot.
      * </p>
      *
+     * <p>
+     *     BE AWARE: After judge(), all stacks in buffer will be clear. This is obvious and reasonable as
+     *     every player puts stacks in the pots, and this means DO NOT call judge() twice.
+     * </p>
+     *
      * @param playerRankings The rank of the players.
      */
     @Override
     public void judge(PriorityQueue<PlayerRanking> playerRankings) {
+        if (isJudged) {
+            log.warn("judge() is already called. This will lead to empty player stacks, and will not be functional.");
+        }
         LinkedList<PotStack> pots = new LinkedList<>();
         LinkedList<ArrayList<CardPlayer>> joinedPlayers = new LinkedList<>();
+
         processPots(pots, joinedPlayers);
-        log.info(pots);
-        log.info(joinedPlayers);
+        log.trace(pots);
+        log.trace(getSimpleStringList(joinedPlayers));
+
+        PriorityQueue<PlayerRanking> tempQueue = new PriorityQueue<>(playerRankings);
+        judgePotWinnerPrizes(tempQueue, pots, joinedPlayers);
+        isJudged = true;
+    }
+
+    private static List<List<String>> getSimpleStringList(LinkedList<ArrayList<CardPlayer>> joinedPlayers) {
+        return joinedPlayers
+                .stream()
+                .map((joinedPlayer) ->
+                        joinedPlayer.stream()
+                                .map(CardPlayer::toSimpleLogString)
+                                .toList())
+                .toList();
+    }
+
+    private void judgePotWinnerPrizes(PriorityQueue<PlayerRanking> playerRankings, LinkedList<PotStack> pots,
+                                      LinkedList<ArrayList<CardPlayer>> joinedPlayers) {
         int potsCount = pots.size();
         HashMap<CardPlayer, Integer> playerScore = new HashMap<>();
         while (!playerRankings.isEmpty()) {
             playerScore.put(playerRankings.peek().getPlayer(), playerRankings.peek().getScore());
             playerRankings.remove();
         }
-        //Judge the winners of every pot
         for (int i = 0; i < potsCount; i++) {
             PotStack pot = pots.get(i);
             ArrayList<CardPlayer> players = joinedPlayers.get(i);
-            for (int j = 0, playersSize = players.size(); j < playersSize; j++) {
-                CardPlayer player = players.get(j);
-                //int rank = rankedPlayers.indexOf(player);
-                //TODO: Finish the judging part
+            if (players.isEmpty()) {
+                throw new IllegalStateException("No players found.");
             }
+            players.sort(Comparator.comparingInt(player -> -playerScore.getOrDefault(player, -1)));
+            log.trace("Current judging pot: {}", pot);
+            log.trace("Sorted joining players for the pot: {}",
+                    players.stream().map(CardPlayer::toSimpleLogString).toList());
+            allocateStackPrizes(players, playerScore, pot);
+        }
+    }
+
+    private void allocateStackPrizes(ArrayList<CardPlayer> players, HashMap<CardPlayer,
+            Integer> playerScore, PotStack pot) {
+        if (players.size() > 1) {
+            int highestScore = playerScore.getOrDefault(players.get(0), 0);
+            int winnerPointer;
+            for (winnerPointer = 1; winnerPointer < players.size(); winnerPointer++) {
+                if (playerScore.getOrDefault(players.get(winnerPointer), 0) < highestScore) {
+                    break;
+                }
+            }
+            BigDecimal eachWinnerPrice = pot.getAmount().divide(
+                    BigDecimal.valueOf(winnerPointer), 2, RoundingMode.FLOOR);
+            for (int j = 0; j < winnerPointer; j++) {
+                playerPrizeStack.put(
+                        players.get(j),
+                        playerPrizeStack.getOrDefault(
+                                players.get(j),
+                                BigDecimal.ZERO
+                        ).add(eachWinnerPrice)
+                );
+            }
+        } else {
+            this.playerPrizeStack.put(players.get(0), pot.getAmount());
         }
     }
 
     private void processPots(LinkedList<PotStack> pots, LinkedList<ArrayList<CardPlayer>> joinedPlayers) {
-        List<Map.Entry<CardPlayer, BigDecimal>> entries = new ArrayList<>(playerStack.entrySet());
-        entries.sort(Map.Entry.comparingByValue());
-        //For every joining player, ranking from low to high
-        log.info(this.getPlayerStack());
-        //For every player in the game, allocate side pots their stacks
-        entries.forEach(entry -> {
-            log.info("judging player {} with stack {}", entry.getKey(), entry.getValue());
-            if (entry.getKey().getIsContinuingGame()) {
-                log.info("player {} is continuing game", entry.getKey());
-                BigDecimal potBet = entry.getValue();
-                if (potBet.compareTo(BigDecimal.ZERO) > 0) {
-                    PotStack pot = new PotStack();
-                    ArrayList<CardPlayer> currentJoinedPlayers = new ArrayList<>();
-                    //Every player put stacks in the pot
-                    entries.forEach(betEntry -> {
-                        if (betEntry.getValue().compareTo(potBet) >= 0) {
-                            betEntry.setValue(betEntry.getValue().subtract(potBet));
-                            pot.addAmount(potBet);
-                            currentJoinedPlayers.add(betEntry.getKey());
-                        } else {
-                            pot.addAmount(betEntry.getValue());
-                            betEntry.setValue(BigDecimal.ZERO);
-                        }
-                    });
-                    pots.add(pot);
-                    joinedPlayers.add(currentJoinedPlayers);
+    List<Map.Entry<CardPlayer, BigDecimal>> activePlayers = playerStack.entrySet().stream()
+            .filter(entry -> entry.getKey().getIsContinuingGame())
+            .sorted(Map.Entry.comparingByValue())
+            .toList();
+
+    List<Map.Entry<CardPlayer, BigDecimal>> allPlayers = playerStack.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue())
+            .toList();
+
+        for (Map.Entry<CardPlayer, BigDecimal> activePlayer : activePlayers) {
+            BigDecimal currentBet = activePlayer.getValue();
+
+            if (currentBet.compareTo(BigDecimal.ZERO) <= 0) {
+                continue;
+            }
+
+            PotStack sidePot = new PotStack();
+            List<CardPlayer> eligiblePlayers = new ArrayList<>();
+
+            processBetLevel(allPlayers, currentBet, sidePot, eligiblePlayers);
+
+            if (sidePot.getAmount().compareTo(BigDecimal.ZERO) > 0) {
+                pots.add(sidePot);
+                joinedPlayers.add(new ArrayList<>(eligiblePlayers));
+            }
+        }
+    }
+
+    private static void processBetLevel(List<Map.Entry<CardPlayer, BigDecimal>> allPlayers, BigDecimal currentBet,
+                                        PotStack sidePot, List<CardPlayer> eligiblePlayers) {
+        for (Map.Entry<CardPlayer, BigDecimal> player : allPlayers) {
+            BigDecimal playerBet = player.getValue();
+            if (playerBet.compareTo(BigDecimal.ZERO) > 0) {
+                BigDecimal contribution = playerBet.min(currentBet);
+                sidePot.addAmount(contribution);
+                player.setValue(playerBet.subtract(contribution));
+
+                if (playerBet.compareTo(currentBet) >= 0) {
+                    eligiblePlayers.add(player.getKey());
                 }
             }
-        });
+        }
     }
 
     /**
@@ -180,8 +253,8 @@ public class PotManagerImpl implements PotManager {
      * @return A map of result stacks.
      */
     @Override
-    public HashMap<CardPlayer, BigDecimal> getPlayerStack() {
-        return this.playerStack;
+    public HashMap<CardPlayer, BigDecimal> getPlayerPrizeStack() {
+        return this.playerPrizeStack;
     }
 
     /**
@@ -190,6 +263,8 @@ public class PotManagerImpl implements PotManager {
     @Override
     public void clearStack() {
         this.playerStack.clear();
+        this.playerPrizeStack.clear();
+        this.isJudged = false;
     }
 
     @Setter

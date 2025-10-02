@@ -1,4 +1,3 @@
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.mechanism.DecisionType;
@@ -40,14 +39,16 @@ public class TestPotManager {
         player6.setIsContinuingGame(false);
         potManager.action(player2, new ResolvedAction(DecisionType.CALL, new BigDecimal(1)));
         PriorityQueue<PlayerRanking> playerRanks = new PriorityQueue<>();
-        playerRanks.add(new PlayerRanking(player1, 100));
+        playerRanks.add(new PlayerRanking(player1, 60));
         playerRanks.add(new PlayerRanking(player2, 60));
         playerRanks.add(new PlayerRanking(player3, 80));
-        playerRanks.add(new PlayerRanking(player4, 30));
+        playerRanks.add(new PlayerRanking(player4, 60));
         playerRanks.add(new PlayerRanking(player5, 90));
-        playerRanks.add(new PlayerRanking(player6, 70));
-        log.trace("playerRanks: {}", playerRanks);
+        playerRanks.add(new PlayerRanking(player6, 60));
+        log.info("playerRanks: {}", playerRanks);
         potManager.judge(playerRanks);
-        log.info(potManager.getPlayerStack());
+        log.info(potManager.getPlayerPrizeStack());
+        potManager.judge(playerRanks);
+        log.info(playerRanks);
     }
 }

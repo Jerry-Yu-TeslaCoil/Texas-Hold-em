@@ -44,7 +44,7 @@ public interface PotManager {
      * Get how much each player wins this round.
      * @return A map of every player's bonus.
      */
-    HashMap<CardPlayer, BigDecimal> getPlayerStack();
+    HashMap<CardPlayer, BigDecimal> getPlayerPrizeStack();
 
     /**
      * Clean and initialize the stack.
