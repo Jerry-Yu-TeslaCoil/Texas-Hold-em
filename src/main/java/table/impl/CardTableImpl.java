@@ -75,7 +75,7 @@ public class CardTableImpl implements CardTable {
     }
 
     @Override
-    public void startRound() {
+    public void startRounds() {
         CardDeck cardDeck = noJokerDeckFactory.getCardDeck();
         System.out.println(this.players.getPlayerNum() + " players have joined the table.");
         System.out.println("Starting with small blind.");

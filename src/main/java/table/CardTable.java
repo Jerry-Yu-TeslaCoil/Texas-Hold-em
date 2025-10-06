@@ -8,5 +8,5 @@ public interface CardTable {
     int getMaxPlayers();
     ApplicationResult playerJoin(CardPlayer cardPlayer);
     ApplicationResult playerLeave(CardPlayer cardPlayer);
-    void startRound();
+    void startRounds();
 }

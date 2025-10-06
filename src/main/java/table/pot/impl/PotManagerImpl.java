@@ -1,5 +1,6 @@
 package table.pot.impl;
 
+import exception.IllegalOperationException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,6 +11,7 @@ import table.player.CardPlayer;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;
 
+import javax.smartcardio.Card;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -18,15 +20,14 @@ import java.util.*;
  * The normal pot manager.
  *
  * <p>
- *     This is used for most circumstances.
+ * This is used for most circumstances.
  * </p>
  *
  * <p>
- *     Not thread-safe.
+ * Not thread-safe.
  * </p>
  *
  * @author jerry
- *
  * @version 1.0
  */
 @Log4j2
@@ -56,11 +57,11 @@ public class PotManagerImpl implements PotManager {
      *         FOLD decision does nothing. Do call setIsContinuingGame(false) at Table.
      *     </li>
      * </ul>
-     *
+     * <p>
      * This is called every action.
      * And since it operates only on sub pots, do call judge() at every end of the game.
      *
-     * @param cardPlayer The player who makes the decision.
+     * @param cardPlayer     The player who makes the decision.
      * @param playerDecision The reacted decision.
      */
     @Override
@@ -98,31 +99,31 @@ public class PotManagerImpl implements PotManager {
      * This method will allocate stacks by the accumulation of each player, their state and the poker result.
      *
      * <p>
-     *     For example:<br>
-     *     Player1(4): |###|#(ALLIN)<br>
-     *     Player2(6): |###|#|##|<br>
-     *     Player3(3): |###(ALLIN)<br>
-     *     Player4(6): |###|#|##|<br>
-     *     Player5(2): |##(FOLD)<br>
-     *     Player6(5): |###|#|#(FOLD)<br>
+     * For example:<br>
+     * Player1(4): |###|#(ALLIN)<br>
+     * Player2(6): |###|#|##|<br>
+     * Player3(3): |###(ALLIN)<br>
+     * Player4(6): |###|#|##|<br>
+     * Player5(2): |##(FOLD)<br>
+     * Player6(5): |###|#|#(FOLD)<br>
      * </p>
      * <p>
-     *     At this case, Player1, 2, 3, 4, 5, 6 joined the first pot, Player5 FOLD.
-     *     This way comparison will happen between 1, 2, 3, 4, 6,
-     *     with each of their 3 stacks and Player5's 2 stacks;<br>
-     *     Player1, 2, 4, 6 joined the second pot,
-     *     comparison will happen between Player1, 2, 4, 6,
-     *     with each of their 1 stack;<br>
-     *     Player2, 4, 6 joined the third pot, Player6 FOLD.
-     *     Comparison will happen between Player2, 4,
-     *     with each of their 2 stacks and Player6's 1 stack.<br>
-     *     By ranking the players, for example, [1, 5, 2, 4, 3, 6] as their actual hole card value,
-     *     Player1 will win the first pot and the second pot, Player2 will win the third pot.
+     * At this case, Player1, 2, 3, 4, 5, 6 joined the first pot, Player5 FOLD.
+     * This way comparison will happen between 1, 2, 3, 4, 6,
+     * with each of their 3 stacks and Player5's 2 stacks;<br>
+     * Player1, 2, 4, 6 joined the second pot,
+     * comparison will happen between Player1, 2, 4, 6,
+     * with each of their 1 stack;<br>
+     * Player2, 4, 6 joined the third pot, Player6 FOLD.
+     * Comparison will happen between Player2, 4,
+     * with each of their 2 stacks and Player6's 1 stack.<br>
+     * By ranking the players, for example, [1, 5, 2, 4, 3, 6] as their actual hole card value,
+     * Player1 will win the first pot and the second pot, Player2 will win the third pot.
      * </p>
      *
      * <p>
-     *     BE AWARE: After judge(), all stacks in buffer will be clear. This is obvious and reasonable as
-     *     every player puts stacks in the pots, and this means DO NOT call judge() twice.
+     * BE AWARE: After judge(), all stacks in buffer will be clear. This is obvious and reasonable as
+     * every player puts stacks in the pots, and this means DO NOT call judge() twice.
      * </p>
      *
      * @param playerRankings The rank of the players.
@@ -203,14 +204,16 @@ public class PotManagerImpl implements PotManager {
     }
 
     private void processPots(LinkedList<PotStack> pots, LinkedList<ArrayList<CardPlayer>> joinedPlayers) {
-    List<Map.Entry<CardPlayer, BigDecimal>> activePlayers = playerStack.entrySet().stream()
-            .filter(entry -> entry.getKey().getIsContinuingGame())
-            .sorted(Map.Entry.comparingByValue())
-            .toList();
+        List<Map.Entry<CardPlayer, BigDecimal>> activePlayers = playerStack.entrySet().stream()
+                .filter(entry -> entry.getKey().getIsContinuingGame())
+                .sorted(Map.Entry.comparingByValue())
+                .toList();
 
-    List<Map.Entry<CardPlayer, BigDecimal>> allPlayers = playerStack.entrySet().stream()
-            .sorted(Map.Entry.comparingByValue())
-            .toList();
+        List<Map.Entry<CardPlayer, BigDecimal>> allPlayers = playerStack.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .toList();
+
+        validateActivePlayers(activePlayers);
 
         for (Map.Entry<CardPlayer, BigDecimal> activePlayer : activePlayers) {
             BigDecimal currentBet = activePlayer.getValue();
@@ -227,6 +230,19 @@ public class PotManagerImpl implements PotManager {
             if (sidePot.getAmount().compareTo(BigDecimal.ZERO) > 0) {
                 pots.add(sidePot);
                 joinedPlayers.add(new ArrayList<>(eligiblePlayers));
+            }
+        }
+    }
+
+    private static void validateActivePlayers(List<Map.Entry<CardPlayer, BigDecimal>> activePlayers) {
+        BigDecimal highestBet = activePlayers.get(activePlayers.size() - 1).getValue();
+        for (Map.Entry<CardPlayer, BigDecimal> activePlayer : activePlayers) {
+            CardPlayer player = activePlayer.getKey();
+            BigDecimal currentBet = activePlayer.getValue();
+            if (currentBet.compareTo(highestBet) < 0 && !player.getIsAllIn()) {
+                throw new IllegalOperationException("Exists non-allin player " + player.toSimpleLogString() +
+                        " opening a new side pot. " +
+                        "This might mean the player exceptionally didn't call but still continuing the game.");
             }
         }
     }
@@ -250,6 +266,7 @@ public class PotManagerImpl implements PotManager {
     /**
      * Get a map representing each player's prize.
      * Do call this after judge().
+     *
      * @return A map of result stacks.
      */
     @Override

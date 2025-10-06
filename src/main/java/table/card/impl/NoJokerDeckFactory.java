@@ -1,9 +1,10 @@
 package table.card.impl;
 
+import lombok.Getter;
 import table.card.*;
 
 /**
- * Card deck factory that generate a card deck with the whole set except two jokers.
+ * Singleton card deck factory that generate a card deck with the whole set except two jokers.
  *
  * <p>
  *     Game objects.
@@ -24,6 +25,8 @@ import table.card.*;
  */
 public class NoJokerDeckFactory implements CardDeckFactory {
     private static final CardDeck CACHED_DECK = createDeck();
+    @Getter
+    private static final CardDeckFactory instance = new NoJokerDeckFactory();
 
     private static CardDeck createDeck() {
         CardDeck deck = new SimpleCardDeck();
@@ -35,6 +38,9 @@ public class NoJokerDeckFactory implements CardDeckFactory {
             }
         }
         return deck;
+    }
+
+    private NoJokerDeckFactory() {
     }
 
     /**
