@@ -5,6 +5,8 @@ import table.card.PokerCard;
 import table.control.PlayerController;
 import table.mechanism.DecisionRequest;
 import table.mechanism.PlayerDecision;
+import table.mechanism.ResolvedAction;
+import table.mechanism.impl.RaiseDecision;
 import table.player.CardPlayer;
 
 import java.math.BigDecimal;
@@ -39,6 +41,8 @@ public class SimpleCardPlayer implements CardPlayer {
 
     private boolean isContinuingGame;
 
+    private BigDecimal playerInvestment;
+
     /**
      * Construct a simple card player with appointed controlling player and BigDecimal of stack.
      * @param controller Controlling player could be a real player terminal or a robot.
@@ -50,6 +54,7 @@ public class SimpleCardPlayer implements CardPlayer {
         this.stack = stack;
         this.isContinuingGame = true;
         this.id = id;
+        this.playerInvestment = BigDecimal.ZERO;
     }
 
     @Override
@@ -78,7 +83,7 @@ public class SimpleCardPlayer implements CardPlayer {
     }
 
     @Override
-    public void receiveHoleCard(PokerCard card) {
+    public void addHoleCard(PokerCard card) {
         if (this.pokerCards.size() >= 2) {
             throw new IllegalOperationException("Card stack overflow");
         }
@@ -112,9 +117,28 @@ public class SimpleCardPlayer implements CardPlayer {
     }
 
     @Override
-    public PlayerDecision getPlayerDecision(DecisionRequest decisionRequest) {
+    public BigDecimal getPlayerInvestment() {
+        return this.playerInvestment;
+    }
+
+    @Override
+    public ResolvedAction getPlayerDecision(DecisionRequest decisionRequest) {
         System.out.println("Requires " + decisionRequest.leastStackRequest());
-        return controller.getPlayerDecision(decisionRequest);
+        PlayerDecision playerDecision = controller.getPlayerDecision(decisionRequest);
+        switch (playerDecision.getDecisionType()) {
+            case RAISE:
+                RaiseDecision raiseDecision = (RaiseDecision) playerDecision;
+                BigDecimal bet = raiseDecision.bet();
+                //TODO: Finish Decision Process
+        }
+        return null;
+    }
+
+    @Override
+    public void clearState() {
+        this.pokerCards.clear();
+        this.isContinuingGame = true;
+        this.playerInvestment = BigDecimal.ZERO;
     }
 
     @Override

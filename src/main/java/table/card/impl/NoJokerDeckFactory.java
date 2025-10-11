@@ -1,7 +1,10 @@
 package table.card.impl;
 
 import lombok.Getter;
-import table.card.*;
+import table.card.CardDeck;
+import table.card.CardDeckFactory;
+import table.card.Rank;
+import table.card.Suit;
 
 /**
  * Singleton card deck factory that generate a card deck with the whole set except two jokers.

@@ -21,7 +21,7 @@ import java.util.ArrayList;
  *
  * @version 1.0
  */
-public class PCPlayerControl implements PlayerController {
+public class RobotPlayerCallOnly implements PlayerController {
 
     private final ArrayList<PokerCard> pokerCards;
 
@@ -40,7 +40,7 @@ public class PCPlayerControl implements PlayerController {
     /**
      * Construct a simple robot controller.
      */
-    public PCPlayerControl() {
+    public RobotPlayerCallOnly() {
         this.pokerCards = new ArrayList<>();
     }
 }

@@ -1,10 +1,10 @@
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
-import table.control.impl.PCPlayerControl;
+import table.control.impl.RobotPlayerCallOnly;
 import table.player.CardPlayer;
 import table.player.PlayerIterator;
-import table.player.impl.SimpleCardPlayer;
 import table.player.impl.PlayerCoil;
+import table.player.impl.SimpleCardPlayer;
 
 import java.math.BigDecimal;
 import java.util.ConcurrentModificationException;
@@ -24,7 +24,7 @@ public class TestPlayerCoil {
     public void testPlayerCoilIterator() {
         PlayerCoil playerCoil = new PlayerCoil();
         for (int i = 0; i < 20; i++) {
-            playerCoil.addPlayer(new SimpleCardPlayer(new PCPlayerControl(), BigDecimal.ONE, 1));
+            playerCoil.addPlayer(new SimpleCardPlayer(new RobotPlayerCallOnly(), BigDecimal.ONE, i));
         }
         log.info(playerCoil);
         Iterator<CardPlayer> playerCoilIterator = playerCoil.getIterator();
@@ -38,7 +38,7 @@ public class TestPlayerCoil {
     public void testPlayerCoilIteratorWithListOperation() {
         PlayerCoil playerCoil = new PlayerCoil();
         for (int i = 0; i < 20; i++) {
-            playerCoil.addPlayer(new SimpleCardPlayer(new PCPlayerControl(), BigDecimal.ONE, 1));
+            playerCoil.addPlayer(new SimpleCardPlayer(new RobotPlayerCallOnly(), BigDecimal.ONE, i));
         }
         log.info(playerCoil);
         PlayerIterator playerIterator = playerCoil.getIterator();

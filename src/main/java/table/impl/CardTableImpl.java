@@ -84,8 +84,8 @@ public class CardTableImpl implements CardTable {
         //Deal cards.
         //TODO: Directly operate raw list of the players is not recommended. Do switch to an iterator.
         for (CardPlayer cardPlayer : this.players.getPlayers()) {
-            cardPlayer.receiveHoleCard(cardDeck.takePeekCard());
-            cardPlayer.receiveHoleCard(cardDeck.takePeekCard());
+            cardPlayer.addHoleCard(cardDeck.takePeekCard());
+            cardPlayer.addHoleCard(cardDeck.takePeekCard());
         }
         //Everyone make a round decision. Will engage from small_blind to the last one.
     }

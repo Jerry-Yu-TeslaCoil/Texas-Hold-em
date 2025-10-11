@@ -15,7 +15,6 @@ import java.math.BigDecimal;
  * <p>
  *     The value is resolved for PotManager.
  *     That means PotManager will not process the value.
- *     That makes quite some difference.
  *     For example, the value of the CALL decision should be the required value,
  *     while the value of the RAISE decision should include both required and the raised bet,
  *     as PotManager should not know anything about the game rules.

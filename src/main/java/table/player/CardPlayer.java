@@ -3,7 +3,7 @@ package table.player;
 import table.card.PokerCard;
 import table.control.PlayerController;
 import table.mechanism.DecisionRequest;
-import table.mechanism.PlayerDecision;
+import table.mechanism.ResolvedAction;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -62,7 +62,7 @@ public interface CardPlayer {
      * Send a hole card to CardPlayer.
      * @param card The hole card to be sent.
      */
-    void receiveHoleCard(PokerCard card);
+    void addHoleCard(PokerCard card);
 
     /**
      * Get the hole cards the CardPlayer have.
@@ -97,12 +97,22 @@ public interface CardPlayer {
     boolean getIsAllIn();
 
     /**
+     * Get the amount of chips player already invest this round.
+     * @return The chips the player invest.
+     */
+    BigDecimal getPlayerInvestment();
+
+    /**
      * Require CardPlayer to make a decision.
      * @param decisionRequest Game context and decision limits, like the least required bet value.
      * @return The decision of the CardPlayer.
      */
-    PlayerDecision getPlayerDecision(DecisionRequest decisionRequest);
+    ResolvedAction getPlayerDecision(DecisionRequest decisionRequest);
 
+    /**
+     * Clean the player's state, such as player's investment chips.
+     */
+    void clearState();
 
     /**
      * Get the simple string of the CardPlayer including only id.

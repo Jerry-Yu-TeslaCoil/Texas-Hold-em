@@ -1,7 +1,6 @@
 package table.config;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 /**
  * The record for table configs.

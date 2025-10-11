@@ -163,13 +163,13 @@ public class PlayerCoil implements PlayerList {
         private PlayerCoilIterator(int startPosition, boolean loop) {
             if (players.isEmpty()) {
                 this.startIndex = 0;
-                this.currentIndex = 0;
+                this.currentIndex = normalizeIndex(-1);
             } else {
                 this.startIndex = normalizeIndex(startPosition);
-                this.currentIndex = this.startIndex;
+                this.currentIndex = normalizeIndex(startPosition - 1);
             }
             this.returnedFirst = false;
-            this.loop = false;
+            this.loop = loop;
             this.recordEditionIndex = PlayerCoil.this.editionIndex;
         }
 
@@ -179,7 +179,7 @@ public class PlayerCoil implements PlayerList {
 
             if (loop) return true;
 
-            return !returnedFirst || currentIndex != startIndex;
+            return !returnedFirst || normalizeIndex(currentIndex + 1) != startIndex;
         }
 
         @Override
@@ -191,14 +191,13 @@ public class PlayerCoil implements PlayerList {
                 throw new NoSuchElementException("No more players in the coil");
             }
 
-            CardPlayer player = getPlayerAt(currentIndex);
-
             currentIndex = normalizeIndex(currentIndex + 1);
 
             if (!returnedFirst && !loop) {
                 returnedFirst = true;
             }
-            return player;
+
+            return getPlayerAt(currentIndex);
         }
 
         @Override

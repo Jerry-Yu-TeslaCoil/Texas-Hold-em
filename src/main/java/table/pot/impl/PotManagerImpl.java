@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
-import table.mechanism.ResolvedAction;
 import table.mechanism.DecisionType;
+import table.mechanism.ResolvedAction;
 import table.player.CardPlayer;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;
 
-import javax.smartcardio.Card;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
