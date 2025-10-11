@@ -11,22 +11,23 @@ import java.math.BigDecimal;
  * </p>
  *
  * <p>
- *     Config class with only BigDecimal, considered thread-safe.
+ *     Config class with only data, considered thread-safe.
  * </p>
  *
  * @author jerry
  *
  * @version 1.0
  */
-public record TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDecimal maximumBet) {
+public record TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDecimal maximumBet, int maxPlayers) {
 
     /**
      * Create config with appointed args.
      * @param initBet Bets that every player have initially.
      * @param halfMinimumBet THE HALF of the least bet for players to invest.
      * @param maximumBet The max bet for a turn of the game.
+     * @param maxPlayers The max number of players of the table.
      */
-    public TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDecimal maximumBet) {
+    public TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDecimal maximumBet, int maxPlayers) {
         if (initBet.compareTo(halfMinimumBet) <= 0) {
             throw new IllegalArgumentException("initBet must be greater than halfMinimumBet");
         }
@@ -39,14 +40,21 @@ public record TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDeci
             throw new IllegalArgumentException("Maximum bet must be greater than minimum bet");
         }
         this.maximumBet = maximumBet;
+        if (maxPlayers <= 1) {
+            throw new IllegalArgumentException("Max players must be greater than 1");
+        }
+        if (maxPlayers > 22) {
+            throw new IllegalArgumentException("Players must be less than 22");
+        }
+        this.maxPlayers = maxPlayers;
     }
 
     /**
-     * Create config with infinite maximum bet.
+     * Create config with infinite maximum bet and maximum players.
      * @param initBet Bets that every player have initially.
      * @param halfMinimumBet THE HALF of the least bet for players to invest.
      */
     public TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet) {
-        this(initBet, halfMinimumBet, new BigDecimal(Integer.MAX_VALUE));
+        this(initBet, halfMinimumBet, new BigDecimal(Integer.MAX_VALUE), 22);
     }
 }

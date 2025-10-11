@@ -1,6 +1,6 @@
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
-import table.control.impl.RobotPlayerCallOnly;
+import control.impl.RobotPlayerCallOnly;
 import table.player.CardPlayer;
 import table.player.PlayerIterator;
 import table.player.impl.PlayerCoil;

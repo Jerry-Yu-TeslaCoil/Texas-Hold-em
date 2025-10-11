@@ -1,8 +1,10 @@
 package table.impl;
 
+import control.PlayerController;
 import table.CardTable;
 import table.card.CardDeck;
 import table.card.impl.NoJokerDeckFactory;
+import table.config.TableConfig;
 import table.player.CardPlayer;
 import table.player.PlayerList;
 import table.player.impl.PlayerCoil;
@@ -30,6 +32,7 @@ public class CardTableImpl implements CardTable {
     private BigDecimal bigBlindValue;
     private final PlayerList players;
     private NoJokerDeckFactory noJokerDeckFactory;
+    private TableConfig tableConfig;
 
     /**
      * Construct a table with no max player num limit appointed.
@@ -49,40 +52,45 @@ public class CardTableImpl implements CardTable {
     }
 
     @Override
-    public void setMaxPlayers(int maxPlayers) {
-        this.players.setMaxPlayers(maxPlayers);
+    public void setTableConfig(TableConfig tableConfig) {
+        this.tableConfig = tableConfig;
+        this.players.setMaxPlayers(tableConfig.maxPlayers());
     }
 
     @Override
-    public int getMaxPlayers() {
-        return this.players.getMaxPlayers();
+    public TableConfig getTableConfig() {
+        return this.tableConfig;
     }
 
     @Override
-    public ApplicationResult playerJoin(CardPlayer cardPlayer) {
+    public ApplicationResult playerJoin(PlayerController cardPlayer) {
         if (cardPlayer == null) {
             throw new NullPointerException("Given cardPlayer cannot be null");
         }
-        return this.players.addPlayer(cardPlayer);
+        //TODO: Not just a construct method, but a builder or a factory
+        //return this.players.addPlayer(cardPlayer);
+        return null;
     }
 
     @Override
-    public ApplicationResult playerLeave(CardPlayer cardPlayer) {
+    public ApplicationResult playerLeave(PlayerController cardPlayer) {
         if (cardPlayer == null) {
             throw new NullPointerException("Given cardPlayer cannot be null");
         }
-        return this.players.removePlayer(cardPlayer);
+        //TODO: Remove by the playerController
+        //return this.players.removePlayer(cardPlayer);
+        return null;
     }
 
     @Override
     public void startRounds() {
+        //TODO: Do use state and handler
         CardDeck cardDeck = noJokerDeckFactory.getCardDeck();
         System.out.println(this.players.getPlayerNum() + " players have joined the table.");
         System.out.println("Starting with small blind.");
         System.out.println("Big blind.");
         System.out.println("Deal");
         //Deal cards.
-        //TODO: Directly operate raw list of the players is not recommended. Do switch to an iterator.
         for (CardPlayer cardPlayer : this.players.getPlayers()) {
             cardPlayer.addHoleCard(cardDeck.takePeekCard());
             cardPlayer.addHoleCard(cardDeck.takePeekCard());

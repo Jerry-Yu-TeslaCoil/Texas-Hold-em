@@ -1,7 +1,7 @@
 package table.player;
 
 import table.card.PokerCard;
-import table.control.PlayerController;
+import control.PlayerController;
 import table.mechanism.DecisionRequest;
 import table.mechanism.ResolvedAction;
 

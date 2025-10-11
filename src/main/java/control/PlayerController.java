@@ -1,8 +1,10 @@
-package table.control;
+package control;
 
 import table.card.PokerCard;
 import table.mechanism.DecisionRequest;
 import table.mechanism.PlayerDecision;
+import table.vo.privateinfo.PlayerGamePrivateInfoVO;
+import table.vo.publicinfo.PublicInfoVO;
 
 /**
  * Interface representing player side information.
@@ -27,10 +29,16 @@ import table.mechanism.PlayerDecision;
 public interface PlayerController {
 
     /**
-     * Provide hole cards to the player.
-     * @param pokerCard The card to be sent.
+     * Dispatch current public information to the player.
+     * @param publicInfoVO The view object containing all public information on the table.
      */
-    void addHoleCard(PokerCard pokerCard);
+    void updatePublicInfo(PublicInfoVO publicInfoVO);
+
+    /**
+     * Dispatch player's private information in the game.
+     * @param privateInfoVO The view object containing the player's private game info.
+     */
+    void updatePrivateInfo(PlayerGamePrivateInfoVO privateInfoVO);
 
     /**
      * Ask the player to make a decision.

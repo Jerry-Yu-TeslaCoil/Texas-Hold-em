@@ -1,12 +1,15 @@
-package table.control.impl;
+package control.impl;
 
 import table.card.PokerCard;
-import table.control.PlayerController;
+import control.PlayerController;
 import table.mechanism.DecisionRequest;
 import table.mechanism.DecisionType;
 import table.mechanism.PlayerDecision;
+import table.vo.privateinfo.PlayerGamePrivateInfoVO;
+import table.vo.publicinfo.PublicInfoVO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Simple robot simulation. Only do CALL in the round.
@@ -26,8 +29,13 @@ public class RobotPlayerCallOnly implements PlayerController {
     private final ArrayList<PokerCard> pokerCards;
 
     @Override
-    public void addHoleCard(PokerCard pokerCard) {
-        this.pokerCards.add(pokerCard);
+    public void updatePublicInfo(PublicInfoVO publicInfoVO) {
+        //It doesn't care. Do nothing.
+    }
+
+    @Override
+    public void updatePrivateInfo(PlayerGamePrivateInfoVO privateInfoVO) {
+        this.pokerCards.addAll(List.of(privateInfoVO.holeCards()));
     }
 
     @Override

@@ -2,7 +2,7 @@ package table.player.impl;
 
 import exception.IllegalOperationException;
 import table.card.PokerCard;
-import table.control.PlayerController;
+import control.PlayerController;
 import table.mechanism.DecisionRequest;
 import table.mechanism.PlayerDecision;
 import table.mechanism.ResolvedAction;
@@ -21,6 +21,10 @@ import java.util.List;
  *     SimpleCardPlayer accepts a controller for player action control,
  *     and a BigDecimal for storing stack.
  *     Call getPlayerDecision() will only pass request directly to the player.
+ * </p>
+ *
+ * <p>
+ *     THis class is for only data storing, validating and decision requesting.
  * </p>
  *
  * <p>
@@ -88,7 +92,6 @@ public class SimpleCardPlayer implements CardPlayer {
             throw new IllegalOperationException("Card stack overflow");
         }
         this.pokerCards.add(card);
-        this.controller.addHoleCard(card);
     }
 
     @Override
