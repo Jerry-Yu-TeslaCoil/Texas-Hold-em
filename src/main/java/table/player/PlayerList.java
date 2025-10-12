@@ -1,5 +1,6 @@
 package table.player;
 
+import control.PlayerController;
 import util.ApplicationResult;
 
 import java.util.List;
@@ -81,6 +82,13 @@ public interface PlayerList {
      * @return If the operation succeed.
      */
     ApplicationResult removePlayer(CardPlayer player);
+
+    /**
+     * Remove a player by its controller.
+     * @param cardPlayer The controller of the removed player.
+     * @return If the operation succeed.
+     */
+    ApplicationResult removePlayer(PlayerController cardPlayer);
 
     /**
      * Get the player who is on the big blind position.

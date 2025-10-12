@@ -1,5 +1,6 @@
 package table.player.impl;
 
+import control.PlayerController;
 import table.player.CardPlayer;
 import table.player.PlayerIterator;
 import table.player.PlayerList;
@@ -98,6 +99,24 @@ public class PlayerCoil implements PlayerList {
     @Override
     public ApplicationResult removePlayer(CardPlayer player) {
         int index = players.indexOf(player);
+        if (index != -1) {
+            players.remove(index);
+            adjustPositionsAfterRemoval(index);
+            this.editionIndex++;
+            return ApplicationResult.success();
+        }
+        return ApplicationResult.error("Player not found.");
+    }
+
+    @Override
+    public ApplicationResult removePlayer(PlayerController cardPlayer) {
+        int index = -1;
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getPlayerController() == cardPlayer) {
+                index = i;
+                break;
+            }
+        }
         if (index != -1) {
             players.remove(index);
             adjustPositionsAfterRemoval(index);

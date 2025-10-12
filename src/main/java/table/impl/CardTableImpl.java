@@ -6,8 +6,10 @@ import table.card.CardDeck;
 import table.card.impl.NoJokerDeckFactory;
 import table.config.TableConfig;
 import table.player.CardPlayer;
+import table.player.CardPlayerFactory;
 import table.player.PlayerList;
 import table.player.impl.PlayerCoil;
+import table.player.impl.SimpleCardPlayerFactory;
 import util.ApplicationResult;
 
 import java.math.BigDecimal;
@@ -33,22 +35,26 @@ public class CardTableImpl implements CardTable {
     private final PlayerList players;
     private NoJokerDeckFactory noJokerDeckFactory;
     private TableConfig tableConfig;
+    private final CardPlayerFactory playerFactory;
 
     /**
      * Construct a table with no max player num limit appointed.
      * The max player num will be set as 22 players same as usual rule.
      */
     public CardTableImpl() {
-        this(22);
+        this(new TableConfig(new BigDecimal(24), new BigDecimal(1), new BigDecimal(24), 22));
     }
 
     /**
      * Appoint a max player num to construct a table.
-     * @param maxPlayers The max number of card players.
+     * @param tableConfig The max number of card players.
      */
-    public CardTableImpl(int maxPlayers) {
+    public CardTableImpl(TableConfig tableConfig) {
         this.players = new PlayerCoil();
-        this.players.setMaxPlayers(maxPlayers);
+        this.tableConfig = tableConfig;
+        this.players.setMaxPlayers(tableConfig.maxPlayers());
+        this.playerFactory = new SimpleCardPlayerFactory();
+        this.playerFactory.setConfig(tableConfig);
     }
 
     @Override
@@ -63,23 +69,20 @@ public class CardTableImpl implements CardTable {
     }
 
     @Override
-    public ApplicationResult playerJoin(PlayerController cardPlayer) {
-        if (cardPlayer == null) {
-            throw new NullPointerException("Given cardPlayer cannot be null");
+    public ApplicationResult playerJoin(PlayerController playerController) {
+        if (playerController == null) {
+            throw new NullPointerException("Given playerController cannot be null");
         }
-        //TODO: Not just a construct method, but a builder or a factory
-        //return this.players.addPlayer(cardPlayer);
-        return null;
+        CardPlayer cardPlayer = this.playerFactory.createCardPlayer(playerController);
+        return this.players.addPlayer(cardPlayer);
     }
 
     @Override
-    public ApplicationResult playerLeave(PlayerController cardPlayer) {
-        if (cardPlayer == null) {
-            throw new NullPointerException("Given cardPlayer cannot be null");
+    public ApplicationResult playerLeave(PlayerController playerController) {
+        if (playerController == null) {
+            throw new NullPointerException("Given playerController cannot be null");
         }
-        //TODO: Remove by the playerController
-        //return this.players.removePlayer(cardPlayer);
-        return null;
+        return this.players.removePlayer(playerController);
     }
 
     @Override

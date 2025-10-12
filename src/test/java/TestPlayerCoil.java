@@ -1,3 +1,4 @@
+import control.PlayerController;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import control.impl.RobotPlayerCallOnly;
@@ -56,6 +57,22 @@ public class TestPlayerCoil {
             log.info(cardPlayer);
             playerCoil.removePlayer(cardPlayer);
         }
+        log.info(playerCoil);
+    }
+
+    @Test
+    public void testPlayerCoilRemoveByController() {
+        PlayerCoil playerCoil = new PlayerCoil();
+        PlayerController playerController = new RobotPlayerCallOnly();
+        for (int i = 0; i < 20; i++) {
+            if (i == 5) {
+                playerCoil.addPlayer(new SimpleCardPlayer(playerController, BigDecimal.ONE, i));
+            } else {
+                playerCoil.addPlayer(new SimpleCardPlayer(new RobotPlayerCallOnly(), BigDecimal.ONE, i));
+            }
+        }
+        log.info(playerCoil);
+        playerCoil.removePlayer(playerController);
         log.info(playerCoil);
     }
 }
