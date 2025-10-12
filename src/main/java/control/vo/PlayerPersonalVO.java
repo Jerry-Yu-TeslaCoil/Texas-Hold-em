@@ -1,4 +1,4 @@
-package table.vo.publicinfo;
+package control.vo;
 
 /**
  * View object class for player's personal public info.
@@ -20,5 +20,5 @@ package table.vo.publicinfo;
  *
  * @version 1.0
  */
-public record PlayerPublicInfoVO() {
+public record PlayerPersonalVO() {
 }

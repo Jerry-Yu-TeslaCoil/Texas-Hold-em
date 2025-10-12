@@ -11,5 +11,5 @@ import java.math.BigDecimal;
  *     </ul>
  * </p>
  */
-public record PotPublicInfoVO(BigDecimal allInvestedChips) {
+public record PotPublicVO(BigDecimal allInvestedChips) {
 }

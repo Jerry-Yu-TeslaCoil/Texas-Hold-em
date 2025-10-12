@@ -1,6 +1,6 @@
 package table.player.impl;
 
-import control.PlayerController;
+import control.GamePlayer;
 import table.config.TableConfig;
 import table.player.CardPlayer;
 import table.player.CardPlayerFactory;
@@ -34,7 +34,7 @@ public class SimpleCardPlayerFactory implements CardPlayerFactory {
     }
 
     @Override
-    public CardPlayer createCardPlayer(PlayerController controller) {
+    public CardPlayer createCardPlayer(GamePlayer controller) {
         return new SimpleCardPlayer(controller, initBet, id++);
     }
 

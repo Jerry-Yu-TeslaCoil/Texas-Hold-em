@@ -18,5 +18,5 @@ import table.card.PokerCard;
  *
  * @version 1.0
  */
-public record PlayerGamePrivateInfoVO(PokerCard[] holeCards) {
+public record PlayerPrivateVO(PokerCard[] holeCards) {
 }

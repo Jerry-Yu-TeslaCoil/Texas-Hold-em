@@ -1,10 +1,9 @@
 package control;
 
-import table.card.PokerCard;
 import table.mechanism.DecisionRequest;
 import table.mechanism.PlayerDecision;
-import table.vo.privateinfo.PlayerGamePrivateInfoVO;
-import table.vo.publicinfo.PublicInfoVO;
+import table.vo.privateinfo.PlayerPrivateVO;
+import table.vo.publicinfo.PublicVO;
 
 /**
  * Interface representing player side information.
@@ -24,24 +23,26 @@ import table.vo.publicinfo.PublicInfoVO;
  *
  * @author jerry
  *
- * @version 1.0
+ * @version 0.0
  */
 public interface PlayerController {
-
     /**
      * Dispatch current public information to the player.
-     * @param publicInfoVO The view object containing all public information on the table.
+     *
+     * @param publicVO The view object containing all public information on the table.
      */
-    void updatePublicInfo(PublicInfoVO publicInfoVO);
+    void updatePublicInfo(PublicVO publicVO);
 
     /**
      * Dispatch player's private information in the game.
+     *
      * @param privateInfoVO The view object containing the player's private game info.
      */
-    void updatePrivateInfo(PlayerGamePrivateInfoVO privateInfoVO);
+    void updatePrivateInfo(PlayerPrivateVO privateInfoVO);
 
     /**
      * Ask the player to make a decision.
+     *
      * @param decisionRequest Limits for decision, like the least bet.
      * @return Decision for the current circumstance.
      */

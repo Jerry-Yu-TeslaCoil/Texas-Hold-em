@@ -1,12 +1,13 @@
 package control.impl;
 
+import control.vo.PlayerPersonalVO;
 import table.card.PokerCard;
-import control.PlayerController;
+import control.GamePlayer;
 import table.mechanism.DecisionRequest;
 import table.mechanism.DecisionType;
 import table.mechanism.PlayerDecision;
-import table.vo.privateinfo.PlayerGamePrivateInfoVO;
-import table.vo.publicinfo.PublicInfoVO;
+import table.vo.privateinfo.PlayerPrivateVO;
+import table.vo.publicinfo.PublicVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +25,17 @@ import java.util.List;
  *
  * @version 1.0
  */
-public class RobotPlayerCallOnly implements PlayerController {
+public class RobotGamePlayerCallOnly implements GamePlayer {
 
     private final ArrayList<PokerCard> pokerCards;
 
     @Override
-    public void updatePublicInfo(PublicInfoVO publicInfoVO) {
+    public void updatePublicInfo(PublicVO publicVO) {
         //It doesn't care. Do nothing.
     }
 
     @Override
-    public void updatePrivateInfo(PlayerGamePrivateInfoVO privateInfoVO) {
+    public void updatePrivateInfo(PlayerPrivateVO privateInfoVO) {
         this.pokerCards.addAll(List.of(privateInfoVO.holeCards()));
     }
 
@@ -48,7 +49,12 @@ public class RobotPlayerCallOnly implements PlayerController {
     /**
      * Construct a simple robot controller.
      */
-    public RobotPlayerCallOnly() {
+    public RobotGamePlayerCallOnly() {
         this.pokerCards = new ArrayList<>();
+    }
+
+    @Override
+    public PlayerPersonalVO getPlayerPersonalVO() {
+        return new PlayerPersonalVO();
     }
 }

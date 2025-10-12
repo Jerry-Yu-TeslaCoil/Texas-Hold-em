@@ -44,6 +44,6 @@ package table.vo.publicinfo;
  * @author jerry
  * @version 1.0
  */
-public record PublicInfoVO(TablePublicInfoVO tablePublicInfoVO, PlayerGamePublicInfoVO[] playerGamePublicInfoVO,
-                           PotPublicInfoVO potPublicInfoVO) {
+public record PublicVO(TablePublicVO tablePublicVO, PlayerPublicVO[] playerPublicVO,
+                       PotPublicVO potPublicVO) {
 }

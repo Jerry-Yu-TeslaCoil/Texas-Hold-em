@@ -1,4 +1,4 @@
-import control.impl.RobotPlayerDoPreset;
+import control.impl.RobotGamePlayerDoPreset;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.mechanism.DecisionRequest;
@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class TestPlayerValidation {
     @Test
     public void testPlayerValidationCall() {
-        RobotPlayerDoPreset controller = new RobotPlayerDoPreset();
+        RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
         DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12));
         CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
         log.info(decisionRequest);
@@ -23,7 +23,7 @@ public class TestPlayerValidation {
 
     @Test
     public void testPlayerValidationCallAllin() {
-        RobotPlayerDoPreset controller = new RobotPlayerDoPreset();
+        RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
         DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(25));
         CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
         log.info(decisionRequest);
@@ -33,7 +33,7 @@ public class TestPlayerValidation {
 
     @Test
     public void testPlayerValidationRaise() {
-        RobotPlayerDoPreset controller = new RobotPlayerDoPreset();
+        RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
         controller.setReaction(DecisionType.RAISE, new BigDecimal(11));
         DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12));
         CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
@@ -44,7 +44,7 @@ public class TestPlayerValidation {
 
     @Test
     public void testPlayerValidationRaiseException() {
-        RobotPlayerDoPreset controller = new RobotPlayerDoPreset();
+        RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
         controller.setReaction(DecisionType.RAISE, new BigDecimal(13));
         DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12));
         CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);

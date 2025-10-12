@@ -25,6 +25,6 @@ import java.math.BigDecimal;
  * @author jerry
  * @version 1.0
  */
-public record TablePublicInfoVO(BigDecimal basicBet, BigDecimal initialBet, GameState currentGameState,
-                                int currentDecisionMakerId, ResolvedAction madeDecision, PokerCard[] publicCards) {
+public record TablePublicVO(BigDecimal basicBet, BigDecimal initialBet, GameState currentGameState,
+                            int currentDecisionMakerId, ResolvedAction madeDecision, PokerCard[] publicCards) {
 }

@@ -1,14 +1,15 @@
 package control.impl;
 
-import control.PlayerController;
+import control.GamePlayer;
+import control.vo.PlayerPersonalVO;
 import table.mechanism.DecisionRequest;
 import table.mechanism.DecisionType;
 import table.mechanism.PlayerDecision;
 import table.mechanism.impl.CallDecision;
 import table.mechanism.impl.FoldDecision;
 import table.mechanism.impl.RaiseDecision;
-import table.vo.privateinfo.PlayerGamePrivateInfoVO;
-import table.vo.publicinfo.PublicInfoVO;
+import table.vo.privateinfo.PlayerPrivateVO;
+import table.vo.publicinfo.PublicVO;
 
 import java.math.BigDecimal;
 
@@ -24,7 +25,7 @@ import java.math.BigDecimal;
  *
  * @version 1.0
  */
-public class RobotPlayerDoPreset implements PlayerController {
+public class RobotGamePlayerDoPreset implements GamePlayer {
     private DecisionType presetDecisionType = DecisionType.CALL;
     private BigDecimal decisionValue = BigDecimal.ONE;
 
@@ -39,12 +40,12 @@ public class RobotPlayerDoPreset implements PlayerController {
     }
 
     @Override
-    public void updatePublicInfo(PublicInfoVO publicInfoVO) {
+    public void updatePublicInfo(PublicVO publicVO) {
         //It doesn't care. Do nothing.
     }
 
     @Override
-    public void updatePrivateInfo(PlayerGamePrivateInfoVO privateInfoVO) {
+    public void updatePrivateInfo(PlayerPrivateVO privateInfoVO) {
         //It doesn't care. Do nothing.
     }
 
@@ -55,5 +56,10 @@ public class RobotPlayerDoPreset implements PlayerController {
             case CALL -> new CallDecision();
             case RAISE -> new RaiseDecision(this.decisionValue);
         };
+    }
+
+    @Override
+    public PlayerPersonalVO getPlayerPersonalVO() {
+        return new PlayerPersonalVO();
     }
 }

@@ -1,6 +1,6 @@
 package table;
 
-import control.PlayerController;
+import control.GamePlayer;
 import table.config.TableConfig;
 import util.ApplicationResult;
 
@@ -44,14 +44,14 @@ public interface CardTable {
      * @param cardPlayer The player controller.
      * @return An ApplicationResult that includes result and a failure message.
      */
-    ApplicationResult playerJoin(PlayerController cardPlayer);
+    ApplicationResult playerJoin(GamePlayer cardPlayer);
 
     /**
      * Remove a player from the table.
      * @param cardPlayer The removed playerController.
      * @return An ApplicationResult that includes result and a failure message.
      */
-    ApplicationResult playerLeave(PlayerController cardPlayer);
+    ApplicationResult playerLeave(GamePlayer cardPlayer);
 
     /**
      * Start the game. Keep continuing before the game ends or lack of players.

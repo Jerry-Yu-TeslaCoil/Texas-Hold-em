@@ -1,18 +1,18 @@
 package control.impl;
 
+import control.vo.PlayerPersonalVO;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
-import control.PlayerController;
+import control.GamePlayer;
 import table.mechanism.DecisionRequest;
 import table.mechanism.PlayerDecision;
 import table.mechanism.impl.CallDecision;
 import table.mechanism.impl.FoldDecision;
 import table.mechanism.impl.RaiseDecision;
-import table.vo.privateinfo.PlayerGamePrivateInfoVO;
-import table.vo.publicinfo.PublicInfoVO;
+import table.vo.privateinfo.PlayerPrivateVO;
+import table.vo.publicinfo.PublicVO;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -30,17 +30,17 @@ import java.util.Random;
  * @version 1.0
  */
 @Log4j2
-public class RobotPlayerRandom implements PlayerController {
+public class RobotGamePlayerRandom implements GamePlayer {
 
     private final PokerCard[] pokerCards = new PokerCard[2];
 
     @Override
-    public void updatePublicInfo(PublicInfoVO publicInfoVO) {
+    public void updatePublicInfo(PublicVO publicVO) {
         //It doesn't care. Do nothing.
     }
 
     @Override
-    public void updatePrivateInfo(PlayerGamePrivateInfoVO privateInfoVO) {
+    public void updatePrivateInfo(PlayerPrivateVO privateInfoVO) {
         this.pokerCards[0] = privateInfoVO.holeCards()[0];
         this.pokerCards[1] = privateInfoVO.holeCards()[1];
     }
@@ -61,5 +61,10 @@ public class RobotPlayerRandom implements PlayerController {
             log.info("PC Player decided to Fold.");
             return new FoldDecision();
         }
+    }
+
+    @Override
+    public PlayerPersonalVO getPlayerPersonalVO() {
+        return new PlayerPersonalVO();
     }
 }

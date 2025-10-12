@@ -1,6 +1,6 @@
 package table.player;
 
-import control.PlayerController;
+import control.GamePlayer;
 import table.config.TableConfig;
 
 /**
@@ -34,7 +34,7 @@ public interface CardPlayerFactory {
      * @param controller The controller of the CardPlayer.
      * @return A CardPlayer with the given controller.
      */
-    CardPlayer createCardPlayer(PlayerController controller);
+    CardPlayer createCardPlayer(GamePlayer controller);
 
     /**
      * Reset factory id for CardPlayers to starting from 0.

@@ -1,7 +1,7 @@
 package table.player;
 
 import table.card.PokerCard;
-import control.PlayerController;
+import control.GamePlayer;
 import table.mechanism.DecisionRequest;
 import table.mechanism.ResolvedAction;
 
@@ -36,15 +36,15 @@ public interface CardPlayer {
 
     /**
      * Set the controller of this CardPlayer. It may be a client side terminal, an AI robot, or a test mirror.
-     * @param playerController The controller of this CardPlayer.
+     * @param gamePlayer The controller of this CardPlayer.
      */
-    void setPlayerController(PlayerController playerController);
+    void setPlayerController(GamePlayer gamePlayer);
 
     /**
      * Get the controller of this CardPlayer. This is usually used for ID info broadcasting.
      * @return The controller of the CardPlayer.
      */
-    PlayerController getPlayerController();
+    GamePlayer getPlayerController();
 
     /**
      * Set the stack of the current CardPlayer.

@@ -1,6 +1,6 @@
 package table.impl;
 
-import control.PlayerController;
+import control.GamePlayer;
 import table.CardTable;
 import table.card.CardDeck;
 import table.card.CardDeckFactory;
@@ -70,20 +70,20 @@ public class CardTableImpl implements CardTable {
     }
 
     @Override
-    public ApplicationResult playerJoin(PlayerController playerController) {
-        if (playerController == null) {
+    public ApplicationResult playerJoin(GamePlayer gamePlayer) {
+        if (gamePlayer == null) {
             throw new NullPointerException("Given playerController cannot be null");
         }
-        CardPlayer cardPlayer = this.playerFactory.createCardPlayer(playerController);
+        CardPlayer cardPlayer = this.playerFactory.createCardPlayer(gamePlayer);
         return this.players.addPlayer(cardPlayer);
     }
 
     @Override
-    public ApplicationResult playerLeave(PlayerController playerController) {
-        if (playerController == null) {
+    public ApplicationResult playerLeave(GamePlayer gamePlayer) {
+        if (gamePlayer == null) {
             throw new NullPointerException("Given playerController cannot be null");
         }
-        return this.players.removePlayer(playerController);
+        return this.players.removePlayer(gamePlayer);
     }
 
     @Override

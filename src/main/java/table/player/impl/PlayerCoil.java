@@ -1,6 +1,6 @@
 package table.player.impl;
 
-import control.PlayerController;
+import control.GamePlayer;
 import table.player.CardPlayer;
 import table.player.PlayerIterator;
 import table.player.PlayerList;
@@ -109,7 +109,7 @@ public class PlayerCoil implements PlayerList {
     }
 
     @Override
-    public ApplicationResult removePlayer(PlayerController cardPlayer) {
+    public ApplicationResult removePlayer(GamePlayer cardPlayer) {
         int index = -1;
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getPlayerController() == cardPlayer) {

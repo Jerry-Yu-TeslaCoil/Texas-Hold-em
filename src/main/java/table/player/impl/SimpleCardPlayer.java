@@ -3,7 +3,7 @@ package table.player.impl;
 import exception.IllegalOperationException;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
-import control.PlayerController;
+import control.GamePlayer;
 import table.mechanism.DecisionRequest;
 import table.mechanism.DecisionType;
 import table.mechanism.PlayerDecision;
@@ -27,6 +27,9 @@ import java.util.List;
  *
  * <p>
  *     THis class is for only data storing, validating and decision requesting.
+ *     The validation is wide-accepting.
+ *     That means even the player gives an invalid decision, it will be fixed with no exception thrown.
+ *     For example, "stacks overflow" will be seen as ALLIN.
  * </p>
  *
  * <p>
@@ -41,7 +44,7 @@ import java.util.List;
 public class SimpleCardPlayer implements CardPlayer {
 
     private final int id;
-    private PlayerController controller;
+    private GamePlayer controller;
 
     private BigDecimal stack;
     private final List<PokerCard> pokerCards;
@@ -55,7 +58,7 @@ public class SimpleCardPlayer implements CardPlayer {
      * @param controller Controlling player could be a real player terminal or a robot.
      * @param stack The stack the player currently have.
      */
-    public SimpleCardPlayer(PlayerController controller, BigDecimal stack, int id) {
+    public SimpleCardPlayer(GamePlayer controller, BigDecimal stack, int id) {
         this.controller = controller;
         this.pokerCards = new ArrayList<>();
         this.stack = stack;
@@ -70,12 +73,12 @@ public class SimpleCardPlayer implements CardPlayer {
     }
 
     @Override
-    public void setPlayerController(PlayerController playerController) {
-        this.controller = playerController;
+    public void setPlayerController(GamePlayer gamePlayer) {
+        this.controller = gamePlayer;
     }
 
     @Override
-    public PlayerController getPlayerController() {
+    public GamePlayer getPlayerController() {
         return this.controller;
     }
 
