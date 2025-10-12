@@ -3,6 +3,7 @@ package table.impl;
 import control.PlayerController;
 import table.CardTable;
 import table.card.CardDeck;
+import table.card.CardDeckFactory;
 import table.card.impl.NoJokerDeckFactory;
 import table.config.TableConfig;
 import table.player.CardPlayer;
@@ -31,9 +32,8 @@ import java.math.BigDecimal;
  * @version 1.0
  */
 public class CardTableImpl implements CardTable {
-    private BigDecimal bigBlindValue;
     private final PlayerList players;
-    private NoJokerDeckFactory noJokerDeckFactory;
+    private final CardDeckFactory cardDeckFactory;
     private TableConfig tableConfig;
     private final CardPlayerFactory playerFactory;
 
@@ -55,6 +55,7 @@ public class CardTableImpl implements CardTable {
         this.players.setMaxPlayers(tableConfig.maxPlayers());
         this.playerFactory = new SimpleCardPlayerFactory();
         this.playerFactory.setConfig(tableConfig);
+        this.cardDeckFactory = NoJokerDeckFactory.getInstance();
     }
 
     @Override
@@ -88,7 +89,7 @@ public class CardTableImpl implements CardTable {
     @Override
     public void startRounds() {
         //TODO: Do use state and handler
-        CardDeck cardDeck = noJokerDeckFactory.getCardDeck();
+        CardDeck cardDeck = cardDeckFactory.getCardDeck();
         System.out.println(this.players.getPlayerNum() + " players have joined the table.");
         System.out.println("Starting with small blind.");
         System.out.println("Big blind.");

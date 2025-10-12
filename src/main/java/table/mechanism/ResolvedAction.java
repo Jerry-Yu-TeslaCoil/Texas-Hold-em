@@ -23,7 +23,10 @@ import java.math.BigDecimal;
  *
  * @param decisionType Decision type of the player decision.
  * @param value Resolved value of the current decision.
- *              For example, ALL_IN means all the stack the player have, and CALL means current calling stack.
+ *              Different from RaiseDecision.bet(), this includes all invested chips.
+ *              For example, ALL_IN means all the stack the player have,
+ *              CALL means current calling stack,
+ *              RAISE means the calling part plus the raising part.
  *
  * @author jerry
  *

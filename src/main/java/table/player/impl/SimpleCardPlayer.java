@@ -1,9 +1,11 @@
 package table.player.impl;
 
 import exception.IllegalOperationException;
+import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
 import control.PlayerController;
 import table.mechanism.DecisionRequest;
+import table.mechanism.DecisionType;
 import table.mechanism.PlayerDecision;
 import table.mechanism.ResolvedAction;
 import table.mechanism.impl.RaiseDecision;
@@ -35,6 +37,7 @@ import java.util.List;
  *
  * @version 1.0
  */
+@Log4j2
 public class SimpleCardPlayer implements CardPlayer {
 
     private final int id;
@@ -126,15 +129,53 @@ public class SimpleCardPlayer implements CardPlayer {
 
     @Override
     public ResolvedAction getPlayerDecision(DecisionRequest decisionRequest) {
-        System.out.println("Requires " + decisionRequest.leastStackRequest());
         PlayerDecision playerDecision = controller.getPlayerDecision(decisionRequest);
+        validateDecision(decisionRequest, playerDecision);
+        return resolveDecision(decisionRequest, playerDecision);
+    }
+
+    private ResolvedAction resolveDecision(DecisionRequest decisionRequest, PlayerDecision playerDecision) {
+        BigDecimal decisionStacks = BigDecimal.ZERO;
+        DecisionType decisionType = DecisionType.CALL;
         switch (playerDecision.getDecisionType()) {
-            case RAISE:
-                RaiseDecision raiseDecision = (RaiseDecision) playerDecision;
-                BigDecimal bet = raiseDecision.bet();
-                //TODO: Finish Decision Process
+            case RAISE -> {
+                RaiseDecision decision = (RaiseDecision) playerDecision;
+                decisionStacks = new BigDecimal(String.valueOf(decision.bet()));
+                decisionStacks = decisionStacks.add(decisionRequest.callingStacks()).min(this.stack);
+                if (decisionStacks.compareTo(decisionRequest.callingStacks()) > 0) {
+                    decisionType = DecisionType.RAISE;
+                }
+            }
+            case CALL -> {
+                decisionStacks = new BigDecimal(String.valueOf(decisionRequest.callingStacks())).min(this.stack);
+            }
+            case FOLD -> {
+                decisionType = DecisionType.FOLD;
+            }
+            default -> throw new IllegalOperationException("Unknown decision type: " +
+                    playerDecision.getDecisionType());
         }
-        return null;
+        return new ResolvedAction(decisionType, decisionStacks);
+    }
+
+    private void validateDecision(DecisionRequest decisionRequest, PlayerDecision playerDecision) {
+        BigDecimal decisionStacks;
+        switch (playerDecision.getDecisionType()) {
+            case RAISE -> {
+                RaiseDecision decision = (RaiseDecision) playerDecision;
+                decisionStacks = new BigDecimal(String.valueOf(decision.bet()));
+                decisionStacks = decisionStacks.add(decisionRequest.callingStacks());
+            }
+            case CALL -> decisionStacks = new BigDecimal(String.valueOf(decisionRequest.callingStacks()))
+                    .min(this.stack);
+            case FOLD -> decisionStacks = BigDecimal.ZERO.subtract(BigDecimal.ONE);
+            default -> throw new IllegalOperationException("Unknown decision type: " +
+                    playerDecision.getDecisionType());
+        }
+        if (decisionStacks.compareTo(this.stack) > 0) {
+            log.warn("Player cannot cover as much as he decided to bet, " +
+                    "decision stacks: {}, the player has: {}, will change to ALLIN.", decisionStacks, this.stack);
+        }
     }
 
     @Override
