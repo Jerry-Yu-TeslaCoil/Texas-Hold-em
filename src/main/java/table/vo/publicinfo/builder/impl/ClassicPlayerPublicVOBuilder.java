@@ -1,5 +1,6 @@
 package table.vo.publicinfo.builder.impl;
 
+import table.card.PokerCard;
 import table.player.CardPlayer;
 import table.state.gamestate.GameState;
 import table.vo.publicinfo.PlayerPublicVO;
@@ -37,19 +38,23 @@ public class ClassicPlayerPublicVOBuilder implements PlayerPublicVOBuilder {
 
     @Override
     public PlayerPublicVO build(CardPlayer cardPlayer) {
-        PlayerPublicVO.Builder builder = PlayerPublicVO.builder();
+        PlayerPublicVO.Builder builder = PlayerPublicVO.builder()
+                .setPlayerPersonalVO(cardPlayer.getPlayerController().getPlayerPersonalVO())
+                .setChipsInHand(cardPlayer.getStack()).setContinuingGame(cardPlayer.getIsContinuingGame());
         return switch (gameState) {
-            case INIT -> builder.setPlayerPersonalVO(cardPlayer.getPlayerController().getPlayerPersonalVO())
-                    .setChipsInHand(cardPlayer.getStack())
-                    .setContinuingGame(cardPlayer.getIsContinuingGame())
+            case INIT -> builder.build();
+            case PRE_FLOP, FLOP, TURN, RIVER -> builder.setChipsInvested(cardPlayer.getPlayerInvestment())
                     .build();
-            case PRE_FLOP -> null;
-            case FLOP -> null;
-            case TURN -> null;
-            case RIVER -> null;
-            case SHOWDOWN -> null;
-            case END -> null;
+            case SHOWDOWN -> {
+                builder = builder.setChipsInvested(cardPlayer.getPlayerInvestment());
+                if (cardPlayer.getIsContinuingGame()) {
+                    builder.setPokerCard(cardPlayer.getHoleCards().toArray(new PokerCard[0]));
+                }
+                yield builder.build();
+            }
+            case END -> builder.setChipsInvested(cardPlayer.getPlayerInvestment())
+                    .setPrize(cardPlayer.getPlayerPrize())
+                    .build();
         };
-        //TODO: Finish build
     }
 }
