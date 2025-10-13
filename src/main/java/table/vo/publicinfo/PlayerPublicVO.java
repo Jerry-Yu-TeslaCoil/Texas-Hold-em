@@ -65,7 +65,8 @@ public record PlayerPublicVO(PlayerPersonalVO playerPersonalVO, PokerCard[] poke
                 "pokerCard=" + Arrays.toString(pokerCard) + ", " +
                 "chipsInHand=" + chipsInHand + ", " +
                 "chipsInvested=" + chipsInvested + ", " +
-                "isContinuingGame=" + isContinuingGame + ']';
+                "isContinuingGame=" + isContinuingGame + ", " +
+                "prize=" + prize + "]";
     }
 
     /**

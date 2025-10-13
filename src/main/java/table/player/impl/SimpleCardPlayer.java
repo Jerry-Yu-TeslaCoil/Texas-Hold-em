@@ -52,6 +52,7 @@ public class SimpleCardPlayer implements CardPlayer {
     private boolean isContinuingGame;
 
     private BigDecimal playerInvestment;
+    private BigDecimal prize;
 
     /**
      * Construct a simple card player with appointed controlling player and BigDecimal of stack.
@@ -131,6 +132,26 @@ public class SimpleCardPlayer implements CardPlayer {
     }
 
     @Override
+    public void setPlayerInvestment(BigDecimal playerInvestment) {
+        this.playerInvestment = playerInvestment;
+    }
+
+    @Override
+    public void addPlayerInvestment(BigDecimal playerInvestment) {
+        this.playerInvestment = this.playerInvestment.add(playerInvestment);
+    }
+
+    @Override
+    public BigDecimal getPlayerPrize() {
+        return this.prize;
+    }
+
+    @Override
+    public void setPlayerPrize(BigDecimal playerPrize) {
+        this.prize = playerPrize;
+    }
+
+    @Override
     public ResolvedAction getPlayerDecision(DecisionRequest decisionRequest) {
         PlayerDecision playerDecision = controller.getPlayerDecision(decisionRequest);
         validateDecision(decisionRequest, playerDecision);
@@ -149,12 +170,8 @@ public class SimpleCardPlayer implements CardPlayer {
                     decisionType = DecisionType.RAISE;
                 }
             }
-            case CALL -> {
-                decisionStacks = new BigDecimal(String.valueOf(decisionRequest.callingStacks())).min(this.stack);
-            }
-            case FOLD -> {
-                decisionType = DecisionType.FOLD;
-            }
+            case CALL -> decisionStacks = new BigDecimal(String.valueOf(decisionRequest.callingStacks())).min(this.stack);
+            case FOLD -> decisionType = DecisionType.FOLD;
             default -> throw new IllegalOperationException("Unknown decision type: " +
                     playerDecision.getDecisionType());
         }
@@ -186,6 +203,7 @@ public class SimpleCardPlayer implements CardPlayer {
         this.pokerCards.clear();
         this.isContinuingGame = true;
         this.playerInvestment = BigDecimal.ZERO;
+        this.prize = BigDecimal.ZERO;
     }
 
     @Override

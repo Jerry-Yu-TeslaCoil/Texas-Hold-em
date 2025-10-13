@@ -19,6 +19,17 @@ import java.util.List;
  * </p>
  *
  * <p>
+ *     Arguments that need to be maintained manually:
+ *     <ul>
+ *         <li>ID</li>
+ *         <li>Stacks</li>
+ *         <li>IsContinuingGame</li>
+ *         <li>PlayerInvestment</li>
+ *         <li>Prize</li>
+ *     </ul>
+ * </p>
+ *
+ * <p>
  *     This is considered not thread-safe. Do not use it in multi-thread circumstances.
  * </p>
  *
@@ -103,6 +114,30 @@ public interface CardPlayer {
     BigDecimal getPlayerInvestment();
 
     /**
+     * Set the amount of chips player invested this round.
+     * @param playerInvestment The chips the player invest.
+     */
+    void setPlayerInvestment(BigDecimal playerInvestment);
+
+    /**
+     * Add chips to player invested amount this round.
+     * @param playerInvestment The added chips.
+     */
+    void addPlayerInvestment(BigDecimal playerInvestment);
+
+    /**
+     * Get the player's winning this round.
+     * @return The player's prize.
+     */
+    BigDecimal getPlayerPrize();
+
+    /**
+     * Set the player's winning this round.
+     * @param playerPrize The player's prize.
+     */
+    void setPlayerPrize(BigDecimal playerPrize);
+
+    /**
      * Require CardPlayer to make a decision.
      * @param decisionRequest Game context and decision limits, like the least required bet value.
      * @return The decision of the CardPlayer.
@@ -110,7 +145,7 @@ public interface CardPlayer {
     ResolvedAction getPlayerDecision(DecisionRequest decisionRequest);
 
     /**
-     * Clean the player's state, such as player's investment chips.
+     * Clean the player's state, including pokerCards, isContinuingGame, playerInvestment, prize.
      */
     void clearState();
 
