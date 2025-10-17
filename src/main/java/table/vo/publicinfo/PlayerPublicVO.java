@@ -60,8 +60,8 @@ public record PlayerPublicVO(PlayerPersonalVO playerPersonalVO, PokerCard[] poke
 
     @Override
     public String toString() {
-        return "PlayerGamePublicInfoVO[" +
-                "playerPublicInfoVO=" + playerPersonalVO + ", " +
+        return "PlayerPublicVO[" +
+                "playerPersonalVO=" + playerPersonalVO + ", " +
                 "pokerCard=" + Arrays.toString(pokerCard) + ", " +
                 "chipsInHand=" + chipsInHand + ", " +
                 "chipsInvested=" + chipsInvested + ", " +
