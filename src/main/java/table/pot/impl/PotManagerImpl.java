@@ -75,11 +75,13 @@ public class PotManagerImpl implements PotManager {
             case FOLD -> {
                 //DO NOTHING
             }
-            default -> throw new RuntimeException("Unexpected decision type: " + decisionType);
+            default -> throw new IllegalOperationException("Unexpected decision type: " + decisionType);
         }
     }
 
-    private static BigDecimal verifyAndResolveBet(CardPlayer cardPlayer, ResolvedAction playerDecision, BigDecimal currentBet) {
+    private static BigDecimal verifyAndResolveBet(CardPlayer cardPlayer,
+                                                  ResolvedAction playerDecision,
+                                                  BigDecimal currentBet) {
         BigDecimal value = playerDecision.value();
         if (value == null) {
             throw new NullPointerException("Bet cannot be null.");

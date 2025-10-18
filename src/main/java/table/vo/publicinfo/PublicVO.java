@@ -1,5 +1,7 @@
 package table.vo.publicinfo;
 
+import java.util.Arrays;
+
 /**
  * View Object of all public information class.
  *
@@ -46,4 +48,13 @@ package table.vo.publicinfo;
  */
 public record PublicVO(TablePublicVO tablePublicVO, PlayerPublicVO[] playerPublicVO,
                        PotPublicVO potPublicVO) {
+
+    @Override
+    public String toString() {
+        return "PublicVO{" +
+                "tablePublicVO=" + tablePublicVO +
+                ", playerPublicVO=" + Arrays.toString(playerPublicVO) +
+                ", potPublicVO=" + potPublicVO +
+                '}';
+    }
 }
