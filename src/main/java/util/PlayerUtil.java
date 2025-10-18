@@ -112,8 +112,13 @@ public class PlayerUtil {
 
     public static GameState startBet(GameStateContext context, GameState endState) {
         PlayerList players = context.getPlayers();
-        int pointer = players.getButtonPosition();
-        PlayerIterator iterator = players.getIterator(pointer);
+        int pointer = players.getButtonPosition() + 1;
+        return startBet(pointer, context, endState);
+    }
+
+    public static GameState startBet(int startPos, GameStateContext context, GameState endState) {
+        PlayerList players = context.getPlayers();
+        PlayerIterator iterator = players.getIterator(startPos);
         while (iterator.hasNext()) {
             CardPlayer next = iterator.next();
             if (!next.getIsContinuingGame() || next.getIsAllIn()) {

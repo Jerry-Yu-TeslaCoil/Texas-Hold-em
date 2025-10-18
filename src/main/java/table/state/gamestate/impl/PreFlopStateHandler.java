@@ -47,10 +47,7 @@ public enum PreFlopStateHandler implements GameStateHandler {
 
         updatePublicVO(context);
 
-        if (context.getDecidingPlayerNum() <= 1) {
-            return GameState.SHOWDOWN;
-        }
-        return GameState.FLOP;
+        return PlayerUtil.startBet(players.getButtonPosition() + 3, context, GameState.FLOP);
     }
 
     private static void updatePublicVO(GameStateContext context) {
