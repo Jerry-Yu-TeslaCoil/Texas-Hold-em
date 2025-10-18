@@ -1,9 +1,8 @@
 package table.impl;
 
 import control.GamePlayer;
+import exception.IllegalOperationException;
 import table.CardTable;
-import table.card.CardDeckFactory;
-import table.card.impl.NoJokerDeckFactory;
 import table.config.TableConfig;
 import table.player.CardPlayer;
 import table.player.CardPlayerFactory;
@@ -46,7 +45,8 @@ public class CardTableImpl implements CardTable {
      * The max player num will be set as 22 players same as usual rule.
      */
     public CardTableImpl() {
-        this(new TableConfig(new BigDecimal(24), new BigDecimal(1), new BigDecimal(24), 22));
+        this(new TableConfig(new BigDecimal(24), new BigDecimal(1),
+                new BigDecimal(24), 22, 5));
     }
 
     /**
@@ -59,13 +59,13 @@ public class CardTableImpl implements CardTable {
         this.players.setMaxPlayers(tableConfig.maxPlayers());
         this.playerFactory = new SimpleCardPlayerFactory();
         this.playerFactory.setConfig(tableConfig);
-        CardDeckFactory cardDeckFactory = NoJokerDeckFactory.getInstance();
         this.potManager = new StatisticsPotManagerImpl(new PotManagerImpl());
     }
 
     @Override
     public void setTableConfig(TableConfig tableConfig) {
         this.tableConfig = tableConfig;
+        this.playerFactory.setConfig(tableConfig);
         this.players.setMaxPlayers(tableConfig.maxPlayers());
     }
 
@@ -93,6 +93,9 @@ public class CardTableImpl implements CardTable {
 
     @Override
     public void startRounds() {
+        if (this.players.isEmpty()) {
+            throw new IllegalOperationException("There are no players in this round");
+        }
         GameStateContext gameStateContext = new GameStateContext();
         gameStateContext.setPlayers(new PlayerCoil(this.players));
         gameStateContext.setTableConfig(this.tableConfig);

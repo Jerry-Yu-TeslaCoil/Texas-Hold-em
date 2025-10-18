@@ -7,9 +7,11 @@ import table.player.impl.SimpleCardPlayer;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;
 import table.pot.impl.PotManagerImpl;
+import table.pot.impl.StatisticsPotManagerImpl;
 import util.PlayerUtil;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.PriorityQueue;
 
 @Log4j2
@@ -112,5 +114,65 @@ public class TestPotManager {
         } catch (Exception e) {
             log.error("Exception caught: {}", e.getMessage());
         }
+    }
+
+    @Test
+    public void testBlindError() {
+        PotManager manager = new StatisticsPotManagerImpl(new PotManagerImpl());
+        CardPlayer player1 = new SimpleCardPlayer(null, new BigDecimal(12), 1);
+        CardPlayer player2 = new SimpleCardPlayer(null, new BigDecimal(12), 2);
+        CardPlayer player3 = new SimpleCardPlayer(null, new BigDecimal(11), 3);
+        CardPlayer player4 = new SimpleCardPlayer(null, new BigDecimal(10), 4);
+        CardPlayer player5 = new SimpleCardPlayer(null, new BigDecimal(12), 5);
+
+        manager.action(player1, new ResolvedAction(DecisionType.CALL, new BigDecimal(0)));
+        manager.action(player2, new ResolvedAction(DecisionType.CALL, new BigDecimal(0)));
+        player2.setIsContinuingGame(false);
+        manager.action(player3, new ResolvedAction(DecisionType.CALL, new BigDecimal(1)));
+        player3.setIsContinuingGame(false);
+        manager.action(player4, new ResolvedAction(DecisionType.CALL, new BigDecimal(2)));
+        player4.setIsContinuingGame(false);
+        manager.action(player5, new ResolvedAction(DecisionType.CALL, new BigDecimal(0)));
+        player5.setIsContinuingGame(false);
+
+        PriorityQueue<PlayerRanking> playerRanks = new PriorityQueue<>();
+        playerRanks.add(new PlayerRanking(player1, 0));
+        playerRanks.add(new PlayerRanking(player2, 0));
+        playerRanks.add(new PlayerRanking(player3, 0));
+        playerRanks.add(new PlayerRanking(player4, 0));
+        playerRanks.add(new PlayerRanking(player5, 0));
+        manager.judge(playerRanks);
+        HashMap<CardPlayer, BigDecimal> playerPrizeStack = manager.getPlayerPrizeStack();
+        log.info("playerPrizeStack: {}", playerPrizeStack);
+    }
+
+    @Test
+    public void testBlindError2() {
+        PotManager manager = new StatisticsPotManagerImpl(new PotManagerImpl());
+        CardPlayer player1 = new SimpleCardPlayer(null, new BigDecimal(12), 1);
+        CardPlayer player2 = new SimpleCardPlayer(null, new BigDecimal(12), 2);
+        CardPlayer player3 = new SimpleCardPlayer(null, new BigDecimal(11), 3);
+        CardPlayer player4 = new SimpleCardPlayer(null, new BigDecimal(10), 4);
+        CardPlayer player5 = new SimpleCardPlayer(null, new BigDecimal(12), 5);
+
+        manager.action(player1, new ResolvedAction(DecisionType.CALL, new BigDecimal(0)));
+        player1.setIsContinuingGame(false);
+        manager.action(player2, new ResolvedAction(DecisionType.CALL, new BigDecimal(0)));
+        player2.setIsContinuingGame(false);
+        manager.action(player3, new ResolvedAction(DecisionType.CALL, new BigDecimal(1)));
+        manager.action(player4, new ResolvedAction(DecisionType.CALL, new BigDecimal(2)));
+        player4.setIsContinuingGame(false);
+        manager.action(player5, new ResolvedAction(DecisionType.CALL, new BigDecimal(0)));
+        player5.setIsContinuingGame(false);
+
+        PriorityQueue<PlayerRanking> playerRanks = new PriorityQueue<>();
+        playerRanks.add(new PlayerRanking(player1, 0));
+        playerRanks.add(new PlayerRanking(player2, 0));
+        playerRanks.add(new PlayerRanking(player3, 0));
+        playerRanks.add(new PlayerRanking(player4, 0));
+        playerRanks.add(new PlayerRanking(player5, 0));
+        manager.judge(playerRanks);
+        HashMap<CardPlayer, BigDecimal> playerPrizeStack = manager.getPlayerPrizeStack();
+        log.info("playerPrizeStack: {}", playerPrizeStack);
     }
 }

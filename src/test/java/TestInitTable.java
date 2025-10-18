@@ -19,7 +19,7 @@ public class TestInitTable {
                 new BigDecimal(24),
                 new BigDecimal(1),
                 new BigDecimal(24),
-                22);
+                22, 5);
         cardTable.setTableConfig(tableConfig);
         GamePlayer controller = new RobotGamePlayerCallOnly();
         ApplicationResult applicationResult = cardTable.playerJoin(controller);

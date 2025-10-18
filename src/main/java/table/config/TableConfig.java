@@ -18,7 +18,8 @@ import java.math.BigDecimal;
  *
  * @version 1.0
  */
-public record TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDecimal maximumBet, int maxPlayers) {
+public record TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDecimal maximumBet, int maxPlayers,
+                          int playRound) {
 
     /**
      * Create config with appointed args.
@@ -26,8 +27,10 @@ public record TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDeci
      * @param halfMinimumBet THE HALF of the least bet for players to invest.
      * @param maximumBet The max bet for a turn of the game.
      * @param maxPlayers The max number of players of the table.
+     * @param playRound The round num of a game.
      */
-    public TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDecimal maximumBet, int maxPlayers) {
+    public TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDecimal maximumBet, int maxPlayers,
+                       int playRound) {
         if (initBet.compareTo(halfMinimumBet) <= 0) {
             throw new IllegalArgumentException("initBet must be greater than halfMinimumBet");
         }
@@ -47,6 +50,7 @@ public record TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDeci
             throw new IllegalArgumentException("Players must be less than 22");
         }
         this.maxPlayers = maxPlayers;
+        this.playRound = playRound;
     }
 
     /**
@@ -55,6 +59,6 @@ public record TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet, BigDeci
      * @param halfMinimumBet THE HALF of the least bet for players to invest.
      */
     public TableConfig(BigDecimal initBet, BigDecimal halfMinimumBet) {
-        this(initBet, halfMinimumBet, new BigDecimal(Integer.MAX_VALUE), 22);
+        this(initBet, halfMinimumBet, new BigDecimal(Integer.MAX_VALUE), 22, 5);
     }
 }

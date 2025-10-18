@@ -133,13 +133,45 @@ public class PotManagerImpl implements PotManager {
         LinkedList<PotStack> pots = new LinkedList<>();
         LinkedList<ArrayList<CardPlayer>> joinedPlayers = new LinkedList<>();
 
+        if (onlyOneWinner(playerRankings)) return;
+        PriorityQueue<PlayerRanking> tempQueue;
+
         processPots(pots, joinedPlayers);
         log.trace(pots);
         log.trace(getSimpleStringList(joinedPlayers));
 
-        PriorityQueue<PlayerRanking> tempQueue = new PriorityQueue<>(playerRankings);
+        tempQueue = new PriorityQueue<>(playerRankings);
         judgePotWinnerPrizes(tempQueue, pots, joinedPlayers);
         isJudged = true;
+    }
+
+    private boolean onlyOneWinner(PriorityQueue<PlayerRanking> playerRankings) {
+        int isContinuing = 0;
+        CardPlayer continuingPlayer = null;
+        BigDecimal totalBet = BigDecimal.ZERO;
+        ArrayList<CardPlayer> players = new ArrayList<>();
+        PriorityQueue<PlayerRanking> tempQueue = new PriorityQueue<>();
+        while (!playerRankings.isEmpty()) {
+            PlayerRanking playerRanking = playerRankings.poll();
+            players.add(playerRanking.getPlayer());
+            tempQueue.add(playerRanking);
+        }
+        while (!tempQueue.isEmpty()) {
+            PlayerRanking playerRanking = tempQueue.poll();
+            playerRankings.add(playerRanking);
+            totalBet = totalBet.add(this.playerStack.getOrDefault(playerRanking.getPlayer(), BigDecimal.ZERO));
+        }
+        for (CardPlayer player : players) {
+            if (player.getIsContinuingGame()) {
+                isContinuing++;
+                continuingPlayer = player;
+            }
+        }
+        if (isContinuing == 1) {
+            this.playerPrizeStack.put(continuingPlayer, totalBet);
+            return true;
+        }
+        return false;
     }
 
     private static List<List<String>> getSimpleStringList(LinkedList<ArrayList<CardPlayer>> joinedPlayers) {
