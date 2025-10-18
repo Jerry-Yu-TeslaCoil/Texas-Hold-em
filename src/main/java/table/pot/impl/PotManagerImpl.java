@@ -69,7 +69,7 @@ public class PotManagerImpl implements PotManager {
         switch (decisionType) {
             case CALL, RAISE -> {
                 BigDecimal currentBet = playerStack.getOrDefault(cardPlayer, BigDecimal.ZERO);
-                BigDecimal newBet = verifyAndResolveBet(cardPlayer, playerDecision, currentBet);
+                BigDecimal newBet = verifyAndResolveBet(playerDecision, currentBet);
                 playerStack.put(cardPlayer, newBet);
             }
             case FOLD -> {
@@ -79,18 +79,14 @@ public class PotManagerImpl implements PotManager {
         }
     }
 
-    private static BigDecimal verifyAndResolveBet(CardPlayer cardPlayer,
-                                                  ResolvedAction playerDecision,
+    private static BigDecimal verifyAndResolveBet(ResolvedAction playerDecision,
                                                   BigDecimal currentBet) {
         BigDecimal value = playerDecision.value();
         if (value == null) {
             throw new NullPointerException("Bet cannot be null.");
         }
         if (value.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Bet must be greater than 0.");
-        }
-        if (value.compareTo(cardPlayer.getStack()) > 0) {
-            throw new IllegalArgumentException("Bet must be no more than how much player process.");
+            throw new IllegalArgumentException("Bet must be greater than 0. The current bet is " + value);
         }
         return currentBet.add(value);
     }
@@ -210,9 +206,13 @@ public class PotManagerImpl implements PotManager {
                 .sorted(Map.Entry.comparingByValue())
                 .toList();
 
+        log.trace("Pot Active Players: {}", activePlayers);
+
         List<Map.Entry<CardPlayer, BigDecimal>> allPlayers = playerStack.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue())
                 .toList();
+
+        log.trace("All Players: {}", allPlayers);
 
         validateActivePlayers(activePlayers);
 
@@ -233,6 +233,15 @@ public class PotManagerImpl implements PotManager {
                 joinedPlayers.add(new ArrayList<>(eligiblePlayers));
             }
         }
+        filterLastSidePotFoldPlayers(joinedPlayers);
+    }
+
+    private static void filterLastSidePotFoldPlayers(LinkedList<ArrayList<CardPlayer>> joinedPlayers) {
+        ArrayList<CardPlayer> cardPlayers = joinedPlayers.get(joinedPlayers.size() - 1);
+        joinedPlayers.remove(joinedPlayers.size() - 1);
+        List<CardPlayer> list = cardPlayers.stream().filter(CardPlayer::getIsContinuingGame).toList();
+        ArrayList<CardPlayer> lastActivePlayers = new ArrayList<>(list);
+        joinedPlayers.add(lastActivePlayers);
     }
 
     private static void validateActivePlayers(List<Map.Entry<CardPlayer, BigDecimal>> activePlayers) {

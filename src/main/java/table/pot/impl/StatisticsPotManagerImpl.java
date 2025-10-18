@@ -1,5 +1,6 @@
 package table.pot.impl;
 
+import table.mechanism.DecisionType;
 import table.mechanism.ResolvedAction;
 import table.player.CardPlayer;
 import table.pot.PlayerRanking;
@@ -29,6 +30,7 @@ public class StatisticsPotManagerImpl implements StatisticsPotManager {
 
     public StatisticsPotManagerImpl(PotManager potManager) {
         this.potManager = potManager;
+        this.totalInvestment = BigDecimal.ZERO;
     }
 
     @Override
@@ -39,7 +41,9 @@ public class StatisticsPotManagerImpl implements StatisticsPotManager {
     @Override
     public void action(CardPlayer cardPlayer, ResolvedAction playerDecision) {
         potManager.action(cardPlayer, playerDecision);
-        totalInvestment = totalInvestment.add(playerDecision.value());
+        if (playerDecision.decisionType() != DecisionType.FOLD) {
+            totalInvestment = totalInvestment.add(playerDecision.value());
+        }
     }
 
     @Override
@@ -55,5 +59,6 @@ public class StatisticsPotManagerImpl implements StatisticsPotManager {
     @Override
     public void clearStack() {
         potManager.clearStack();
+        this.totalInvestment = BigDecimal.ZERO;
     }
 }

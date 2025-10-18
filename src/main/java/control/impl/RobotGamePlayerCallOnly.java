@@ -1,8 +1,9 @@
 package control.impl;
 
-import control.vo.PlayerPersonalVO;
-import table.card.PokerCard;
 import control.GamePlayer;
+import control.vo.PlayerPersonalVO;
+import lombok.extern.log4j.Log4j2;
+import table.card.PokerCard;
 import table.mechanism.DecisionRequest;
 import table.mechanism.DecisionType;
 import table.mechanism.PlayerDecision;
@@ -25,24 +26,26 @@ import java.util.List;
  *
  * @version 1.0
  */
+@Log4j2
 public class RobotGamePlayerCallOnly implements GamePlayer {
 
     private final ArrayList<PokerCard> pokerCards;
 
     @Override
     public void updatePublicInfo(PublicVO publicVO) {
-        //It doesn't care. Do nothing.
+        log.trace("Updating public info: {}", publicVO);
     }
 
     @Override
     public void updatePrivateInfo(PlayerPrivateVO privateInfoVO) {
+        log.trace("Updating private info: {}", privateInfoVO);
         this.pokerCards.addAll(List.of(privateInfoVO.holeCards()));
     }
 
     @Override
     public PlayerDecision getPlayerDecision(DecisionRequest decisionRequest) {
-        System.out.println("PC Player decided to CALL.");
-        System.out.println("PCPlayerControl: I have Cards: " + pokerCards);
+        log.trace("PCPlayerControl: I have Cards: {}", pokerCards);
+        log.info("PC Player decided to CALL.");
         return () -> DecisionType.CALL;
     }
 

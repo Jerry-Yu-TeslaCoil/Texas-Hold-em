@@ -1,5 +1,4 @@
 import control.GamePlayer;
-import control.PlayerController;
 import control.impl.RobotGamePlayerRandom;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
@@ -9,7 +8,6 @@ import table.impl.CardTableImpl;
 import table.mechanism.DecisionType;
 import table.mechanism.ResolvedAction;
 import table.player.CardPlayerFactory;
-import table.player.impl.SimpleCardPlayer;
 import table.player.impl.SimpleCardPlayerFactory;
 import table.state.gamestate.GameState;
 import table.vo.publicinfo.PlayerPublicVO;

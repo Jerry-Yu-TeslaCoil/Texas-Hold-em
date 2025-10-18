@@ -5,7 +5,11 @@ import table.card.CardDeck;
 import table.card.PokerCard;
 import table.config.TableConfig;
 import table.player.PlayerList;
-import table.pot.PotManager;
+import table.pot.StatisticsPotManager;
+import table.vo.publicinfo.TablePublicVO;
+import table.vo.publicinfo.builder.PlayerPublicVOBuilder;
+
+import java.math.BigDecimal;
 
 /**
  * Context class serving the game state, providing necessary info.
@@ -33,11 +37,20 @@ import table.pot.PotManager;
 @NoArgsConstructor
 public class GameStateContext {
 
+    //RoundIndex for marking game round
+    private int roundIndex;
+
+    //The number of active players
+    private int activePlayerNum;
+
+    //The number of players who can still make decisions
+    private int decidingPlayerNum;
+
     //PlayerList for game proceeding
     private PlayerList players;
 
     //PotManager for pot managing
-    private PotManager potManager;
+    private StatisticsPotManager potManager;
 
     //CardDeck for public cards
     private CardDeck cardDeck;
@@ -47,4 +60,13 @@ public class GameStateContext {
 
     //Public cards
     private PokerCard[] publicCards;
+
+    //Player VO builder
+    private PlayerPublicVOBuilder playerPublicVOBuilder;
+
+    //Table VO builder
+    private TablePublicVO.Builder tablePublicVOBuilder;
+
+    //Num of chips required to invest in total of calling
+    private BigDecimal betBasisLine;
 }

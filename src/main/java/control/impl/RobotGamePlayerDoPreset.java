@@ -2,6 +2,7 @@ package control.impl;
 
 import control.GamePlayer;
 import control.vo.PlayerPersonalVO;
+import lombok.extern.log4j.Log4j2;
 import table.mechanism.DecisionRequest;
 import table.mechanism.DecisionType;
 import table.mechanism.PlayerDecision;
@@ -25,6 +26,7 @@ import java.math.BigDecimal;
  *
  * @version 1.0
  */
+@Log4j2
 public class RobotGamePlayerDoPreset implements GamePlayer {
     private DecisionType presetDecisionType = DecisionType.CALL;
     private BigDecimal decisionValue = BigDecimal.ONE;
@@ -41,12 +43,12 @@ public class RobotGamePlayerDoPreset implements GamePlayer {
 
     @Override
     public void updatePublicInfo(PublicVO publicVO) {
-        //It doesn't care. Do nothing.
+        log.trace("Updating public info: {}", publicVO);
     }
 
     @Override
     public void updatePrivateInfo(PlayerPrivateVO privateInfoVO) {
-        //It doesn't care. Do nothing.
+        log.trace("Updating private info: {}", privateInfoVO);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package table.player.impl;
 
+import control.GamePlayer;
 import exception.IllegalOperationException;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
-import control.GamePlayer;
 import table.mechanism.DecisionRequest;
 import table.mechanism.DecisionType;
 import table.mechanism.PlayerDecision;
@@ -162,6 +162,7 @@ public class SimpleCardPlayer implements CardPlayer {
         BigDecimal decisionStacks = BigDecimal.ZERO;
         DecisionType decisionType = DecisionType.CALL;
         switch (playerDecision.getDecisionType()) {
+            //TODO: Add least raise logic
             case RAISE -> {
                 RaiseDecision decision = (RaiseDecision) playerDecision;
                 decisionStacks = new BigDecimal(String.valueOf(decision.bet()));

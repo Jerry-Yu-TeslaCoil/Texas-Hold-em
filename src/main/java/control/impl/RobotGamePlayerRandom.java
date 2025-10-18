@@ -1,9 +1,9 @@
 package control.impl;
 
+import control.GamePlayer;
 import control.vo.PlayerPersonalVO;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
-import control.GamePlayer;
 import table.mechanism.DecisionRequest;
 import table.mechanism.PlayerDecision;
 import table.mechanism.impl.CallDecision;
@@ -33,28 +33,32 @@ import java.util.Random;
 public class RobotGamePlayerRandom implements GamePlayer {
 
     private final PokerCard[] pokerCards = new PokerCard[2];
+    private final Random rand = new Random();
+
+    public RobotGamePlayerRandom() {
+        this.rand.setSeed(System.currentTimeMillis());
+    }
 
     @Override
     public void updatePublicInfo(PublicVO publicVO) {
-        //It doesn't care. Do nothing.
+        log.trace("Updating public info: {}", publicVO);
     }
 
     @Override
     public void updatePrivateInfo(PlayerPrivateVO privateInfoVO) {
+        log.trace("Updating private info: {}", privateInfoVO);
         this.pokerCards[0] = privateInfoVO.holeCards()[0];
         this.pokerCards[1] = privateInfoVO.holeCards()[1];
     }
 
     @Override
     public PlayerDecision getPlayerDecision(DecisionRequest decisionRequest) {
-        log.info("The player has {}", (Object) pokerCards);
-        Random rand = new Random();
-        rand.setSeed(System.currentTimeMillis());
+        log.trace("The player has {}", (Object) pokerCards);
         int decision = rand.nextInt(10);
-        if (decision == 0) {
+        if (decision < 3) {
             log.info("PC Player decided to Raise.");
             return new RaiseDecision(BigDecimal.ONE);
-        } else if (decision <= 7) {
+        } else if (decision < 7) {
             log.info("PC Player decided to Call.");
             return new CallDecision();
         } else {

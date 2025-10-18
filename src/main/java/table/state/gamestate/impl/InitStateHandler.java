@@ -1,13 +1,21 @@
 package table.state.gamestate.impl;
 
+import lombok.extern.log4j.Log4j2;
 import table.card.CardDeck;
 import table.card.PokerCard;
 import table.card.impl.NoJokerDeckFactory;
+import table.player.CardPlayer;
+import table.player.PlayerIterator;
 import table.player.PlayerList;
 import table.pot.PotManager;
 import table.state.gamestate.GameState;
 import table.state.gamestate.GameStateContext;
 import table.state.gamestate.GameStateHandler;
+import table.vo.publicinfo.TablePublicVO;
+import table.vo.publicinfo.builder.impl.ClassicPlayerPublicVOBuilder;
+import util.PlayerUtil;
+
+import java.math.BigDecimal;
 
 /**
  * Handler enum of the init state.
@@ -21,29 +29,84 @@ import table.state.gamestate.GameStateHandler;
  *
  * @version 1.0
  */
+@Log4j2
 public enum InitStateHandler implements GameStateHandler {
     INSTANCE;
 
     @Override
     public GameState execute(GameStateContext context) {
-        PlayerList players = context.getPlayers();
-        if (players == null) {
-            throw new RuntimeException("Player list is null");
+        log.info("*************** Starting Game State ***************");
+        log.info("Enter Init State");
+        initPlayerList(context);
+        initPotManager(context);
+        initCardDeck(context);
+        initTableConfig(context);
+        initVOBuilders(context);
+
+        PlayerUtil.buildAndPublishVO(context);
+
+        context.setBetBasisLine(BigDecimal.ZERO);
+        context.setRoundIndex(context.getRoundIndex() + 1);
+        if (context.getRoundIndex() >= 5) {
+            return null;
         }
-        //TODO: Lock thread to avoid more player joining the game
+
+        return GameState.PRE_FLOP;
+    }
+
+    private static void initVOBuilders(GameStateContext context) {
+        context.setPublicCards(new PokerCard[5]);
+
+        context.setPlayerPublicVOBuilder(new ClassicPlayerPublicVOBuilder());
+        context.setTablePublicVOBuilder(TablePublicVO.builder());
+
+        context.getTablePublicVOBuilder().setInitialBet(context.getTableConfig().initBet())
+                .setBasicBet(context.getTableConfig().halfMinimumBet().multiply(new BigDecimal(2)))
+                .setCurrentGameState(GameState.INIT)
+                .setCurrentDecisionMakerId(-1)
+                .setMadeDecision(null)
+                .setPublicCards(null);
+        context.getPlayerPublicVOBuilder().setState(GameState.INIT);
+    }
+
+    private static void initTableConfig(GameStateContext context) {
+        if (context.getTableConfig() == null) {
+            throw new RuntimeException("Table config is null");
+        }
+    }
+
+    private static void initCardDeck(GameStateContext context) {
+        CardDeck cardDeck = NoJokerDeckFactory.getInstance().getCardDeck();
+        cardDeck.shuffle();
+        context.setCardDeck(cardDeck);
+    }
+
+    private static void initPotManager(GameStateContext context) {
         PotManager potManager = context.getPotManager();
         if (potManager == null) {
             throw new RuntimeException("Pot manager is null");
         }
         potManager.clearStack();
-        CardDeck cardDeck = NoJokerDeckFactory.getInstance().getCardDeck();
-        cardDeck.shuffle();
-        context.setCardDeck(cardDeck);
-        if (context.getTableConfig() == null) {
-            throw new RuntimeException("Table config is null");
+    }
+
+    private static void initPlayerList(GameStateContext context) {
+        PlayerList players = context.getPlayers();
+        if (players == null) {
+            throw new RuntimeException("Player list is null");
         }
-        context.setPublicCards(new PokerCard[5]);
-        //TODO: Show info to players
-        return GameState.PRE_FLOP;
+        int activePlayerNum = 0;
+        players.nextRound();
+        PlayerIterator iterator = players.getIterator();
+        while (iterator.hasNext()) {
+            CardPlayer nextPlayer = iterator.next();
+            nextPlayer.clearState();
+            if (nextPlayer.getStack().compareTo(BigDecimal.ZERO) == 0) {
+                nextPlayer.setIsContinuingGame(false);
+            } else {
+                activePlayerNum++;
+            }
+        }
+        context.setActivePlayerNum(activePlayerNum);
+        context.setDecidingPlayerNum(activePlayerNum);
     }
 }

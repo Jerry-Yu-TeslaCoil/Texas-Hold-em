@@ -43,12 +43,13 @@ public class PlayerCoil implements PlayerList {
         this.editionIndex = 0;
     }
 
-    /**
-     * Construct a PlayerCoil with appointed players, default max player 22 and button position 0.
-     * @param players Players who join the game.
-     */
-    public PlayerCoil(List<CardPlayer> players) {
-        this.players = new ArrayList<>(players);
+    public PlayerCoil(PlayerList players) {
+        this.players = new ArrayList<>();
+        PlayerIterator iterator = players.getIterator();
+        while (iterator.hasNext()) {
+            CardPlayer player = iterator.next();
+            this.players.add(player);
+        }
         this.buttonPosition = 0;
         this.maxPlayers = 22;
         this.editionIndex = 0;

@@ -5,6 +5,7 @@ import table.mechanism.ResolvedAction;
 import table.state.gamestate.GameState;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /**
  * View Object of table public information class.
@@ -27,6 +28,18 @@ import java.math.BigDecimal;
  */
 public record TablePublicVO(BigDecimal basicBet, BigDecimal initialBet, GameState currentGameState,
                             int currentDecisionMakerId, ResolvedAction madeDecision, PokerCard[] publicCards) {
+
+    @Override
+    public String toString() {
+        return "TablePublicVO{" +
+                "basicBet=" + basicBet +
+                ", initialBet=" + initialBet +
+                ", currentGameState=" + currentGameState +
+                ",\n\t\tcurrentDecisionMakerId=" + currentDecisionMakerId +
+                ", madeDecision=" + madeDecision +
+                ", publicCards=" + Arrays.toString(publicCards) +
+                '}';
+    }
 
     /**
      * Get a builder of VO.

@@ -1,7 +1,7 @@
 import control.GamePlayer;
+import control.impl.RobotGamePlayerCallOnly;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
-import control.impl.RobotGamePlayerCallOnly;
 import table.player.CardPlayer;
 import table.player.PlayerIterator;
 import table.player.impl.PlayerCoil;
@@ -74,5 +74,16 @@ public class TestPlayerCoil {
         log.info(playerCoil);
         playerCoil.removePlayer(gamePlayer);
         log.info(playerCoil);
+    }
+
+    @Test
+    public void testPlayerCoilCopy() {
+        PlayerCoil playerCoil = new PlayerCoil();
+        for (int i = 0; i < 20; i++) {
+            playerCoil.addPlayer(new SimpleCardPlayer(new RobotGamePlayerCallOnly(), BigDecimal.ONE, i));
+        }
+        log.info(playerCoil);
+        PlayerCoil playerCoilCopy = new PlayerCoil(playerCoil);
+        log.info(playerCoilCopy);
     }
 }

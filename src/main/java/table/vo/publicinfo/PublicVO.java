@@ -1,7 +1,5 @@
 package table.vo.publicinfo;
 
-import java.util.Arrays;
-
 /**
  * View Object of all public information class.
  *
@@ -51,10 +49,22 @@ public record PublicVO(TablePublicVO tablePublicVO, PlayerPublicVO[] playerPubli
 
     @Override
     public String toString() {
-        return "PublicVO{" +
-                "tablePublicVO=" + tablePublicVO +
-                ", playerPublicVO=" + Arrays.toString(playerPublicVO) +
-                ", potPublicVO=" + potPublicVO +
-                '}';
+        return "\n=========================== PublicVO ===========================\n" +
+                "Table: " + (tablePublicVO != null ? tablePublicVO : "null") + "\n" +
+                "Pot: " + (potPublicVO != null ? potPublicVO : "null") + "\n" +
+                "Players (" + (playerPublicVO != null ? playerPublicVO.length : 0) + "):\n" +
+                getPlayersSummary();
+    }
+
+    private String getPlayersSummary() {
+        if (playerPublicVO == null || playerPublicVO.length == 0) {
+            return "  No players";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < playerPublicVO.length; i++) {
+            sb.append("  ").append(i + 1).append(". ").append(playerPublicVO[i]).append("\n");
+        }
+        return sb.toString();
     }
 }

@@ -14,7 +14,7 @@ public class TestPlayerValidation {
     @Test
     public void testPlayerValidationCall() {
         RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
-        DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12));
+        DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12), new BigDecimal(1));
         CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
         log.info(decisionRequest);
         ResolvedAction playerDecision = cardPlayer.getPlayerDecision(decisionRequest);
@@ -24,7 +24,7 @@ public class TestPlayerValidation {
     @Test
     public void testPlayerValidationCallAllin() {
         RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
-        DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(25));
+        DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(25), new BigDecimal(1));
         CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
         log.info(decisionRequest);
         ResolvedAction playerDecision = cardPlayer.getPlayerDecision(decisionRequest);
@@ -35,7 +35,7 @@ public class TestPlayerValidation {
     public void testPlayerValidationRaise() {
         RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
         controller.setReaction(DecisionType.RAISE, new BigDecimal(11));
-        DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12));
+        DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12), new BigDecimal(1));
         CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
         log.info(decisionRequest);
         ResolvedAction playerDecision = cardPlayer.getPlayerDecision(decisionRequest);
@@ -46,7 +46,7 @@ public class TestPlayerValidation {
     public void testPlayerValidationRaiseException() {
         RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
         controller.setReaction(DecisionType.RAISE, new BigDecimal(13));
-        DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12));
+        DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12), new BigDecimal(1));
         CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
         log.info(decisionRequest);
         ResolvedAction playerDecision = cardPlayer.getPlayerDecision(decisionRequest);

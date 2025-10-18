@@ -2,7 +2,6 @@ package table.impl;
 
 import control.GamePlayer;
 import table.CardTable;
-import table.card.CardDeck;
 import table.card.CardDeckFactory;
 import table.card.impl.NoJokerDeckFactory;
 import table.config.TableConfig;
@@ -11,6 +10,11 @@ import table.player.CardPlayerFactory;
 import table.player.PlayerList;
 import table.player.impl.PlayerCoil;
 import table.player.impl.SimpleCardPlayerFactory;
+import table.pot.StatisticsPotManager;
+import table.pot.impl.PotManagerImpl;
+import table.pot.impl.StatisticsPotManagerImpl;
+import table.state.gamestate.GameState;
+import table.state.gamestate.GameStateContext;
 import util.ApplicationResult;
 
 import java.math.BigDecimal;
@@ -33,9 +37,9 @@ import java.math.BigDecimal;
  */
 public class CardTableImpl implements CardTable {
     private final PlayerList players;
-    private final CardDeckFactory cardDeckFactory;
     private TableConfig tableConfig;
     private final CardPlayerFactory playerFactory;
+    private final StatisticsPotManager potManager;
 
     /**
      * Construct a table with no max player num limit appointed.
@@ -55,7 +59,8 @@ public class CardTableImpl implements CardTable {
         this.players.setMaxPlayers(tableConfig.maxPlayers());
         this.playerFactory = new SimpleCardPlayerFactory();
         this.playerFactory.setConfig(tableConfig);
-        this.cardDeckFactory = NoJokerDeckFactory.getInstance();
+        CardDeckFactory cardDeckFactory = NoJokerDeckFactory.getInstance();
+        this.potManager = new StatisticsPotManagerImpl(new PotManagerImpl());
     }
 
     @Override
@@ -88,17 +93,15 @@ public class CardTableImpl implements CardTable {
 
     @Override
     public void startRounds() {
-        //TODO: Do use state and handler
-        CardDeck cardDeck = cardDeckFactory.getCardDeck();
-        System.out.println(this.players.getPlayerNum() + " players have joined the table.");
-        System.out.println("Starting with small blind.");
-        System.out.println("Big blind.");
-        System.out.println("Deal");
-        //Deal cards.
-        for (CardPlayer cardPlayer : this.players.getPlayers()) {
-            cardPlayer.addHoleCard(cardDeck.takePeekCard());
-            cardPlayer.addHoleCard(cardDeck.takePeekCard());
+        GameStateContext gameStateContext = new GameStateContext();
+        gameStateContext.setPlayers(new PlayerCoil(this.players));
+        gameStateContext.setTableConfig(this.tableConfig);
+        gameStateContext.setPotManager(this.potManager);
+        gameStateContext.setRoundIndex(0);
+        GameState gameState = GameState.INIT;
+        //The end condition can be changed and controlled by CardTable, but currently let GameState to control it.
+        while (gameState != null) {
+            gameState = gameState.execute(gameStateContext);
         }
-        //Everyone make a round decision. Will engage from small_blind to the last one.
     }
 }

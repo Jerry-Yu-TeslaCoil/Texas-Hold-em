@@ -18,11 +18,12 @@ import java.math.BigDecimal;
  *     Do always validate the player's decision on the table side.
  * </p>
  *
- * @param callingStacks The least stack required to call.
+ * @param callingStacks The least stack required to call
+ * @param basicBet The unit of raise bet
  *
  * @author jerry
  *
  * @version 1.0
  */
-public record DecisionRequest(BigDecimal callingStacks) {
+public record DecisionRequest(BigDecimal callingStacks, BigDecimal basicBet) {
 }
