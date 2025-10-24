@@ -1,6 +1,6 @@
 package table.pot;
 
-import table.mechanism.ResolvedAction;
+import table.mechanism.decision.ResolvedAction;
 import table.player.CardPlayer;
 
 import java.math.BigDecimal;

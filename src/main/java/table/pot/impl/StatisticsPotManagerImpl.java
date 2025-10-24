@@ -1,7 +1,7 @@
 package table.pot.impl;
 
-import table.mechanism.DecisionType;
-import table.mechanism.ResolvedAction;
+import table.mechanism.decision.DecisionType;
+import table.mechanism.decision.ResolvedAction;
 import table.player.CardPlayer;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;

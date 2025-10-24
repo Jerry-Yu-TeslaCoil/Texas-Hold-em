@@ -3,12 +3,13 @@ package util;
 import exception.IllegalOperationException;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
-import table.mechanism.DecisionRequest;
-import table.mechanism.DecisionType;
-import table.mechanism.ResolvedAction;
+import table.mechanism.decision.DecisionRequest;
+import table.mechanism.decision.DecisionType;
+import table.mechanism.decision.ResolvedAction;
 import table.player.CardPlayer;
 import table.player.PlayerIterator;
 import table.player.PlayerList;
+import table.pot.PlayerRanking;
 import table.state.gamestate.GameState;
 import table.state.gamestate.GameStateContext;
 import table.vo.publicinfo.PlayerPublicVO;
@@ -18,7 +19,9 @@ import table.vo.publicinfo.TablePublicVO;
 import table.vo.publicinfo.builder.PlayerPublicVOBuilder;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
+import java.util.PriorityQueue;
 
 /**
  * Player util class.
@@ -108,6 +111,7 @@ public class PlayerUtil {
         while (iterator.hasNext()) {
             iterator.next().getPlayerController().updatePublicInfo(publicVO);
         }
+        log.trace(publicVO.toString());
     }
 
     public static GameState startBet(GameStateContext context, GameState endState) {
@@ -203,5 +207,18 @@ public class PlayerUtil {
             }
         }
         context.setPublicCards(cards);
+    }
+
+    public static PriorityQueue<PlayerRanking> getPlayerRankings(GameStateContext context) {
+        PriorityQueue<PlayerRanking> playerRankings;
+        playerRankings = new PriorityQueue<>();
+        PlayerList players = context.getPlayers();
+        PlayerIterator iterator = players.getIterator();
+        while (iterator.hasNext()) {
+            CardPlayer cardPlayer = iterator.next();
+            PlayerRanking playerRanking = new PlayerRanking(cardPlayer, List.of(context.getPublicCards()));
+            playerRankings.add(playerRanking);
+        }
+        return playerRankings;
     }
 }

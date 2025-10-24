@@ -1,7 +1,7 @@
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
-import table.mechanism.DecisionType;
-import table.mechanism.ResolvedAction;
+import table.mechanism.decision.DecisionType;
+import table.mechanism.decision.ResolvedAction;
 import table.player.CardPlayer;
 import table.player.impl.SimpleCardPlayer;
 import table.pot.PlayerRanking;

@@ -47,7 +47,7 @@ public class ClassicPlayerPublicVOBuilder implements PlayerPublicVOBuilder {
                     .build();
             case SHOWDOWN -> {
                 builder = builder.setChipsInvested(cardPlayer.getPlayerInvestment());
-                if (cardPlayer.getIsContinuingGame()) {
+                if (cardPlayer.getIsJoiningPot()) {
                     builder = builder.setPokerCard(cardPlayer.getHoleCards().toArray(new PokerCard[0]));
                 }
                 yield builder.build();

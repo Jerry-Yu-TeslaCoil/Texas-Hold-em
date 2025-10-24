@@ -2,8 +2,8 @@ package table.player;
 
 import control.GamePlayer;
 import table.card.PokerCard;
-import table.mechanism.DecisionRequest;
-import table.mechanism.ResolvedAction;
+import table.mechanism.decision.DecisionRequest;
+import table.mechanism.decision.ResolvedAction;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -148,6 +148,10 @@ public interface CardPlayer {
      * Clean the player's state, including pokerCards, isContinuingGame, playerInvestment, prize.
      */
     void clearState();
+
+    boolean getIsJoiningPot();
+
+    void setIsJoiningPot(boolean isJoiningPot);
 
     /**
      * Get the simple string of the CardPlayer including only id.

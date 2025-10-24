@@ -1,4 +1,4 @@
-package table.mechanism;
+package table.mechanism.decision;
 
 /**
  * Enum for decision type.

@@ -69,7 +69,7 @@ public final class PlayerRanking implements Comparable<PlayerRanking> {
 
     @Override
     public int compareTo(PlayerRanking o) {
-        return Integer.compare(o.score, score);
+        return Integer.compare(score, o.score);
     }
 
     @Override

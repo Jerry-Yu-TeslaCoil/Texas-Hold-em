@@ -31,10 +31,11 @@ public enum EndStateHandler implements GameStateHandler {
 
         PotManager potManager = context.getPotManager();
 
-        PriorityQueue<PlayerRanking> playerRankings;
-        playerRankings = getPlayerRankings(context);
-
-        potManager.judge(playerRankings);
+        if (!context.isPotJudged()) {
+            PriorityQueue<PlayerRanking> playerRankings;
+            playerRankings = PlayerUtil.getPlayerRankings(context);
+            potManager.judge(playerRankings);
+        }
         settlePrize(context, potManager);
 
         PlayerUtil.buildAndPublishVO(context);
@@ -51,18 +52,5 @@ public enum EndStateHandler implements GameStateHandler {
             player.setPlayerPrize(playerPrizeStack.getOrDefault(player, BigDecimal.ZERO));
             player.setStack(player.getStack().add(player.getPlayerPrize()));
         }
-    }
-
-    private static PriorityQueue<PlayerRanking> getPlayerRankings(GameStateContext context) {
-        PriorityQueue<PlayerRanking> playerRankings;
-        playerRankings = new PriorityQueue<>();
-        PlayerList players = context.getPlayers();
-        PlayerIterator iterator = players.getIterator();
-        while (iterator.hasNext()) {
-            CardPlayer cardPlayer = iterator.next();
-            PlayerRanking playerRanking = new PlayerRanking(cardPlayer, List.of(context.getPublicCards()));
-            playerRankings.add(playerRanking);
-        }
-        return playerRankings;
     }
 }

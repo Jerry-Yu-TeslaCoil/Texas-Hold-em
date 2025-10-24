@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
-import table.mechanism.DecisionType;
-import table.mechanism.ResolvedAction;
+import table.mechanism.decision.DecisionType;
+import table.mechanism.decision.ResolvedAction;
 import table.player.CardPlayer;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;
@@ -202,6 +202,14 @@ public class PotManagerImpl implements PotManager {
             log.trace("Current judging pot: {}", pot);
             log.trace("Sorted joining players for the pot: {}",
                     players.stream().map(CardPlayer::toSimpleLogString).toList());
+            for (CardPlayer player : players) {
+                log.trace("Player score: {}", playerScore.get(player));
+            }
+            if (players.size() > 1) {
+                for (CardPlayer player : players) {
+                    player.setIsJoiningPot(true);
+                }
+            }
             allocateStackPrizes(players, playerScore, pot);
         }
     }
@@ -219,6 +227,7 @@ public class PotManagerImpl implements PotManager {
             BigDecimal eachWinnerPrice = pot.getAmount().divide(
                     BigDecimal.valueOf(winnerPointer), 2, RoundingMode.FLOOR);
             for (int j = 0; j < winnerPointer; j++) {
+                log.trace("Player 2 {} wins {}", players.get(j), eachWinnerPrice);
                 playerPrizeStack.put(
                         players.get(j),
                         playerPrizeStack.getOrDefault(
@@ -228,7 +237,9 @@ public class PotManagerImpl implements PotManager {
                 );
             }
         } else {
-            this.playerPrizeStack.put(players.get(0), pot.getAmount());
+            log.trace("Player {} wins {}", players.get(0), pot.getAmount());
+            this.playerPrizeStack.put(players.get(0), playerPrizeStack.getOrDefault(players.get(0), BigDecimal.ZERO)
+                    .add(pot.getAmount()));
         }
     }
 

@@ -4,7 +4,7 @@ import org.junit.Test;
 import table.CardTable;
 import table.config.TableConfig;
 import table.impl.CardTableImpl;
-import table.mechanism.DecisionType;
+import table.mechanism.decision.DecisionType;
 
 import java.math.BigDecimal;
 

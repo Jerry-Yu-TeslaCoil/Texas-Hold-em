@@ -46,6 +46,9 @@ public class GameStateContext {
     //The number of players who can still make decisions
     private int decidingPlayerNum;
 
+    //If the po already judged
+    private boolean isPotJudged;
+
     //PlayerList for game proceeding
     private PlayerList players;
 

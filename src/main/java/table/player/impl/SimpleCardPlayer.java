@@ -4,11 +4,11 @@ import control.GamePlayer;
 import exception.IllegalOperationException;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
-import table.mechanism.DecisionRequest;
-import table.mechanism.DecisionType;
-import table.mechanism.PlayerDecision;
-import table.mechanism.ResolvedAction;
-import table.mechanism.impl.RaiseDecision;
+import table.mechanism.decision.DecisionRequest;
+import table.mechanism.decision.DecisionType;
+import table.mechanism.decision.PlayerDecision;
+import table.mechanism.decision.ResolvedAction;
+import table.mechanism.decision.impl.RaiseDecision;
 import table.player.CardPlayer;
 
 import java.math.BigDecimal;
@@ -53,6 +53,8 @@ public class SimpleCardPlayer implements CardPlayer {
 
     private BigDecimal playerInvestment;
     private BigDecimal prize;
+
+    private boolean isJoiningPot;
 
     /**
      * Construct a simple card player with appointed controlling player and BigDecimal of stack.
@@ -205,6 +207,17 @@ public class SimpleCardPlayer implements CardPlayer {
         this.isContinuingGame = true;
         this.playerInvestment = BigDecimal.ZERO;
         this.prize = BigDecimal.ZERO;
+        this.isJoiningPot = false;
+    }
+
+    @Override
+    public boolean getIsJoiningPot() {
+        return this.isJoiningPot;
+    }
+
+    @Override
+    public void setIsJoiningPot(boolean isJoiningPot) {
+        this.isJoiningPot = isJoiningPot;
     }
 
     @Override

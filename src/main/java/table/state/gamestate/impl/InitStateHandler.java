@@ -87,6 +87,7 @@ public enum InitStateHandler implements GameStateHandler {
             throw new RuntimeException("Pot manager is null");
         }
         potManager.clearStack();
+        context.setPotJudged(false);
     }
 
     private static void initPlayerList(GameStateContext context) {

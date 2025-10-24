@@ -1,7 +1,7 @@
 package table.vo.publicinfo;
 
 import table.card.PokerCard;
-import table.mechanism.ResolvedAction;
+import table.mechanism.decision.ResolvedAction;
 import table.state.gamestate.GameState;
 
 import java.math.BigDecimal;

@@ -1,7 +1,7 @@
-package table.mechanism.impl;
+package table.mechanism.decision.impl;
 
-import table.mechanism.DecisionType;
-import table.mechanism.PlayerDecision;
+import table.mechanism.decision.DecisionType;
+import table.mechanism.decision.PlayerDecision;
 
 public class FoldDecision implements PlayerDecision {
     @Override

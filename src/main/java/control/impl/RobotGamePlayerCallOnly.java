@@ -4,9 +4,9 @@ import control.GamePlayer;
 import control.vo.PlayerPersonalVO;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
-import table.mechanism.DecisionRequest;
-import table.mechanism.DecisionType;
-import table.mechanism.PlayerDecision;
+import table.mechanism.decision.DecisionRequest;
+import table.mechanism.decision.DecisionType;
+import table.mechanism.decision.PlayerDecision;
 import table.vo.privateinfo.PlayerPrivateVO;
 import table.vo.publicinfo.PublicVO;
 
@@ -33,7 +33,6 @@ public class RobotGamePlayerCallOnly implements GamePlayer {
 
     @Override
     public void updatePublicInfo(PublicVO publicVO) {
-        log.trace("Updating public info: {}", publicVO);
     }
 
     @Override

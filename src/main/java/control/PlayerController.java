@@ -1,7 +1,7 @@
 package control;
 
-import table.mechanism.DecisionRequest;
-import table.mechanism.PlayerDecision;
+import table.mechanism.decision.DecisionRequest;
+import table.mechanism.decision.PlayerDecision;
 import table.vo.privateinfo.PlayerPrivateVO;
 import table.vo.publicinfo.PublicVO;
 
