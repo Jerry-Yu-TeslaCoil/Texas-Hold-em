@@ -35,6 +35,7 @@ public class PotManagerImpl implements PotManager {
     private final HashMap<CardPlayer, BigDecimal> playerPrizeStack;
 
     private boolean isJudged;
+    private BigDecimal totalInvestment;
 
     /**
      * Construct a pot manager with the players in the game.
@@ -43,6 +44,7 @@ public class PotManagerImpl implements PotManager {
         this.playerStack = new HashMap<>();
         playerPrizeStack = new HashMap<>();
         isJudged = false;
+        totalInvestment = BigDecimal.ZERO;
     }
 
     /**
@@ -71,6 +73,8 @@ public class PotManagerImpl implements PotManager {
                 BigDecimal currentBet = playerStack.getOrDefault(cardPlayer, BigDecimal.ZERO);
                 BigDecimal newBet = verifyAndResolveBet(playerDecision, currentBet);
                 playerStack.put(cardPlayer, newBet);
+
+                totalInvestment = totalInvestment.add(playerDecision.value());
             }
             case FOLD -> {
                 //DO NOTHING
@@ -335,6 +339,12 @@ public class PotManagerImpl implements PotManager {
         this.playerStack.clear();
         this.playerPrizeStack.clear();
         this.isJudged = false;
+        this.totalInvestment = BigDecimal.ZERO;
+    }
+
+    @Override
+    public BigDecimal getTotalInvestment() {
+        return totalInvestment;
     }
 
     @Setter

@@ -9,9 +9,8 @@ import table.player.CardPlayerFactory;
 import table.player.PlayerList;
 import table.player.impl.PlayerCoil;
 import table.player.impl.SimpleCardPlayerFactory;
-import table.pot.StatisticsPotManager;
+import table.pot.PotManager;
 import table.pot.impl.PotManagerImpl;
-import table.pot.impl.StatisticsPotManagerImpl;
 import table.state.gamestate.GameState;
 import table.state.gamestate.GameStateContext;
 import util.ApplicationResult;
@@ -38,7 +37,7 @@ public class CardTableImpl implements CardTable {
     private final PlayerList players;
     private TableConfig tableConfig;
     private final CardPlayerFactory playerFactory;
-    private final StatisticsPotManager potManager;
+    private final PotManager potManager;
 
     /**
      * Construct a table with no max player num limit appointed.
@@ -59,7 +58,7 @@ public class CardTableImpl implements CardTable {
         this.players.setMaxPlayers(tableConfig.maxPlayers());
         this.playerFactory = new SimpleCardPlayerFactory();
         this.playerFactory.setConfig(tableConfig);
-        this.potManager = new StatisticsPotManagerImpl(new PotManagerImpl());
+        this.potManager = new PotManagerImpl();
     }
 
     @Override

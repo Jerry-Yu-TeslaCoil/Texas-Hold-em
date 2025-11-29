@@ -7,7 +7,6 @@ import table.player.impl.SimpleCardPlayer;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;
 import table.pot.impl.PotManagerImpl;
-import table.pot.impl.StatisticsPotManagerImpl;
 import util.PlayerUtil;
 
 import java.math.BigDecimal;
@@ -118,7 +117,7 @@ public class TestPotManager {
 
     @Test
     public void testBlindError() {
-        PotManager manager = new StatisticsPotManagerImpl(new PotManagerImpl());
+        PotManager manager = new PotManagerImpl();
         CardPlayer player1 = new SimpleCardPlayer(null, new BigDecimal(12), 1);
         CardPlayer player2 = new SimpleCardPlayer(null, new BigDecimal(12), 2);
         CardPlayer player3 = new SimpleCardPlayer(null, new BigDecimal(11), 3);
@@ -148,7 +147,7 @@ public class TestPotManager {
 
     @Test
     public void testBlindError2() {
-        PotManager manager = new StatisticsPotManagerImpl(new PotManagerImpl());
+        PotManager manager = new PotManagerImpl();
         CardPlayer player1 = new SimpleCardPlayer(null, new BigDecimal(12), 1);
         CardPlayer player2 = new SimpleCardPlayer(null, new BigDecimal(12), 2);
         CardPlayer player3 = new SimpleCardPlayer(null, new BigDecimal(11), 3);

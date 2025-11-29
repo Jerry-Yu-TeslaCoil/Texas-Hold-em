@@ -27,6 +27,7 @@ import java.util.PriorityQueue;
  */
 public interface PotManager {
 
+
     /**
      * Call pot manager to react to every action.
      * @param cardPlayer The player who makes the decision.
@@ -50,4 +51,10 @@ public interface PotManager {
      * Clean and initialize the stack.
      */
     void clearStack();
+
+    /**
+     * Get the total investment of the pot.
+     * @return The total chips amount.
+     */
+    BigDecimal getTotalInvestment();
 }

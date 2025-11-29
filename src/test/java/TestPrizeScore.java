@@ -13,7 +13,6 @@ import table.player.impl.SimpleCardPlayer;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;
 import table.pot.impl.PotManagerImpl;
-import table.pot.impl.StatisticsPotManagerImpl;
 import util.PlayerUtil;
 
 import java.math.BigDecimal;
@@ -26,7 +25,7 @@ public class TestPrizeScore {
 
     @Test
     public void test() {
-        PotManager manager = new StatisticsPotManagerImpl(new PotManagerImpl());
+        PotManager manager = new PotManagerImpl();
         manager.clearStack();
         List<CardPlayer> players = new ArrayList<>();
         CardPlayer player1 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerDoPreset()), new BigDecimal(9), 1);

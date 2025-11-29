@@ -5,9 +5,8 @@ import table.config.TableConfig;
 import table.player.PlayerList;
 import table.player.impl.PlayerCoil;
 import table.player.impl.SimpleCardPlayerFactory;
-import table.pot.StatisticsPotManager;
+import table.pot.PotManager;
 import table.pot.impl.PotManagerImpl;
-import table.pot.impl.StatisticsPotManagerImpl;
 import table.state.gamestate.GameState;
 import table.state.gamestate.GameStateContext;
 
@@ -16,7 +15,7 @@ import java.math.BigDecimal;
 public class TestState {
     private final PlayerList players;
     private final TableConfig tableConfig;
-    private final StatisticsPotManager potManager;
+    private final PotManager potManager;
 
     public TestState() {
         this.players = new PlayerCoil();
@@ -26,7 +25,7 @@ public class TestState {
         for (int i = 0; i < 3; i++) {
             this.players.addPlayer(simpleCardPlayerFactory.createCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom())));
         }
-        this.potManager = new StatisticsPotManagerImpl(new PotManagerImpl());
+        this.potManager = new PotManagerImpl();
         this.potManager.clearStack();
     }
 

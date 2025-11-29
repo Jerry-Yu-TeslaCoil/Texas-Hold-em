@@ -5,7 +5,7 @@ import table.card.CardDeck;
 import table.card.PokerCard;
 import table.config.TableConfig;
 import table.player.PlayerList;
-import table.pot.StatisticsPotManager;
+import table.pot.PotManager;
 import table.vo.publicinfo.TablePublicVO;
 import table.vo.publicinfo.builder.PlayerPublicVOBuilder;
 
@@ -53,7 +53,7 @@ public class GameStateContext {
     private PlayerList players;
 
     //PotManager for pot managing
-    private StatisticsPotManager potManager;
+    private PotManager potManager;
 
     //CardDeck for public cards
     private CardDeck cardDeck;
