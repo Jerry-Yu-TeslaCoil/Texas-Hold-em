@@ -1,6 +1,6 @@
 package table;
 
-import control.GamePlayer;
+import control.gameplayer.GamePlayer;
 import table.config.TableConfig;
 import util.ApplicationResult;
 

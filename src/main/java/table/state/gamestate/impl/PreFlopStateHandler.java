@@ -68,7 +68,7 @@ public enum PreFlopStateHandler implements GameStateHandler {
             cardPlayer.addHoleCard(context.getCardDeck().takePeekCard());
             context.getCardDeck().shuffle();
             PlayerPrivateVO playerPrivateVO = new PlayerPrivateVO(cardPlayer.getHoleCards().toArray(new PokerCard[0]));
-            cardPlayer.getPlayerController().updatePrivateInfo(playerPrivateVO);
+            cardPlayer.getGamePlayer().getPlayerController().updatePrivateInfo(playerPrivateVO);
         }
     }
 

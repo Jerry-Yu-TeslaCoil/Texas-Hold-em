@@ -1,6 +1,6 @@
 package table.player;
 
-import control.GamePlayer;
+import control.gameplayer.GamePlayer;
 import table.card.PokerCard;
 import table.mechanism.decision.DecisionRequest;
 import table.mechanism.decision.ResolvedAction;
@@ -55,7 +55,7 @@ public interface CardPlayer {
      * Get the controller of this CardPlayer. This is usually used for ID info broadcasting.
      * @return The controller of the CardPlayer.
      */
-    GamePlayer getPlayerController();
+    GamePlayer getGamePlayer();
 
     /**
      * Set the stack of the current CardPlayer.

@@ -1,6 +1,6 @@
 package table.impl;
 
-import control.GamePlayer;
+import control.gameplayer.GamePlayer;
 import exception.IllegalOperationException;
 import table.CardTable;
 import table.config.TableConfig;

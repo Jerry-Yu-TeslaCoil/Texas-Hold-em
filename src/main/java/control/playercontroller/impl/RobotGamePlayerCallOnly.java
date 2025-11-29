@@ -1,7 +1,6 @@
-package control.impl;
+package control.playercontroller.impl;
 
-import control.GamePlayer;
-import control.vo.PlayerPersonalVO;
+import control.playercontroller.PlayerController;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
 import table.mechanism.decision.DecisionRequest;
@@ -27,7 +26,7 @@ import java.util.List;
  * @version 1.0
  */
 @Log4j2
-public class RobotGamePlayerCallOnly implements GamePlayer {
+public class RobotGamePlayerCallOnly implements PlayerController {
 
     private final ArrayList<PokerCard> pokerCards;
 
@@ -53,10 +52,5 @@ public class RobotGamePlayerCallOnly implements GamePlayer {
      */
     public RobotGamePlayerCallOnly() {
         this.pokerCards = new ArrayList<>();
-    }
-
-    @Override
-    public PlayerPersonalVO getPlayerPersonalVO() {
-        return new PlayerPersonalVO();
     }
 }

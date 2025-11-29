@@ -1,6 +1,6 @@
 package table.player.impl;
 
-import control.GamePlayer;
+import control.gameplayer.GamePlayer;
 import exception.IllegalOperationException;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
@@ -44,7 +44,7 @@ import java.util.List;
 public class SimpleCardPlayer implements CardPlayer {
 
     private final int id;
-    private GamePlayer controller;
+    private GamePlayer gamePlayer;
 
     private BigDecimal stack;
     private final List<PokerCard> pokerCards;
@@ -58,11 +58,11 @@ public class SimpleCardPlayer implements CardPlayer {
 
     /**
      * Construct a simple card player with appointed controlling player and BigDecimal of stack.
-     * @param controller Controlling player could be a real player terminal or a robot.
+     * @param gamePlayer Controlling player could be a real player terminal or a robot.
      * @param stack The stack the player currently have.
      */
-    public SimpleCardPlayer(GamePlayer controller, BigDecimal stack, int id) {
-        this.controller = controller;
+    public SimpleCardPlayer(GamePlayer gamePlayer, BigDecimal stack, int id) {
+        this.gamePlayer = gamePlayer;
         this.pokerCards = new ArrayList<>();
         this.stack = stack;
         this.isContinuingGame = true;
@@ -77,12 +77,12 @@ public class SimpleCardPlayer implements CardPlayer {
 
     @Override
     public void setPlayerController(GamePlayer gamePlayer) {
-        this.controller = gamePlayer;
+        this.gamePlayer = gamePlayer;
     }
 
     @Override
-    public GamePlayer getPlayerController() {
-        return this.controller;
+    public GamePlayer getGamePlayer() {
+        return this.gamePlayer;
     }
 
     @Override
@@ -155,7 +155,7 @@ public class SimpleCardPlayer implements CardPlayer {
 
     @Override
     public ResolvedAction getPlayerDecision(DecisionRequest decisionRequest) {
-        PlayerDecision playerDecision = controller.getPlayerDecision(decisionRequest);
+        PlayerDecision playerDecision = gamePlayer.getPlayerController().getPlayerDecision(decisionRequest);
         validateDecision(decisionRequest, playerDecision);
         return resolveDecision(decisionRequest, playerDecision);
     }
@@ -223,7 +223,7 @@ public class SimpleCardPlayer implements CardPlayer {
     @Override
     public String toString() {
         return "{Player" + id +
-                ", controller=" + controller +
+                ", controller=" + gamePlayer +
                 ", stack=" + stack +
                 ", pokerCards=" + pokerCards +
                 ", isContinuingGame=" + isContinuingGame +

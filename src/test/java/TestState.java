@@ -1,4 +1,5 @@
-import control.impl.RobotGamePlayerRandom;
+import control.gameplayer.impl.RobotGamePlayer;
+import control.playercontroller.impl.RobotGamePlayerRandom;
 import org.junit.Test;
 import table.config.TableConfig;
 import table.player.PlayerList;
@@ -23,7 +24,7 @@ public class TestState {
         SimpleCardPlayerFactory simpleCardPlayerFactory = new SimpleCardPlayerFactory();
         simpleCardPlayerFactory.setConfig(this.tableConfig);
         for (int i = 0; i < 3; i++) {
-            this.players.addPlayer(simpleCardPlayerFactory.createCardPlayer(new RobotGamePlayerRandom()));
+            this.players.addPlayer(simpleCardPlayerFactory.createCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom())));
         }
         this.potManager = new StatisticsPotManagerImpl(new PotManagerImpl());
         this.potManager.clearStack();

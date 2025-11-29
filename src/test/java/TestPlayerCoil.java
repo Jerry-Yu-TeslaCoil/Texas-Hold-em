@@ -1,5 +1,6 @@
-import control.GamePlayer;
-import control.impl.RobotGamePlayerCallOnly;
+import control.gameplayer.GamePlayer;
+import control.gameplayer.impl.RobotGamePlayer;
+import control.playercontroller.impl.RobotGamePlayerCallOnly;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.player.CardPlayer;
@@ -25,7 +26,7 @@ public class TestPlayerCoil {
     public void testPlayerCoilIterator() {
         PlayerCoil playerCoil = new PlayerCoil();
         for (int i = 0; i < 20; i++) {
-            playerCoil.addPlayer(new SimpleCardPlayer(new RobotGamePlayerCallOnly(), BigDecimal.ONE, i));
+            playerCoil.addPlayer(new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerCallOnly()), BigDecimal.ONE, i));
         }
         log.info(playerCoil);
         Iterator<CardPlayer> playerCoilIterator = playerCoil.getIterator();
@@ -39,7 +40,7 @@ public class TestPlayerCoil {
     public void testPlayerCoilIteratorWithListOperation() {
         PlayerCoil playerCoil = new PlayerCoil();
         for (int i = 0; i < 20; i++) {
-            playerCoil.addPlayer(new SimpleCardPlayer(new RobotGamePlayerCallOnly(), BigDecimal.ONE, i));
+            playerCoil.addPlayer(new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerCallOnly()), BigDecimal.ONE, i));
         }
         log.info(playerCoil);
         PlayerIterator playerIterator = playerCoil.getIterator();
@@ -63,12 +64,12 @@ public class TestPlayerCoil {
     @Test
     public void testPlayerCoilRemoveByController() {
         PlayerCoil playerCoil = new PlayerCoil();
-        GamePlayer gamePlayer = new RobotGamePlayerCallOnly();
+        GamePlayer gamePlayer = new RobotGamePlayer(new RobotGamePlayerCallOnly());
         for (int i = 0; i < 20; i++) {
             if (i == 5) {
                 playerCoil.addPlayer(new SimpleCardPlayer(gamePlayer, BigDecimal.ONE, i));
             } else {
-                playerCoil.addPlayer(new SimpleCardPlayer(new RobotGamePlayerCallOnly(), BigDecimal.ONE, i));
+                playerCoil.addPlayer(new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerCallOnly()), BigDecimal.ONE, i));
             }
         }
         log.info(playerCoil);
@@ -80,7 +81,7 @@ public class TestPlayerCoil {
     public void testPlayerCoilCopy() {
         PlayerCoil playerCoil = new PlayerCoil();
         for (int i = 0; i < 20; i++) {
-            playerCoil.addPlayer(new SimpleCardPlayer(new RobotGamePlayerCallOnly(), BigDecimal.ONE, i));
+            playerCoil.addPlayer(new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerCallOnly()), BigDecimal.ONE, i));
         }
         log.info(playerCoil);
         PlayerCoil playerCoilCopy = new PlayerCoil(playerCoil);

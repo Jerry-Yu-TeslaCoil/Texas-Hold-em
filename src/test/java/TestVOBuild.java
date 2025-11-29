@@ -1,5 +1,6 @@
-import control.GamePlayer;
-import control.impl.RobotGamePlayerRandom;
+import control.gameplayer.GamePlayer;
+import control.gameplayer.impl.RobotGamePlayer;
+import control.playercontroller.impl.RobotGamePlayerRandom;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.CardTable;
@@ -26,7 +27,7 @@ public class TestVOBuild {
     public void test() {
         TableConfig tableConfig = new TableConfig(new BigDecimal(24), new BigDecimal(1));
         CardTable cardTable = new CardTableImpl(tableConfig);
-        GamePlayer ai = new RobotGamePlayerRandom();
+        GamePlayer ai = new RobotGamePlayer(new RobotGamePlayerRandom());
         cardTable.playerJoin(ai);
         TablePublicVO.Builder tablePublicVO = TablePublicVO.builder();
         tablePublicVO = tablePublicVO.setPublicCards(null)

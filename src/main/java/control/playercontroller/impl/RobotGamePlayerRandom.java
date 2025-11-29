@@ -1,7 +1,6 @@
-package control.impl;
+package control.playercontroller.impl;
 
-import control.GamePlayer;
-import control.vo.PlayerPersonalVO;
+import control.playercontroller.PlayerController;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
 import table.mechanism.decision.DecisionRequest;
@@ -30,7 +29,7 @@ import java.util.Random;
  * @version 1.0
  */
 @Log4j2
-public class RobotGamePlayerRandom implements GamePlayer {
+public class RobotGamePlayerRandom implements PlayerController {
 
     private final PokerCard[] pokerCards = new PokerCard[2];
     private final Random rand = new Random();
@@ -64,10 +63,5 @@ public class RobotGamePlayerRandom implements GamePlayer {
             log.info("PC Player decided to Fold.");
             return new FoldDecision();
         }
-    }
-
-    @Override
-    public PlayerPersonalVO getPlayerPersonalVO() {
-        return new PlayerPersonalVO();
     }
 }

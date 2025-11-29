@@ -6,7 +6,6 @@ import table.card.Suit;
 import table.mechanism.scoring.ScoreEvaluator;
 
 import java.util.*;
-
 import java.util.stream.Collectors;
 
 public class PokerScoreEvaluator implements ScoreEvaluator {

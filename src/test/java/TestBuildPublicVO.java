@@ -1,4 +1,5 @@
-import control.impl.RobotGamePlayerDoPreset;
+import control.gameplayer.impl.RobotGamePlayer;
+import control.playercontroller.impl.RobotGamePlayerDoPreset;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.card.CardDeck;
@@ -20,7 +21,7 @@ public class TestBuildPublicVO {
     public void testBuildPublicVO() {
         CardDeck cardDeck = NoJokerDeckFactory.getInstance().getCardDeck();
         cardDeck.shuffle();
-        CardPlayer cardPlayer = new SimpleCardPlayer(new RobotGamePlayerDoPreset(), new BigDecimal(24), 0);
+        CardPlayer cardPlayer = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerDoPreset()), new BigDecimal(24), 0);
         cardPlayer.setIsContinuingGame(true);
         PlayerPublicVOBuilder publicVOBuilder = new ClassicPlayerPublicVOBuilder();
         publicVOBuilder.setState(GameState.INIT);
@@ -61,7 +62,7 @@ public class TestBuildPublicVO {
     public void testBuildPublicVOFOLD() {
         CardDeck cardDeck = NoJokerDeckFactory.getInstance().getCardDeck();
         cardDeck.shuffle();
-        CardPlayer cardPlayer = new SimpleCardPlayer(new RobotGamePlayerDoPreset(), new BigDecimal(24), 0);
+        CardPlayer cardPlayer = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerDoPreset()), new BigDecimal(24), 0);
         cardPlayer.setIsContinuingGame(true);
         PlayerPublicVOBuilder publicVOBuilder = new ClassicPlayerPublicVOBuilder();
         publicVOBuilder.setState(GameState.INIT);

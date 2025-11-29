@@ -1,4 +1,4 @@
-package control;
+package control.playercontroller;
 
 import table.mechanism.decision.DecisionRequest;
 import table.mechanism.decision.PlayerDecision;

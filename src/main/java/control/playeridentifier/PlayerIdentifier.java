@@ -1,4 +1,4 @@
-package control;
+package control.playeridentifier;
 
 
 import control.vo.PlayerPersonalVO;

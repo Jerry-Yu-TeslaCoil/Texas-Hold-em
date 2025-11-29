@@ -1,4 +1,5 @@
-import control.impl.RobotGamePlayerDoPreset;
+import control.gameplayer.impl.RobotGamePlayer;
+import control.playercontroller.impl.RobotGamePlayerDoPreset;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.card.PokerCard;
@@ -28,13 +29,13 @@ public class TestPrizeScore {
         PotManager manager = new StatisticsPotManagerImpl(new PotManagerImpl());
         manager.clearStack();
         List<CardPlayer> players = new ArrayList<>();
-        CardPlayer player1 = new SimpleCardPlayer(new RobotGamePlayerDoPreset(), new BigDecimal(9), 1);
+        CardPlayer player1 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerDoPreset()), new BigDecimal(9), 1);
         players.add(player1);
-        CardPlayer player2 = new SimpleCardPlayer(new RobotGamePlayerDoPreset(), new BigDecimal(24), 2);
+        CardPlayer player2 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerDoPreset()), new BigDecimal(24), 2);
         players.add(player2);
-        CardPlayer player3 = new SimpleCardPlayer(new RobotGamePlayerDoPreset(), new BigDecimal(2), 3);
+        CardPlayer player3 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerDoPreset()), new BigDecimal(2), 3);
         players.add(player3);
-        CardPlayer player4 = new SimpleCardPlayer(new RobotGamePlayerDoPreset(), new BigDecimal(25), 4);
+        CardPlayer player4 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerDoPreset()), new BigDecimal(25), 4);
         players.add(player4);
         player1.addHoleCard(new FixedPokerCard(Suit.clubs, Rank.SEVEN));
         player1.addHoleCard(new FixedPokerCard(Suit.spades, Rank.EIGHT));

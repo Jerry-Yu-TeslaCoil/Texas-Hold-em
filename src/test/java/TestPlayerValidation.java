@@ -1,4 +1,5 @@
-import control.impl.RobotGamePlayerDoPreset;
+import control.gameplayer.impl.RobotGamePlayer;
+import control.playercontroller.impl.RobotGamePlayerDoPreset;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.mechanism.decision.DecisionRequest;
@@ -15,7 +16,7 @@ public class TestPlayerValidation {
     public void testPlayerValidationCall() {
         RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
         DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12), new BigDecimal(1));
-        CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
+        CardPlayer cardPlayer = new SimpleCardPlayer(new RobotGamePlayer(controller), new BigDecimal(24), 0);
         log.info(decisionRequest);
         ResolvedAction playerDecision = cardPlayer.getPlayerDecision(decisionRequest);
         log.info("Calling, Player decision: {}", playerDecision);
@@ -25,7 +26,7 @@ public class TestPlayerValidation {
     public void testPlayerValidationCallAllin() {
         RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
         DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(25), new BigDecimal(1));
-        CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
+        CardPlayer cardPlayer = new SimpleCardPlayer(new RobotGamePlayer(controller), new BigDecimal(24), 0);
         log.info(decisionRequest);
         ResolvedAction playerDecision = cardPlayer.getPlayerDecision(decisionRequest);
         log.info("Calling all, Player decision: {}", playerDecision);
@@ -36,7 +37,7 @@ public class TestPlayerValidation {
         RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
         controller.setReaction(DecisionType.RAISE, new BigDecimal(11));
         DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12), new BigDecimal(1));
-        CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
+        CardPlayer cardPlayer = new SimpleCardPlayer(new RobotGamePlayer(controller), new BigDecimal(24), 0);
         log.info(decisionRequest);
         ResolvedAction playerDecision = cardPlayer.getPlayerDecision(decisionRequest);
         log.info("Raising {}, Player decision: {}", 11, playerDecision);
@@ -47,7 +48,7 @@ public class TestPlayerValidation {
         RobotGamePlayerDoPreset controller = new RobotGamePlayerDoPreset();
         controller.setReaction(DecisionType.RAISE, new BigDecimal(13));
         DecisionRequest decisionRequest = new DecisionRequest(new BigDecimal(12), new BigDecimal(1));
-        CardPlayer cardPlayer = new SimpleCardPlayer(controller, new BigDecimal(24), 0);
+        CardPlayer cardPlayer = new SimpleCardPlayer(new RobotGamePlayer(controller), new BigDecimal(24), 0);
         log.info(decisionRequest);
         ResolvedAction playerDecision = cardPlayer.getPlayerDecision(decisionRequest);
         log.info("Raise too high, Player decision: {}", playerDecision);
