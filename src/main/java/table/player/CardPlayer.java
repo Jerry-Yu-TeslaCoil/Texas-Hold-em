@@ -4,6 +4,8 @@ import control.gameplayer.GamePlayer;
 import table.card.PokerCard;
 import table.mechanism.decision.DecisionRequest;
 import table.mechanism.decision.ResolvedAction;
+import table.vo.privateinfo.PlayerPrivateVO;
+import table.vo.publicinfo.PublicVO;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -49,7 +51,7 @@ public interface CardPlayer {
      * Set the controller of this CardPlayer. It may be a client side terminal, an AI robot, or a test mirror.
      * @param gamePlayer The controller of this CardPlayer.
      */
-    void setPlayerController(GamePlayer gamePlayer);
+    void setGamePlayer(GamePlayer gamePlayer);
 
     /**
      * Get the controller of this CardPlayer. This is usually used for ID info broadcasting.
@@ -143,6 +145,18 @@ public interface CardPlayer {
      * @return The decision of the CardPlayer.
      */
     ResolvedAction getPlayerDecision(DecisionRequest decisionRequest);
+
+    /**
+     * Send public info VO to player controller.
+     * @param publicInfo The public VO.
+     */
+    void updatePublicInfo(PublicVO publicInfo);
+
+    /**
+     * Send private info VO to player controller.
+     * @param privateInfo The private VO.
+     */
+    void updatePrivateInfo(PlayerPrivateVO privateInfo);
 
     /**
      * Clean the player's state, including pokerCards, isContinuingGame, playerInvestment, prize.

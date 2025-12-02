@@ -10,6 +10,8 @@ import table.mechanism.decision.PlayerDecision;
 import table.mechanism.decision.ResolvedAction;
 import table.mechanism.decision.impl.RaiseDecision;
 import table.player.CardPlayer;
+import table.vo.privateinfo.PlayerPrivateVO;
+import table.vo.publicinfo.PublicVO;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -76,7 +78,7 @@ public class SimpleCardPlayer implements CardPlayer {
     }
 
     @Override
-    public void setPlayerController(GamePlayer gamePlayer) {
+    public void setGamePlayer(GamePlayer gamePlayer) {
         this.gamePlayer = gamePlayer;
     }
 
@@ -158,6 +160,16 @@ public class SimpleCardPlayer implements CardPlayer {
         PlayerDecision playerDecision = gamePlayer.getPlayerController().getPlayerDecision(decisionRequest);
         validateDecision(decisionRequest, playerDecision);
         return resolveDecision(decisionRequest, playerDecision);
+    }
+
+    @Override
+    public void updatePublicInfo(PublicVO publicInfo) {
+        this.gamePlayer.getPlayerController().updatePublicInfo(publicInfo);
+    }
+
+    @Override
+    public void updatePrivateInfo(PlayerPrivateVO privateInfo) {
+        this.gamePlayer.getPlayerController().updatePrivateInfo(privateInfo);
     }
 
     private ResolvedAction resolveDecision(DecisionRequest decisionRequest, PlayerDecision playerDecision) {

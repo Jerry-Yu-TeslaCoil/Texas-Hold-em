@@ -109,7 +109,7 @@ public class PlayerUtil {
                 new PotPublicVO(context.getPotManager().getTotalInvestment()));
         iterator = context.getPlayers().getIterator();
         while (iterator.hasNext()) {
-            iterator.next().getGamePlayer().getPlayerController().updatePublicInfo(publicVO);
+            iterator.next().updatePublicInfo(publicVO);
         }
         log.trace(publicVO.toString());
     }
