@@ -4,6 +4,7 @@ import control.gameplayer.GamePlayer;
 import table.card.PokerCard;
 import table.mechanism.decision.DecisionRequest;
 import table.mechanism.decision.ResolvedAction;
+import table.record.reader.RecordReader;
 import table.vo.privateinfo.PlayerPrivateVO;
 import table.vo.publicinfo.PublicVO;
 
@@ -166,6 +167,8 @@ public interface CardPlayer {
     boolean getIsJoiningPot();
 
     void setIsJoiningPot(boolean isJoiningPot);
+
+    RecordReader getRecordReader();
 
     /**
      * Get the simple string of the CardPlayer including only id.

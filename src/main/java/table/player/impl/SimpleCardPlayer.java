@@ -10,10 +10,16 @@ import table.mechanism.decision.PlayerDecision;
 import table.mechanism.decision.ResolvedAction;
 import table.mechanism.decision.impl.RaiseDecision;
 import table.player.CardPlayer;
+import table.record.entry.impl.PlayerPrivateInfoVOEntry;
+import table.record.entry.impl.PublicInfoVOEntry;
+import table.record.reader.RecordReader;
+import table.record.recorder.GameRecorder;
+import table.record.recorder.impl.SimpleGameRecorder;
 import table.vo.privateinfo.PlayerPrivateVO;
 import table.vo.publicinfo.PublicVO;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +64,8 @@ public class SimpleCardPlayer implements CardPlayer {
 
     private boolean isJoiningPot;
 
+    private final GameRecorder gameRecorder;
+
     /**
      * Construct a simple card player with appointed controlling player and BigDecimal of stack.
      * @param gamePlayer Controlling player could be a real player terminal or a robot.
@@ -70,6 +78,7 @@ public class SimpleCardPlayer implements CardPlayer {
         this.isContinuingGame = true;
         this.id = id;
         this.playerInvestment = BigDecimal.ZERO;
+        this.gameRecorder = new SimpleGameRecorder(gamePlayer.getPlayerIdentifier());
     }
 
     @Override
@@ -164,11 +173,13 @@ public class SimpleCardPlayer implements CardPlayer {
 
     @Override
     public void updatePublicInfo(PublicVO publicInfo) {
+        this.gameRecorder.record(new PublicInfoVOEntry(Instant.now(), publicInfo));
         this.gamePlayer.getPlayerController().updatePublicInfo(publicInfo);
     }
 
     @Override
     public void updatePrivateInfo(PlayerPrivateVO privateInfo) {
+        this.gameRecorder.record(new PlayerPrivateInfoVOEntry(Instant.now(), privateInfo));
         this.gamePlayer.getPlayerController().updatePrivateInfo(privateInfo);
     }
 
@@ -176,7 +187,6 @@ public class SimpleCardPlayer implements CardPlayer {
         BigDecimal decisionStacks = BigDecimal.ZERO;
         DecisionType decisionType = DecisionType.CALL;
         switch (playerDecision.getDecisionType()) {
-            //TODO: Add least raise logic
             case RAISE -> {
                 RaiseDecision decision = (RaiseDecision) playerDecision;
                 decisionStacks = new BigDecimal(String.valueOf(decision.bet()));
@@ -230,6 +240,11 @@ public class SimpleCardPlayer implements CardPlayer {
     @Override
     public void setIsJoiningPot(boolean isJoiningPot) {
         this.isJoiningPot = isJoiningPot;
+    }
+
+    @Override
+    public RecordReader getRecordReader() {
+        return gameRecorder.getRecordReader();
     }
 
     @Override

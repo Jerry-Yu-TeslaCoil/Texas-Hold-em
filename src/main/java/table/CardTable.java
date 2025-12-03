@@ -2,7 +2,10 @@ package table;
 
 import control.gameplayer.GamePlayer;
 import table.config.TableConfig;
+import table.record.reader.RecordReader;
 import util.ApplicationResult;
+
+import java.util.List;
 
 /**
  * A table class, representing a game table.
@@ -56,5 +59,5 @@ public interface CardTable {
     /**
      * Start the game. Keep continuing before the game ends or lack of players.
      */
-    void startRounds();
+    List<RecordReader> startRounds();
 }

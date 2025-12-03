@@ -45,8 +45,8 @@ public class RobotGamePlayerRandom implements PlayerController {
     @Override
     public void updatePrivateInfo(PlayerPrivateVO privateInfoVO) {
         log.trace("Updating private info: {}", privateInfoVO);
-        this.pokerCards[0] = privateInfoVO.holeCards()[0];
-        this.pokerCards[1] = privateInfoVO.holeCards()[1];
+        this.pokerCards[0] = privateInfoVO.getHoleCards()[0];
+        this.pokerCards[1] = privateInfoVO.getHoleCards()[1];
     }
 
     @Override

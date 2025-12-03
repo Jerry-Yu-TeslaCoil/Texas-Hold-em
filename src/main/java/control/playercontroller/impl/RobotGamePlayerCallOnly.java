@@ -37,7 +37,7 @@ public class RobotGamePlayerCallOnly implements PlayerController {
     @Override
     public void updatePrivateInfo(PlayerPrivateVO privateInfoVO) {
         log.trace("Updating private info: {}", privateInfoVO);
-        this.pokerCards.addAll(List.of(privateInfoVO.holeCards()));
+        this.pokerCards.addAll(List.of(privateInfoVO.getHoleCards()));
     }
 
     @Override

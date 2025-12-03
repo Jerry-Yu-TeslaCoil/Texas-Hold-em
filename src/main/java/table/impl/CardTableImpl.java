@@ -11,11 +11,14 @@ import table.player.impl.PlayerCoil;
 import table.player.impl.SimpleCardPlayerFactory;
 import table.pot.PotManager;
 import table.pot.impl.PotManagerImpl;
+import table.record.reader.RecordReader;
 import table.state.gamestate.GameState;
 import table.state.gamestate.GameStateContext;
 import util.ApplicationResult;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The simplest card table, conducting usual game rounds.
@@ -91,7 +94,7 @@ public class CardTableImpl implements CardTable {
     }
 
     @Override
-    public void startRounds() {
+    public List<RecordReader> startRounds() {
         if (this.players.isEmpty()) {
             throw new IllegalOperationException("There are no players in this round");
         }
@@ -105,5 +108,10 @@ public class CardTableImpl implements CardTable {
         while (gameState != null) {
             gameState = gameState.execute(gameStateContext);
         }
+        List<RecordReader> recordReaders = new LinkedList<>();
+        for(CardPlayer cardPlayer : this.players.getPlayers()) {
+            recordReaders.add(cardPlayer.getRecordReader());
+        }
+        return recordReaders;
     }
 }

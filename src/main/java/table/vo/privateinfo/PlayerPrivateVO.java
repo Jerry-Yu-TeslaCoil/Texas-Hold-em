@@ -1,6 +1,7 @@
 package table.vo.privateinfo;
 
 
+import lombok.*;
 import table.card.PokerCard;
 
 /**
@@ -18,5 +19,10 @@ import table.card.PokerCard;
  *
  * @version 1.0
  */
-public record PlayerPrivateVO(PokerCard[] holeCards) {
+@Data
+@Getter
+@AllArgsConstructor
+@ToString
+public class PlayerPrivateVO {
+    private final PokerCard[] holeCards;
 }

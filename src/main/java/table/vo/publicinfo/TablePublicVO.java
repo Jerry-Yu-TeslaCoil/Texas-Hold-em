@@ -96,8 +96,15 @@ public record TablePublicVO(BigDecimal basicBet, BigDecimal initialBet, GameStat
         }
 
         public TablePublicVO build() {
-            return new TablePublicVO(this.basicBet, this.initialBet, this.currentGameState,
-                    this.currentDecisionMakerId, this.madeDecision, this.publicCards);
+            return new TablePublicVO(
+                    this.basicBet != null ? new BigDecimal(this.basicBet.toString()) : null,
+                    this.initialBet != null ? new BigDecimal(this.initialBet.toString()) : null,
+                    this.currentGameState != null ? GameState.valueOf(this.currentGameState.name()) : null,
+                    this.currentDecisionMakerId,
+                    this.madeDecision != null ? new ResolvedAction(
+                            this.madeDecision.decisionType(), this.madeDecision.value()) : null,
+                    this.publicCards != null ? Arrays.copyOf(this.publicCards, this.publicCards.length) : null
+            );
         }
     }
 }
