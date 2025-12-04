@@ -29,18 +29,20 @@ import java.util.List;
  *
  * <p>
  *     Currently, this is considered not thread-safe.
- *     TODO: Do reconstruct this class to thead-safe version to support multi-table platform.
+ *     Ver.1.1: Using synchronized(lock), currently the table is considered thread-safe.
  * </p>
  *
  * @author jerry
  *
- * @version 1.0
+ * @version 1.1
  */
 public class CardTableImpl implements CardTable {
     private final PlayerList players;
     private TableConfig tableConfig;
     private final CardPlayerFactory playerFactory;
     private final PotManager potManager;
+
+    private final Object lock = new Object();
 
     /**
      * Construct a table with no max player num limit appointed.
@@ -81,8 +83,10 @@ public class CardTableImpl implements CardTable {
         if (gamePlayer == null) {
             throw new NullPointerException("Given playerController cannot be null");
         }
-        CardPlayer cardPlayer = this.playerFactory.createCardPlayer(gamePlayer);
-        return this.players.addPlayer(cardPlayer);
+        synchronized (lock) {
+            CardPlayer cardPlayer = this.playerFactory.createCardPlayer(gamePlayer);
+            return this.players.addPlayer(cardPlayer);
+        }
     }
 
     @Override
@@ -90,7 +94,9 @@ public class CardTableImpl implements CardTable {
         if (gamePlayer == null) {
             throw new NullPointerException("Given playerController cannot be null");
         }
-        return this.players.removePlayer(gamePlayer);
+        synchronized (lock) {
+            return this.players.removePlayer(gamePlayer);
+        }
     }
 
     @Override

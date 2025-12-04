@@ -218,7 +218,7 @@ public class SimpleCardPlayer implements CardPlayer {
                     playerDecision.getDecisionType());
         }
         if (decisionStacks.compareTo(this.stack) > 0) {
-            log.warn("Player cannot cover as much as he decided to bet, " +
+            log.info("Player cannot cover as much as he decided to bet, " +
                     "decision stacks: {}, the player has: {}, will change to ALLIN.", decisionStacks, this.stack);
         }
     }

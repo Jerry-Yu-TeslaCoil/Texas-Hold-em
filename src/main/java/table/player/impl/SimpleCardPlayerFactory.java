@@ -25,8 +25,10 @@ import java.math.BigDecimal;
  */
 public class SimpleCardPlayerFactory implements CardPlayerFactory {
 
-    private int id;
+    private int id = 0;
     private BigDecimal initBet;
+
+    private final Object lock = new Object();
 
     @Override
     public void setConfig(TableConfig config) {
@@ -35,7 +37,12 @@ public class SimpleCardPlayerFactory implements CardPlayerFactory {
 
     @Override
     public CardPlayer createCardPlayer(GamePlayer gamePlayer) {
-        return new SimpleCardPlayer(gamePlayer, initBet, id++);
+        int chosenID;
+        synchronized (lock) {
+            id++;
+            chosenID = id;
+        }
+        return new SimpleCardPlayer(gamePlayer, initBet, chosenID);
     }
 
     @Override
