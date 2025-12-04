@@ -15,7 +15,7 @@ import java.util.List;
 public class TestMultiThread {
 
     @Test
-    public void test() throws InterruptedException {
+    public void testMultiThreadGame() throws InterruptedException {
         List<Thread> threads = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             CardTable table = new CardTableImpl();

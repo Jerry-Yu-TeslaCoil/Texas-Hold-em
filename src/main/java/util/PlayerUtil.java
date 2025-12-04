@@ -111,7 +111,7 @@ public class PlayerUtil {
         while (iterator.hasNext()) {
             iterator.next().updatePublicInfo(publicVO);
         }
-        log.trace(publicVO.toString());
+        log.trace("Public VO publish to every player:\n{}", publicVO.toString());
     }
 
     public static GameState startBet(GameStateContext context, GameState endState) {
