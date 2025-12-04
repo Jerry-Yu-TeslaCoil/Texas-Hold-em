@@ -34,8 +34,8 @@ public class SimpleCardPlayerFactory implements CardPlayerFactory {
     }
 
     @Override
-    public CardPlayer createCardPlayer(GamePlayer controller) {
-        return new SimpleCardPlayer(controller, initBet, id++);
+    public CardPlayer createCardPlayer(GamePlayer gamePlayer) {
+        return new SimpleCardPlayer(gamePlayer, initBet, id++);
     }
 
     @Override

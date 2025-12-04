@@ -40,6 +40,9 @@ public class GameStateContext {
     //RoundIndex for marking game round
     private int roundIndex;
 
+    //Total rounds for the game to finish
+    private int totalRounds;
+
     //The number of active players
     private int activePlayerNum;
 

@@ -103,6 +103,7 @@ public class CardTableImpl implements CardTable {
         gameStateContext.setTableConfig(this.tableConfig);
         gameStateContext.setPotManager(this.potManager);
         gameStateContext.setRoundIndex(0);
+        gameStateContext.setTotalRounds(tableConfig.playRound());
         GameState gameState = GameState.INIT;
         //The end condition can be changed and controlled by CardTable, but currently let GameState to control it.
         while (gameState != null) {

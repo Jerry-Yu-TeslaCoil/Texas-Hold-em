@@ -44,10 +44,10 @@ public interface CardTable {
     /**
      * Make a player to join the table.
      * The player is actually a PlayerController.
-     * @param cardPlayer The player controller.
+     * @param gamePlayer The player controller.
      * @return An ApplicationResult that includes result and a failure message.
      */
-    ApplicationResult playerJoin(GamePlayer cardPlayer);
+    ApplicationResult playerJoin(GamePlayer gamePlayer);
 
     /**
      * Remove a player from the table.

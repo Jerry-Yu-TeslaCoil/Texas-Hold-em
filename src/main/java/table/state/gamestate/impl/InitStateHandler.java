@@ -47,7 +47,7 @@ public enum InitStateHandler implements GameStateHandler {
 
         context.setBetBasisLine(BigDecimal.ZERO);
         context.setRoundIndex(context.getRoundIndex() + 1);
-        if (context.getRoundIndex() >= 5) {
+        if (context.getRoundIndex() >= context.getTotalRounds()) {
             return null;
         }
 

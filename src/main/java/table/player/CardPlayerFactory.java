@@ -30,11 +30,11 @@ public interface CardPlayerFactory {
     void setConfig(TableConfig config);
 
     /**
-     * Create a CardPlayer with the controller, the config and an id.
-     * @param controller The controller of the CardPlayer.
-     * @return A CardPlayer with the given controller.
+     * Create a CardPlayer with the gamePlayer, the config and an id.
+     * @param gamePlayer The gamePlayer of the CardPlayer.
+     * @return A CardPlayer with the given gamePlayer.
      */
-    CardPlayer createCardPlayer(GamePlayer controller);
+    CardPlayer createCardPlayer(GamePlayer gamePlayer);
 
     /**
      * Reset factory id for CardPlayers to starting from 0.
