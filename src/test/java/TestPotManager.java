@@ -1,7 +1,11 @@
+import control.player.impl.RobotGamePlayer;
+import control.player.controller.impl.RobotGamePlayerRandom;
+import exception.IllegalOperationException;
 import lombok.extern.log4j.Log4j2;
+import org.junit.Assert;
 import org.junit.Test;
-import table.mechanism.decision.DecisionType;
-import table.mechanism.decision.ResolvedAction;
+import table.rule.decision.DecisionType;
+import table.rule.decision.ResolvedAction;
 import table.player.CardPlayer;
 import table.player.impl.SimpleCardPlayer;
 import table.pot.PlayerRanking;
@@ -18,12 +22,12 @@ public class TestPotManager {
     @Test
     public void testNormalProcess() {
         PotManager potManager = new PotManagerImpl();
-        CardPlayer player1 = new SimpleCardPlayer(null, new BigDecimal(4), 1);
-        CardPlayer player2 = new SimpleCardPlayer(null, new BigDecimal(7), 2);
-        CardPlayer player3 = new SimpleCardPlayer(null, new BigDecimal(3), 3);
-        CardPlayer player4 = new SimpleCardPlayer(null, new BigDecimal(6), 4);
-        CardPlayer player5 = new SimpleCardPlayer(null, new BigDecimal(6), 5);
-        CardPlayer player6 = new SimpleCardPlayer(null, new BigDecimal(6), 6);
+        CardPlayer player1 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(4), 1);
+        CardPlayer player2 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(7), 2);
+        CardPlayer player3 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(3), 3);
+        CardPlayer player4 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(6), 4);
+        CardPlayer player5 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(6), 5);
+        CardPlayer player6 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(6), 6);
 
         potManager.action(player1, new ResolvedAction(DecisionType.RAISE, new BigDecimal(1)));
         PlayerUtil.collectChipsExactly(player1, new BigDecimal(1));
@@ -68,12 +72,12 @@ public class TestPotManager {
     @Test
     public void testNotALLIN() {
         PotManager potManager = new PotManagerImpl();
-        CardPlayer player1 = new SimpleCardPlayer(null, new BigDecimal(5), 1);
-        CardPlayer player2 = new SimpleCardPlayer(null, new BigDecimal(6), 2);
-        CardPlayer player3 = new SimpleCardPlayer(null, new BigDecimal(3), 3);
-        CardPlayer player4 = new SimpleCardPlayer(null, new BigDecimal(6), 4);
-        CardPlayer player5 = new SimpleCardPlayer(null, new BigDecimal(6), 5);
-        CardPlayer player6 = new SimpleCardPlayer(null, new BigDecimal(6), 6);
+        CardPlayer player1 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(5), 1);
+        CardPlayer player2 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(6), 2);
+        CardPlayer player3 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(3), 3);
+        CardPlayer player4 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(6), 4);
+        CardPlayer player5 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(6), 5);
+        CardPlayer player6 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(6), 6);
 
         potManager.action(player1, new ResolvedAction(DecisionType.RAISE, new BigDecimal(1)));
         PlayerUtil.collectChipsExactly(player1, new BigDecimal(1));
@@ -108,21 +112,19 @@ public class TestPotManager {
         playerRanks.add(new PlayerRanking(player4, 60));
         playerRanks.add(new PlayerRanking(player5, 90));
         playerRanks.add(new PlayerRanking(player6, 60));
-        try {
+        Assert.assertThrows(IllegalOperationException.class, () -> {
             potManager.judge(playerRanks);
-        } catch (Exception e) {
-            log.error("Exception caught: {}", e.getMessage());
-        }
+        });
     }
 
     @Test
     public void testBlindError() {
         PotManager manager = new PotManagerImpl();
-        CardPlayer player1 = new SimpleCardPlayer(null, new BigDecimal(12), 1);
-        CardPlayer player2 = new SimpleCardPlayer(null, new BigDecimal(12), 2);
-        CardPlayer player3 = new SimpleCardPlayer(null, new BigDecimal(11), 3);
-        CardPlayer player4 = new SimpleCardPlayer(null, new BigDecimal(10), 4);
-        CardPlayer player5 = new SimpleCardPlayer(null, new BigDecimal(12), 5);
+        CardPlayer player1 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(12), 1);
+        CardPlayer player2 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(12), 2);
+        CardPlayer player3 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(11), 3);
+        CardPlayer player4 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(10), 4);
+        CardPlayer player5 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(12), 5);
 
         manager.action(player1, new ResolvedAction(DecisionType.CALL, new BigDecimal(0)));
         manager.action(player2, new ResolvedAction(DecisionType.CALL, new BigDecimal(0)));
@@ -148,11 +150,11 @@ public class TestPotManager {
     @Test
     public void testBlindError2() {
         PotManager manager = new PotManagerImpl();
-        CardPlayer player1 = new SimpleCardPlayer(null, new BigDecimal(12), 1);
-        CardPlayer player2 = new SimpleCardPlayer(null, new BigDecimal(12), 2);
-        CardPlayer player3 = new SimpleCardPlayer(null, new BigDecimal(11), 3);
-        CardPlayer player4 = new SimpleCardPlayer(null, new BigDecimal(10), 4);
-        CardPlayer player5 = new SimpleCardPlayer(null, new BigDecimal(12), 5);
+        CardPlayer player1 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(12), 1);
+        CardPlayer player2 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(12), 2);
+        CardPlayer player3 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(11), 3);
+        CardPlayer player4 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(10), 4);
+        CardPlayer player5 = new SimpleCardPlayer(new RobotGamePlayer(new RobotGamePlayerRandom()), new BigDecimal(12), 5);
 
         manager.action(player1, new ResolvedAction(DecisionType.CALL, new BigDecimal(0)));
         player1.setIsContinuingGame(false);

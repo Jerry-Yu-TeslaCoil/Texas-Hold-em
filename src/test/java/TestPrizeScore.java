@@ -1,13 +1,13 @@
-import control.gameplayer.impl.RobotGamePlayer;
-import control.playercontroller.impl.RobotGamePlayerDoPreset;
+import control.player.impl.RobotGamePlayer;
+import control.player.controller.impl.RobotGamePlayerDoPreset;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.card.PokerCard;
 import table.card.Rank;
 import table.card.Suit;
 import table.card.impl.FixedPokerCard;
-import table.mechanism.decision.DecisionType;
-import table.mechanism.decision.ResolvedAction;
+import table.rule.decision.DecisionType;
+import table.rule.decision.ResolvedAction;
 import table.player.CardPlayer;
 import table.player.impl.SimpleCardPlayer;
 import table.pot.PlayerRanking;

@@ -1,6 +1,6 @@
 package table.record.recorder.impl;
 
-import control.playeridentifier.PlayerIdentifier;
+import control.player.identifier.PlayerIdentifier;
 import table.record.entry.TimelineEntry;
 import table.record.reader.RecordReader;
 import table.record.reader.impl.SimpleRecordReader;

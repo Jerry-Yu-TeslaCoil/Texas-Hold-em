@@ -1,5 +1,8 @@
 package util;
 
+import lombok.Getter;
+
+@Getter
 public class ApplicationResult {
 
     private final boolean result;
@@ -22,11 +25,4 @@ public class ApplicationResult {
         this.message = message;
     }
 
-    public boolean isResult() {
-        return result;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

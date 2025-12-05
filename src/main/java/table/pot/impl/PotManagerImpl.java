@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
-import table.mechanism.decision.DecisionType;
-import table.mechanism.decision.ResolvedAction;
+import table.rule.decision.DecisionType;
+import table.rule.decision.ResolvedAction;
 import table.player.CardPlayer;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;
@@ -133,6 +133,7 @@ public class PotManagerImpl implements PotManager {
     public void judge(PriorityQueue<PlayerRanking> playerRankings) {
         if (isJudged) {
             log.warn("judge() is already called. This will lead to empty player stacks, and will not be functional.");
+            return;
         }
         LinkedList<PotStack> pots = new LinkedList<>();
         LinkedList<ArrayList<CardPlayer>> joinedPlayers = new LinkedList<>();

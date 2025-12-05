@@ -1,14 +1,14 @@
 package table.player.impl;
 
-import control.gameplayer.GamePlayer;
+import control.player.GamePlayer;
 import exception.IllegalOperationException;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
-import table.mechanism.decision.DecisionRequest;
-import table.mechanism.decision.DecisionType;
-import table.mechanism.decision.PlayerDecision;
-import table.mechanism.decision.ResolvedAction;
-import table.mechanism.decision.impl.RaiseDecision;
+import table.rule.decision.DecisionRequest;
+import table.rule.decision.DecisionType;
+import table.rule.decision.PlayerDecision;
+import table.rule.decision.ResolvedAction;
+import table.rule.decision.impl.RaiseDecision;
 import table.player.CardPlayer;
 import table.record.entry.impl.PlayerPrivateInfoVOEntry;
 import table.record.entry.impl.PublicInfoVOEntry;

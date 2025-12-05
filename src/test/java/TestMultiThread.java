@@ -1,11 +1,11 @@
-import control.gameplayer.GamePlayer;
-import control.gameplayer.impl.RobotGamePlayer;
-import control.playercontroller.impl.RobotGamePlayerRandom;
+import control.player.GamePlayer;
+import control.player.impl.RobotGamePlayer;
+import control.player.controller.impl.RobotGamePlayerRandom;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.CardTable;
 import table.config.TableConfig;
-import table.impl.CardTableImpl;
+import table.impl.ClassicTable;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class TestMultiThread {
     public void testMultiThreadGame() throws InterruptedException {
         List<Thread> threads = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            CardTable table = new CardTableImpl();
+            CardTable table = new ClassicTable();
             TableConfig config = new TableConfig(new BigDecimal(24), new BigDecimal(1));
             table.setTableConfig(config);
             for (int j = 0; j < 5; j++) {
@@ -35,7 +35,7 @@ public class TestMultiThread {
 
     @Test
     public void testMultiThreadTableJoinLeave() throws InterruptedException {
-        CardTable table = new CardTableImpl();
+        CardTable table = new ClassicTable();
         GamePlayer gamePlayer = new RobotGamePlayer(new RobotGamePlayerRandom());
         Thread joinThread = new Thread(() -> {
             for (int i = 0; i < 1000; i++) {

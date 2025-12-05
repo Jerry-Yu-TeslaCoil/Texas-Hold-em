@@ -1,6 +1,6 @@
 package table.record.reader;
 
-import control.playeridentifier.PlayerIdentifier;
+import control.player.identifier.PlayerIdentifier;
 import table.record.processor.EntryProcessor;
 
 public interface RecordReader {

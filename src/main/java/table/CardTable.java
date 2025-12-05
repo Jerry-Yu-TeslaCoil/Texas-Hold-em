@@ -1,6 +1,6 @@
 package table;
 
-import control.gameplayer.GamePlayer;
+import control.player.GamePlayer;
 import table.config.TableConfig;
 import table.record.reader.RecordReader;
 import util.ApplicationResult;

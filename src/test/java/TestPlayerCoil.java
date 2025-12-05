@@ -1,6 +1,6 @@
-import control.gameplayer.GamePlayer;
-import control.gameplayer.impl.RobotGamePlayer;
-import control.playercontroller.impl.RobotGamePlayerCallOnly;
+import control.player.GamePlayer;
+import control.player.impl.RobotGamePlayer;
+import control.player.controller.impl.RobotGamePlayerCallOnly;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.player.CardPlayer;

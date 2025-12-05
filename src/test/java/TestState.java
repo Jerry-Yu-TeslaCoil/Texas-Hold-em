@@ -1,5 +1,5 @@
-import control.gameplayer.impl.RobotGamePlayer;
-import control.playercontroller.impl.RobotGamePlayerRandom;
+import control.player.impl.RobotGamePlayer;
+import control.player.controller.impl.RobotGamePlayerRandom;
 import org.junit.Test;
 import table.config.TableConfig;
 import table.player.PlayerList;
@@ -7,8 +7,8 @@ import table.player.impl.PlayerCoil;
 import table.player.impl.SimpleCardPlayerFactory;
 import table.pot.PotManager;
 import table.pot.impl.PotManagerImpl;
-import table.state.gamestate.GameState;
-import table.state.gamestate.GameStateContext;
+import table.state.GameState;
+import table.state.GameStateContext;
 
 import java.math.BigDecimal;
 

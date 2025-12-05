@@ -1,12 +1,12 @@
-import control.gameplayer.impl.RobotGamePlayer;
-import control.playercontroller.impl.RobotGamePlayerDoPreset;
+import control.player.impl.RobotGamePlayer;
+import control.player.controller.impl.RobotGamePlayerDoPreset;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.card.CardDeck;
 import table.card.impl.NoJokerDeckFactory;
 import table.player.CardPlayer;
 import table.player.impl.SimpleCardPlayer;
-import table.state.gamestate.GameState;
+import table.state.GameState;
 import table.vo.publicinfo.PlayerPublicVO;
 import table.vo.publicinfo.builder.PlayerPublicVOBuilder;
 import table.vo.publicinfo.builder.impl.ClassicPlayerPublicVOBuilder;

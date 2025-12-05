@@ -1,7 +1,7 @@
 package table.vo.publicinfo.builder;
 
 import table.player.CardPlayer;
-import table.state.gamestate.GameState;
+import table.state.GameState;
 import table.vo.publicinfo.PlayerPublicVO;
 
 /**

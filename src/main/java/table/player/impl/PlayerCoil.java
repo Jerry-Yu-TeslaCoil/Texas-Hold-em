@@ -1,6 +1,6 @@
 package table.player.impl;
 
-import control.gameplayer.GamePlayer;
+import control.player.GamePlayer;
 import table.player.CardPlayer;
 import table.player.PlayerIterator;
 import table.player.PlayerList;

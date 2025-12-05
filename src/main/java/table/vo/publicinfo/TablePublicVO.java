@@ -1,8 +1,8 @@
 package table.vo.publicinfo;
 
 import table.card.PokerCard;
-import table.mechanism.decision.ResolvedAction;
-import table.state.gamestate.GameState;
+import table.rule.decision.ResolvedAction;
+import table.state.GameState;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

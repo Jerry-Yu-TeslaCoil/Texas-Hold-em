@@ -2,7 +2,7 @@ package table.vo.publicinfo.builder.impl;
 
 import table.card.PokerCard;
 import table.player.CardPlayer;
-import table.state.gamestate.GameState;
+import table.state.GameState;
 import table.vo.publicinfo.PlayerPublicVO;
 import table.vo.publicinfo.builder.PlayerPublicVOBuilder;
 

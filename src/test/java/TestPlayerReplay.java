@@ -1,10 +1,10 @@
-import control.gameplayer.impl.RobotGamePlayer;
-import control.playercontroller.impl.RobotGamePlayerRandom;
+import control.player.impl.RobotGamePlayer;
+import control.player.controller.impl.RobotGamePlayerRandom;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.CardTable;
 import table.config.TableConfig;
-import table.impl.CardTableImpl;
+import table.impl.ClassicTable;
 import table.record.entry.impl.PlayerPrivateInfoVOEntry;
 import table.record.entry.impl.PublicInfoVOEntry;
 import table.record.processor.EntryProcessor;
@@ -18,7 +18,7 @@ public class TestPlayerReplay {
 
     @Test
     public void testPlayerReplay() {
-        CardTable ct = new CardTableImpl();
+        CardTable ct = new ClassicTable();
         TableConfig config = new TableConfig(new BigDecimal(12), new BigDecimal(1));
         ct.setTableConfig(config);
         for (int i = 0; i < 5; i++) {

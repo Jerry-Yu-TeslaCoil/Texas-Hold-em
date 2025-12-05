@@ -1,16 +1,16 @@
-import control.gameplayer.GamePlayer;
-import control.gameplayer.impl.RobotGamePlayer;
-import control.playercontroller.impl.RobotGamePlayerRandom;
+import control.player.GamePlayer;
+import control.player.impl.RobotGamePlayer;
+import control.player.controller.impl.RobotGamePlayerRandom;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.CardTable;
 import table.config.TableConfig;
-import table.impl.CardTableImpl;
-import table.mechanism.decision.DecisionType;
-import table.mechanism.decision.ResolvedAction;
+import table.impl.ClassicTable;
+import table.rule.decision.DecisionType;
+import table.rule.decision.ResolvedAction;
 import table.player.CardPlayerFactory;
 import table.player.impl.SimpleCardPlayerFactory;
-import table.state.gamestate.GameState;
+import table.state.GameState;
 import table.vo.publicinfo.PlayerPublicVO;
 import table.vo.publicinfo.PotPublicVO;
 import table.vo.publicinfo.PublicVO;
@@ -26,7 +26,7 @@ public class TestVOBuild {
     @Test
     public void test() {
         TableConfig tableConfig = new TableConfig(new BigDecimal(24), new BigDecimal(1));
-        CardTable cardTable = new CardTableImpl(tableConfig);
+        CardTable cardTable = new ClassicTable(tableConfig);
         GamePlayer ai = new RobotGamePlayer(new RobotGamePlayerRandom());
         cardTable.playerJoin(ai);
         TablePublicVO.Builder tablePublicVO = TablePublicVO.builder();

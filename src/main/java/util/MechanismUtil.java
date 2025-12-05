@@ -2,8 +2,8 @@ package util;
 
 
 import table.card.PokerCard;
-import table.mechanism.scoring.ScoreEvaluator;
-import table.mechanism.scoring.impl.PokerScoreEvaluator;
+import table.rule.scoring.ScoreEvaluator;
+import table.rule.scoring.impl.PokerScoreEvaluator;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package table.player;
 
-import control.gameplayer.GamePlayer;
+import control.player.GamePlayer;
 import util.ApplicationResult;
 
 import java.util.List;
