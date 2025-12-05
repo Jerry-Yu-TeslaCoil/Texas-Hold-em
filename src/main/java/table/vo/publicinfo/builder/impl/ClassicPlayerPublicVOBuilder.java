@@ -39,7 +39,7 @@ public class ClassicPlayerPublicVOBuilder implements PlayerPublicVOBuilder {
     @Override
     public PlayerPublicVO build(CardPlayer cardPlayer) {
         PlayerPublicVO.Builder builder = PlayerPublicVO.builder()
-                .setPlayerPersonalVO(cardPlayer.getGamePlayer().getPlayerIdentifier().getPlayerPersonalVO())
+                .setPlayerPersonalVO(cardPlayer.getGamePlayer().playerIdentifier().getPlayerPersonalVO())
                 .setChipsInHand(cardPlayer.getStack()).setContinuingGame(cardPlayer.getIsContinuingGame());
         return switch (gameState) {
             case INIT -> builder.build();

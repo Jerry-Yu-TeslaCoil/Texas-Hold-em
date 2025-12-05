@@ -14,7 +14,7 @@ import table.record.entry.impl.PlayerPrivateInfoVOEntry;
 import table.record.entry.impl.PublicInfoVOEntry;
 import table.record.reader.RecordReader;
 import table.record.recorder.GameRecorder;
-import table.record.recorder.impl.SimpleGameRecorder;
+import table.record.recorder.impl.LinkedGameRecorder;
 import table.vo.privateinfo.PlayerPrivateVO;
 import table.vo.publicinfo.PublicVO;
 
@@ -78,7 +78,7 @@ public class SimpleCardPlayer implements CardPlayer {
         this.isContinuingGame = true;
         this.id = id;
         this.playerInvestment = BigDecimal.ZERO;
-        this.gameRecorder = new SimpleGameRecorder(gamePlayer.getPlayerIdentifier());
+        this.gameRecorder = new LinkedGameRecorder(gamePlayer.playerIdentifier());
     }
 
     @Override
@@ -166,7 +166,7 @@ public class SimpleCardPlayer implements CardPlayer {
 
     @Override
     public ResolvedAction getPlayerDecision(DecisionRequest decisionRequest) {
-        PlayerDecision playerDecision = gamePlayer.getPlayerController().getPlayerDecision(decisionRequest);
+        PlayerDecision playerDecision = gamePlayer.playerController().getPlayerDecision(decisionRequest);
         validateDecision(decisionRequest, playerDecision);
         return resolveDecision(decisionRequest, playerDecision);
     }
@@ -174,13 +174,13 @@ public class SimpleCardPlayer implements CardPlayer {
     @Override
     public void updatePublicInfo(PublicVO publicInfo) {
         this.gameRecorder.record(new PublicInfoVOEntry(Instant.now(), publicInfo));
-        this.gamePlayer.getPlayerController().updatePublicInfo(publicInfo);
+        this.gamePlayer.playerController().updatePublicInfo(publicInfo);
     }
 
     @Override
     public void updatePrivateInfo(PlayerPrivateVO privateInfo) {
         this.gameRecorder.record(new PlayerPrivateInfoVOEntry(Instant.now(), privateInfo));
-        this.gamePlayer.getPlayerController().updatePrivateInfo(privateInfo);
+        this.gamePlayer.playerController().updatePrivateInfo(privateInfo);
     }
 
     private ResolvedAction resolveDecision(DecisionRequest decisionRequest, PlayerDecision playerDecision) {

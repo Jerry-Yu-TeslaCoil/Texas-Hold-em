@@ -19,8 +19,6 @@
 - [Testing](#testing)
 - [Extension Points](#extension-points)
 - [Project Structure](#project-structure)
-- [Design Patterns](#design-patterns)
-- [Contributing](#contributing)
 
 ## Architecture Overview
 

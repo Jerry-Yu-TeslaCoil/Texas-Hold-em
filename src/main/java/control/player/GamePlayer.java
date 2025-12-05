@@ -16,6 +16,16 @@ import control.player.identifier.PlayerIdentifier;
  * @version 1.0
  */
 public interface GamePlayer {
-    PlayerController getPlayerController();
-    PlayerIdentifier getPlayerIdentifier();
+
+    /**
+     * Getter of the controller
+     * @return The controller of the GamePlayer
+     */
+    PlayerController playerController();
+
+    /**
+     * Getter of the identifier
+     * @return The identifier of the GamePlayer
+     */
+    PlayerIdentifier<?> playerIdentifier();
 }

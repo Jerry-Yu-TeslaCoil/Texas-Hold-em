@@ -6,24 +6,21 @@ import control.player.identifier.PlayerIdentifier;
 
 /**
  * The composition form of a GamePlayer.
+ *
+ * <p>
+ * This is the most generic form.
+ * It takes corresponding args and makes it final as a record class.
+ * </p>
+ *
+ * <p>
+ *     This is considered thread-safe.
+ * </p>
+ *
+ * @author jerry
+ *
+ * @version 1.1
  */
-public class ComposedGamePlayer implements GamePlayer {
+public record ComposedGamePlayer(PlayerController playerController,
+                                 PlayerIdentifier<?> playerIdentifier) implements GamePlayer {
 
-    private final PlayerController playerController;
-    private final PlayerIdentifier playerIdentifier;
-
-    public ComposedGamePlayer(PlayerController playerController, PlayerIdentifier playerIdentifier) {
-        this.playerController = playerController;
-        this.playerIdentifier = playerIdentifier;
-    }
-
-    @Override
-    public PlayerController getPlayerController() {
-        return this.playerController;
-    }
-
-    @Override
-    public PlayerIdentifier getPlayerIdentifier() {
-        return this.playerIdentifier;
-    }
 }
