@@ -147,24 +147,24 @@ public class AIPlayer implements PlayerController {
 }
 ```
 
-- Then customize its PlayerIdentifier:
+- Then customize its PlayerIdentifier, for example, string as ID:
 
 ```java
 import control.player.identifier.PlayerIdentifier;
 import control.vo.PlayerPersonalVO;
 
-public class AIIdentifier implements PlayerIdentifier {
+public class AIIdentifier implements PlayerIdentifier<String> {
 
-    private final PlayerPersonalVO vo;
+    private final PlayerPersonalVO<String> vo;
 
     public AIIdentifier() {
-        this.vo = new PlayerPersonalVO();
-        //Build your AI identification info VO
+        this.vo = new PlayerPersonalVO<>();
+        //Build your AI identification info VO ID
     }
 
     @Override
-    public PlayerPersonalVO getPlayerPersonalVO() {
-        //By cache form, simply return
+    public PlayerPersonalVO<String> getPlayerPersonalVO() {
+        //By cache form, return VO
         return vo;
     }
 }
@@ -273,16 +273,16 @@ import java.math.BigDecimal;
 
 public class Main {
     public static void main(String[] args) {
-        TableConfig quickGame = new TableConfig();
-        quickGame.maxPlayers() = 4;
-        quickGame.playRound() = 3;
-        quickGame.initBet() = new BigDecimal(12);
-
-        TableConfig mediumGame = new TableConfig();
-        mediumGame.maxPlayers() = 12;
-        mediumGame.playRound() = 6;
-        mediumGame.initBet() = new BigDecimal(24);
-
+        TableConfig quickGame = new TableConfig(new BigDecimal(12),
+              new BigDecimal(1),
+              new BigDecimal(2400),
+              4, 3);
+      
+        TableConfig mediumGame = new TableConfig(new BigDecimal(24),
+              new BigDecimal(1),
+              new BigDecimal(2400),
+              12, 6);
+        
         //Quick game
         CardTable table = new ClassicTable();
         table.setTableConfig(quickGame);

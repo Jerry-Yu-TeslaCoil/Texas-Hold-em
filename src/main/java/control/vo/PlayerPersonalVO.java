@@ -1,5 +1,8 @@
 package control.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
 /**
  * View object class for player's personal public info.
  *
@@ -13,12 +16,15 @@ package control.vo;
  * </p>
  *
  * <p>
- *     TODO: Under construction.
+ *     WARNING: Do remember to use deep-copy and final elements to ensure no insecure modification.
  * </p>
  *
  * @author jerry
  *
  * @version 1.0
  */
-public record PlayerPersonalVO() {
+@AllArgsConstructor
+@ToString
+public class PlayerPersonalVO <T> {
+    private final T info;
 }

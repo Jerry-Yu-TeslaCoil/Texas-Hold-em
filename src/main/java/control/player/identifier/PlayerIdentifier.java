@@ -15,11 +15,11 @@ import control.vo.PlayerPersonalVO;
  *
  * @version 1.0
  */
-public interface PlayerIdentifier {
+public interface PlayerIdentifier<T> {
 
     /**
      * Get the player's info in a view object.
      * @return A view object of the player's info.
      */
-    PlayerPersonalVO getPlayerPersonalVO();
+    PlayerPersonalVO<T> getPlayerPersonalVO();
 }
