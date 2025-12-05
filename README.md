@@ -328,7 +328,7 @@ Extend `CardTable` for client-server architecture:
 
 ### 3. GUI Integration
 Hook into event system:
-- Unity frontend
+- Unity/Vue/React frontend
 - Web interface via REST
 - Mobile applications
 
