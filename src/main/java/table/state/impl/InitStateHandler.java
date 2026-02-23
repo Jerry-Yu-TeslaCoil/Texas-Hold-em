@@ -47,7 +47,22 @@ public enum InitStateHandler implements GameStateHandler {
 
         context.setBetBasisLine(BigDecimal.ZERO);
         context.setRoundIndex(context.getRoundIndex() + 1);
+
+        PlayerIterator iterator = context.getPlayers().getIterator();
+        int stayedPlayerNum = 0;
+        while (iterator.hasNext()) {
+            if (!iterator.next().getStack().equals(new BigDecimal(0))) {
+                stayedPlayerNum++;
+            }
+        }
+
         if (context.getRoundIndex() >= context.getTotalRounds()) {
+            log.info("Game end as required round finished.");
+            return null;
+        }
+
+        if (stayedPlayerNum < 2) {
+            log.info("Game end as one of the player made a complete win.");
             return null;
         }
 
