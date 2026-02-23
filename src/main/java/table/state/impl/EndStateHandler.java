@@ -1,6 +1,7 @@
 package table.state.impl;
 
 import lombok.extern.log4j.Log4j2;
+import table.card.PokerCard;
 import table.player.CardPlayer;
 import table.player.PlayerIterator;
 import table.player.PlayerList;
@@ -27,6 +28,8 @@ public enum EndStateHandler implements GameStateHandler {
         context.getTablePublicVOBuilder().setCurrentGameState(GameState.END);
         context.getPlayerPublicVOBuilder().setState(GameState.END);
 
+        PokerCard[] recordView = context.getPublicCards();
+
         PlayerUtil.flopAllCards(context);
 
         PotManager potManager = context.getPotManager();
@@ -37,6 +40,8 @@ public enum EndStateHandler implements GameStateHandler {
             potManager.judge(playerRankings);
         }
         settlePrize(context, potManager);
+
+        context.setPublicCards(recordView);
 
         PlayerUtil.buildAndPublishVO(context);
 

@@ -199,11 +199,14 @@ public class PlayerUtil {
     }
 
     public static void flopAllCards(GameStateContext context) {
-        PokerCard[] cards = context.getPublicCards();
+        PokerCard[] cards = new PokerCard[5];
+        PokerCard[] origin = context.getPublicCards();
         for (int i = 0; i < 5; i++) {
-            if (cards[i] == null) {
+            if (origin[i] == null) {
                 cards[i] = context.getCardDeck().takePeekCard();
                 context.getCardDeck().shuffle();
+            } else {
+                cards[i] = origin[i];
             }
         }
         context.setPublicCards(cards);
