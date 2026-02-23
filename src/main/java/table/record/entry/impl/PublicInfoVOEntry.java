@@ -1,8 +1,8 @@
 package table.record.entry.impl;
 
 import lombok.Getter;
-import table.record.processor.EntryProcessor;
 import table.record.entry.TimelineEntry;
+import table.record.processor.EntryProcessor;
 import table.vo.publicinfo.PublicVO;
 
 import java.time.Instant;

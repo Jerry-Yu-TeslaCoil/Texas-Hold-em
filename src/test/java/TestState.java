@@ -1,5 +1,5 @@
-import control.player.impl.RobotGamePlayer;
 import control.player.controller.impl.RobotGamePlayerRandom;
+import control.player.impl.RobotGamePlayer;
 import org.junit.Test;
 import table.config.TableConfig;
 import table.player.PlayerList;

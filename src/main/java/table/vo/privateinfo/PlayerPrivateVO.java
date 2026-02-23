@@ -1,7 +1,10 @@
 package table.vo.privateinfo;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 import table.card.PokerCard;
 
 /**

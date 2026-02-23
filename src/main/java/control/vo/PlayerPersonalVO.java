@@ -1,6 +1,7 @@
 package control.vo;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.ToString;
 
 /**
@@ -24,6 +25,7 @@ import lombok.ToString;
  * @version 1.0
  */
 @AllArgsConstructor
+@Data
 @ToString
 public class PlayerPersonalVO <T> {
     private final T info;

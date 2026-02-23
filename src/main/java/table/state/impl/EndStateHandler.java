@@ -6,6 +6,7 @@ import table.player.PlayerIterator;
 import table.player.PlayerList;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;
+import table.rule.decision.DecisionRequest;
 import table.state.GameState;
 import table.state.GameStateContext;
 import table.state.GameStateHandler;
@@ -38,6 +39,16 @@ public enum EndStateHandler implements GameStateHandler {
         settlePrize(context, potManager);
 
         PlayerUtil.buildAndPublishVO(context);
+
+        //Ensure
+        PlayerList playerList = context.getPlayers();
+        PlayerIterator iterator = playerList.getIterator();
+        while (iterator.hasNext()) {
+            CardPlayer next = iterator.next();
+            context.getTablePublicVOBuilder().setCurrentDecisionMakerId(next.getID());
+            PlayerUtil.buildAndPublishVO(context);
+            next.getPlayerDecision(new DecisionRequest(new BigDecimal(0), new BigDecimal(0)));
+        }
 
         return GameState.INIT;
     }

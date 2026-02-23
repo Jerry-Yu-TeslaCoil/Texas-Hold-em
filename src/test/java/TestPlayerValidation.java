@@ -1,12 +1,12 @@
-import control.player.impl.RobotGamePlayer;
 import control.player.controller.impl.RobotGamePlayerDoPreset;
+import control.player.impl.RobotGamePlayer;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
+import table.player.CardPlayer;
+import table.player.impl.SimpleCardPlayer;
 import table.rule.decision.DecisionRequest;
 import table.rule.decision.DecisionType;
 import table.rule.decision.ResolvedAction;
-import table.player.CardPlayer;
-import table.player.impl.SimpleCardPlayer;
 
 import java.math.BigDecimal;
 

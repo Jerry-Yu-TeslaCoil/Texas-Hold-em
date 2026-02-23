@@ -1,6 +1,6 @@
-import control.player.impl.RobotGamePlayer;
 import control.player.controller.impl.RobotGamePlayerDoPreset;
 import control.player.controller.impl.RobotGamePlayerRandom;
+import control.player.impl.RobotGamePlayer;
 import org.junit.Test;
 import table.CardTable;
 import table.config.TableConfig;

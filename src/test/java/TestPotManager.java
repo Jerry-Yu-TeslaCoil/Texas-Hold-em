@@ -1,16 +1,16 @@
-import control.player.impl.RobotGamePlayer;
 import control.player.controller.impl.RobotGamePlayerRandom;
+import control.player.impl.RobotGamePlayer;
 import exception.IllegalOperationException;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.junit.Test;
-import table.rule.decision.DecisionType;
-import table.rule.decision.ResolvedAction;
 import table.player.CardPlayer;
 import table.player.impl.SimpleCardPlayer;
 import table.pot.PlayerRanking;
 import table.pot.PotManager;
 import table.pot.impl.PotManagerImpl;
+import table.rule.decision.DecisionType;
+import table.rule.decision.ResolvedAction;
 import util.PlayerUtil;
 
 import java.math.BigDecimal;
@@ -112,9 +112,7 @@ public class TestPotManager {
         playerRanks.add(new PlayerRanking(player4, 60));
         playerRanks.add(new PlayerRanking(player5, 90));
         playerRanks.add(new PlayerRanking(player6, 60));
-        Assert.assertThrows(IllegalOperationException.class, () -> {
-            potManager.judge(playerRanks);
-        });
+        Assert.assertThrows(IllegalOperationException.class, () -> potManager.judge(playerRanks));
     }
 
     @Test

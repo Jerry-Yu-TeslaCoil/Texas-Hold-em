@@ -52,9 +52,14 @@ public class ClassicPlayerPublicVOBuilder implements PlayerPublicVOBuilder {
                 }
                 yield builder.build();
             }
-            case END -> builder.setChipsInvested(cardPlayer.getPlayerInvestment())
-                    .setPrize(cardPlayer.getPlayerPrize())
-                    .build();
+            case END -> {
+                if (cardPlayer.getIsJoiningPot()) {
+                    builder = builder.setPokerCard(cardPlayer.getHoleCards().toArray(new PokerCard[0]));
+                }
+                yield builder.setChipsInvested(cardPlayer.getPlayerInvestment())
+                        .setPrize(cardPlayer.getPlayerPrize())
+                        .build();
+            }
         };
     }
 }

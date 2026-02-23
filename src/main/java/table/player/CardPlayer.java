@@ -2,9 +2,9 @@ package table.player;
 
 import control.player.GamePlayer;
 import table.card.PokerCard;
+import table.record.reader.RecordReader;
 import table.rule.decision.DecisionRequest;
 import table.rule.decision.ResolvedAction;
-import table.record.reader.RecordReader;
 import table.vo.privateinfo.PlayerPrivateVO;
 import table.vo.publicinfo.PublicVO;
 

@@ -25,7 +25,7 @@ import java.util.Objects;
  * @author jerry
  * @version 1.0
  */
-public record PlayerPublicVO(PlayerPersonalVO playerPersonalVO, PokerCard[] pokerCard,
+public record PlayerPublicVO(PlayerPersonalVO<?> playerPersonalVO, PokerCard[] pokerCard,
                              BigDecimal chipsInHand, BigDecimal chipsInvested,
                              boolean isContinuingGame, BigDecimal prize) {
     /**
@@ -66,7 +66,8 @@ public record PlayerPublicVO(PlayerPersonalVO playerPersonalVO, PokerCard[] poke
                 "\n\t\tchipsInHand=" + chipsInHand + ", " +
                 "chipsInvested=" + chipsInvested + ", " +
                 "isContinuingGame=" + isContinuingGame + ", " +
-                "prize=" + prize + "]";
+                "prize=" + prize + "," +
+                "]";
     }
 
     /**
@@ -82,14 +83,14 @@ public record PlayerPublicVO(PlayerPersonalVO playerPersonalVO, PokerCard[] poke
      * The builder of the view object.
      */
     public static class Builder {
-        private PlayerPersonalVO playerPersonalVO = null;
+        private PlayerPersonalVO<?> playerPersonalVO = null;
         private PokerCard[] pokerCard = null;
         private BigDecimal chipsInHand = null;
         private BigDecimal chipsInvested = null;
         private boolean isContinuingGame = false;
         private BigDecimal prize = null;
 
-        public Builder setPlayerPersonalVO(PlayerPersonalVO playerPersonalVO) {
+        public Builder setPlayerPersonalVO(PlayerPersonalVO<?> playerPersonalVO) {
             this.playerPersonalVO = playerPersonalVO;
             return this;
         }

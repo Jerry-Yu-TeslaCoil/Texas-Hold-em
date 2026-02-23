@@ -1,5 +1,5 @@
-import control.player.impl.RobotGamePlayer;
 import control.player.controller.impl.RobotGamePlayerDoPreset;
+import control.player.impl.RobotGamePlayer;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 import table.card.CardDeck;

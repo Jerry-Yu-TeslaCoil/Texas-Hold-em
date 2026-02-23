@@ -1,7 +1,7 @@
 package table.pot;
 
-import table.rule.decision.ResolvedAction;
 import table.player.CardPlayer;
+import table.rule.decision.ResolvedAction;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
