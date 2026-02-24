@@ -2,6 +2,7 @@ package table.player.impl;
 
 import control.player.GamePlayer;
 import exception.IllegalOperationException;
+import exception.PlayerLeftException;
 import lombok.extern.log4j.Log4j2;
 import table.card.PokerCard;
 import table.player.CardPlayer;
@@ -14,6 +15,7 @@ import table.rule.decision.DecisionRequest;
 import table.rule.decision.DecisionType;
 import table.rule.decision.PlayerDecision;
 import table.rule.decision.ResolvedAction;
+import table.rule.decision.impl.FoldDecision;
 import table.rule.decision.impl.RaiseDecision;
 import table.vo.privateinfo.PlayerPrivateVO;
 import table.vo.publicinfo.PublicVO;
@@ -58,6 +60,7 @@ public class SimpleCardPlayer implements CardPlayer {
     private final List<PokerCard> pokerCards;
 
     private boolean isContinuingGame;
+    private boolean isInGame;
 
     private BigDecimal playerInvestment;
     private BigDecimal prize;
@@ -79,6 +82,7 @@ public class SimpleCardPlayer implements CardPlayer {
         this.id = id;
         this.playerInvestment = BigDecimal.ZERO;
         this.gameRecorder = new LinkedGameRecorder(gamePlayer.playerIdentifier());
+        this.isInGame = true;
     }
 
     @Override
@@ -135,6 +139,16 @@ public class SimpleCardPlayer implements CardPlayer {
     }
 
     @Override
+    public boolean getIsInGame() {
+        return this.isInGame;
+    }
+
+    @Override
+    public void setIsInGame(boolean inGame) {
+        this.isInGame = inGame;
+    }
+
+    @Override
     public boolean getIsAllIn() {
         return this.stack.compareTo(BigDecimal.ZERO) == 0;
     }
@@ -166,7 +180,13 @@ public class SimpleCardPlayer implements CardPlayer {
 
     @Override
     public ResolvedAction getPlayerDecision(DecisionRequest decisionRequest) {
-        PlayerDecision playerDecision = gamePlayer.playerController().getPlayerDecision(decisionRequest);
+        PlayerDecision playerDecision = null;
+        try {
+            playerDecision = gamePlayer.playerController().getPlayerDecision(decisionRequest);
+        } catch (PlayerLeftException e) {
+            this.isInGame = false;
+            playerDecision = new FoldDecision();
+        }
         validateDecision(decisionRequest, playerDecision);
         return resolveDecision(decisionRequest, playerDecision);
     }

@@ -103,6 +103,10 @@ public interface CardPlayer {
      */
     void setIsContinuingGame(boolean continuingGame);
 
+    boolean getIsInGame();
+
+    void setIsInGame(boolean inGame);
+
     /**
      * Get if the player is already all-in.
      * The player is considered all-in when his stack comes to 0 and is still continuing the game.

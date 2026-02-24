@@ -50,9 +50,14 @@ public enum InitStateHandler implements GameStateHandler {
 
         PlayerIterator iterator = context.getPlayers().getIterator();
         int stayedPlayerNum = 0;
+        int reactingPlayerNum = 0;
         while (iterator.hasNext()) {
-            if (!iterator.next().getStack().equals(new BigDecimal(0))) {
+            CardPlayer cardPlayer = iterator.next();
+            if (!cardPlayer.getStack().equals(new BigDecimal(0))) {
                 stayedPlayerNum++;
+            }
+            if (cardPlayer.getIsInGame()) {
+                reactingPlayerNum++;
             }
         }
 
@@ -61,7 +66,7 @@ public enum InitStateHandler implements GameStateHandler {
             return null;
         }
 
-        if (stayedPlayerNum < 2) {
+        if (stayedPlayerNum < 2 || reactingPlayerNum < 2) {
             log.info("Game end as one of the player made a complete win.");
             return null;
         }

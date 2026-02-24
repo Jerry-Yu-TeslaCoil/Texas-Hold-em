@@ -1,5 +1,6 @@
 package control.player.controller;
 
+import exception.PlayerLeftException;
 import table.rule.decision.DecisionRequest;
 import table.rule.decision.PlayerDecision;
 import table.vo.privateinfo.PlayerPrivateVO;
@@ -46,5 +47,5 @@ public interface PlayerController {
      * @param decisionRequest Limits for decision, like the least bet.
      * @return Decision for the current circumstance.
      */
-    PlayerDecision getPlayerDecision(DecisionRequest decisionRequest);
+    PlayerDecision getPlayerDecision(DecisionRequest decisionRequest) throws PlayerLeftException;
 }
